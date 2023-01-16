@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import Stage from './Scene/Stage.js'
+import Camera from './Scene/Camera.js'
+import { Canvas ,useThree,useFrame} from "@react-three/fiber"
+import * as THREE from 'three'
+import { useRef,useState,useEffect } from 'react'
+import { Perf } from 'r3f-perf'
+import Post from './post/Post.js'
+import { Suspense } from 'react'
+import { useControls,button } from 'leva'
+import { Vector3 } from 'three'
+import Loader from './Loader.js'
+import Sticker from './UI/Sticker.js'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
 
-export default App;
+export default function App(){
+  const stickerRef = useRef()
+
+  const {follow,targetPos} = useControls('camera',{
+    follow:false,
+    targetPos: [5,5,0]
+  })
+
+  const  {tone,background} = useControls('post',{
+    tone: {
+      options:['ACES','Cineon','Reinhard','Linear','None']
+    },
+    background: '#ffffff'
+  })
+
+  
+  const {test} = useControls('sticker',{
+    test :button(()=>{stickerRef.current.playAnimation(1,{x:0.7,y:0.1})}),
+  })
+
+  return (<>
+  <Suspense fallback = {<Loader />}>
+  <Canvas
+  dpr = {[1,2]}
+  gl = {{
+    toneMapping: tone == 'ACES'? THREE.ACESFilmicToneMapping: tone == 'Cineon'? THREE.CineonToneMapping: tone == 'Reinhard'?THREE.ReinhardToneMapping: tone == 'Linear'? THREE.LinearToneMapping: THREE.NoToneMapping,
+    outputEncoding: THREE.LinearEncoding}} >
+      <color args = {[background]} attach = 'background'/>
+      <Perf position='top-left'/>
+      <Post />
+      <Camera targetPos={new Vector3(targetPos[0],targetPos[1],targetPos[2])} follow = {follow}/>
+      <Stage />
+  </Canvas>
+  <Sticker  ref = {stickerRef}/>
+  </Suspense>
+
+  </>
+)}
