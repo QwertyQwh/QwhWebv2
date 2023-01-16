@@ -48,10 +48,9 @@ module.exports = merge(common, {
       filename:"[name].[contenthash].css"
     }),
     new CleanWebpackPlugin()
-    // ,new CopyPlugin({
-    //   patterns: [
-    //       { from: "./src/asset/Models/bike.glb" ,to:"static/bike.glb"}
-    //   ]
-    // })
+    ,new CopyPlugin({
+      patterns: [
+          { from: "src/assets/model",to:"assets/model" }
+      ]})
   ]
 });
