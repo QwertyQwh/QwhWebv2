@@ -1,23 +1,22 @@
-import Stage from './Scene/Stage.js'
-import Camera from './Scene/Camera.js'
-import { Canvas ,useThree,useFrame} from "@react-three/fiber"
 import * as THREE from 'three'
-import { useRef,useState,useEffect } from 'react'
+import { Canvas ,useThree,useFrame} from "@react-three/fiber"
+import { useRef,useState,useEffect,Suspense } from 'react'
 import { Perf } from 'r3f-perf'
-import Post from './post/Post.js'
-import { Suspense,useContext,createContext } from 'react'
 import { useControls,button } from 'leva'
 import { Vector3 } from 'three'
-import Loader from './Loader.js'
+import Camera from './Scene/Camera.js'
+import Stage from './Scene/Stage.js'
+import Post from './post/Post.js'
+import Loader from './UI/Loader.js'
 import Sticker from './UI/Sticker.js'
 import TestObject from './Scene/TestObject.js'
-
+import Logger from './Debug/Logger.js'
 import StickerContext from './Contexts/StickerContext.js'
 
 
 export default function App(){
   const stickerRef = useRef()
-
+  //debug
   const {follow,targetPos} = useControls('camera',{
     follow:false,
     targetPos: [5,5,0]
@@ -27,19 +26,25 @@ export default function App(){
     tone: {
       options:['ACES','Cineon','Reinhard','Linear','None']
     },
-    background: '#ffffff',
+    background: '#fdfcf5',
   })
+
+
+
+
+  //sticker
 
   const [stickerFunc, setstickerFunc] = useState();
   
-  const {test} = useControls('sticker',{
-    test :button(()=>{stickerRef.current.playAnimation(1,{x:0.7,y:0.1})}),
-  })
+  // const {test} = useControls('sticker',{
+  //   test :button(()=>{stickerRef.current.playAnimation(1,{x:0.7,y:0.1})}),
+  // })
 
   useEffect(()=>{
-    setstickerFunc(()=>()=>{stickerRef.current.playAnimation(1,{x:0.7,y:0.1})})
-    console.log(stickerFunc)
+    setstickerFunc(()=>(index)=>{stickerRef.current.playAnimation(index)})
   },[])
+
+
 
   return (<>
     <StickerContext.Provider value = {stickerFunc} >

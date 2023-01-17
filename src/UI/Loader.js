@@ -1,5 +1,5 @@
 export default function Loader(){
     return <>
-        Loading
+        Loading 让我看看默认中文字体是啥
     </>
 }
