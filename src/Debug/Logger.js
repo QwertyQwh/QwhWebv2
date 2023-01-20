@@ -1,5 +1,5 @@
 const __LOG = true
-const __LOGSTICKER = false
+const __LOGSTICKER = true
 
 export default class Logger{
     static Log(msg){
@@ -20,6 +20,11 @@ export default class Logger{
     static LogSticker(msg){
         if(__LOGSTICKER)
         this.Log(`[Sticker] ${msg}`)
+    }
+    
+    static WarnSticker(msg){
+        if(__LOGSTICKER)
+        this.Warn(`[Sticker] ${msg}`)
     }
 
     

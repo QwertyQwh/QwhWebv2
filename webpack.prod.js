@@ -1,12 +1,10 @@
 const path = require('path');
 const common = require("./webpack.common")
 const {merge} = require("webpack-merge");
-const {CleanWebpackPlugin} = require("clean-webpack-plugin")
 const MiniCssExtractPlugin =  require("mini-css-extract-plugin")
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
 module.exports = merge(common, {
   mode:"production",
   output: {
@@ -46,11 +44,5 @@ module.exports = merge(common, {
   plugins:[
     new MiniCssExtractPlugin({
       filename:"[name].[contenthash].css"
-    }),
-    new CleanWebpackPlugin()
-    ,new CopyPlugin({
-      patterns: [
-          { from: "src/assets/model",to:"assets/model" }
-      ]})
-  ]
+    })]
 });

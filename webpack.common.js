@@ -1,4 +1,8 @@
 const path = require('path');
+const CopyPlugin = require("copy-webpack-plugin");
+const webpack = require('webpack');
+const {CleanWebpackPlugin} = require("clean-webpack-plugin")
+
 module.exports = {
   entry: {
     main:'./src/index.js',
@@ -28,4 +32,19 @@ module.exports = {
       chunks: 'all',
     },
   },
+  devServer: {
+    historyApiFallback: true,
+    static: path.resolve(__dirname, './dist'),
+    open: true,
+    hot: true,
+    port: 8090,
+  },
+  plugins:[
+    new CleanWebpackPlugin()
+    ,new CopyPlugin({
+      patterns: [
+          { from: "src/assets/model",to:"assets/model" }
+      ]}),
+    new webpack.HotModuleReplacementPlugin(),
+  ]
 };

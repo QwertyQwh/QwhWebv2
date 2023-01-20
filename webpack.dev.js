@@ -2,21 +2,17 @@ const path = require('path');
 const common = require("./webpack.common")
 var HtmlWebpackPlugin = require("html-webpack-plugin")
 const {merge} = require("webpack-merge")
-const CopyPlugin = require("copy-webpack-plugin");
 module.exports = merge(common, {
   mode: "development",
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    assetModuleFilename: 'assets/[name][ext]'
+    assetModuleFilename: 'assets/[name][ext]',
+    publicPath: '/',
   },
   plugins:[new HtmlWebpackPlugin({
     template: "./src/index.html"
  })
- ,new CopyPlugin({
-  patterns: [
-      { from: "src/assets/model",to:"assets/model" }
-  ]})
 ],
   module:{
     rules:[
@@ -29,5 +25,5 @@ module.exports = merge(common, {
         type: 'asset/resource'
       }
     ]
-  },
+  }
 });

@@ -1,3 +1,10 @@
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: none;
+
+}
+
 html,
 body,
 #root
@@ -7,8 +14,9 @@ body,
     left: 0;
     width: 100%;
     height: 100%;
-    background: #fdfcf5
+    background: #fdfcf5;
 }
+
 
 .sticker{
     position: absolute;
@@ -17,3 +25,35 @@ body,
     transform: translate(-50%, -50%);
     pointer-events: none;
 }
+
+
+#cursorRim {
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    pointer-events: none;
+    transition: opacity .3s;  
+    transition-timing-function: ease-in;
+    mix-blend-mode: difference;
+  }
+
+  #cursorInner {
+    border-radius: 50%;
+    background-color: hsl(53, 57%, 68%);
+    transform: translate(-50%, -50%);
+    position: absolute;
+    pointer-events: none;
+    mix-blend-mode: difference;
+  }
+
+
+  #cursorWave{
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid hsl(53, 57%, 88%);
+    position: inherit;
+    top:50%;
+    left:50%;
+    pointer-events: none;
+    mix-blend-mode: difference;
+  }
