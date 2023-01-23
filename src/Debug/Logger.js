@@ -1,5 +1,6 @@
 const __LOG = true
 const __LOGSTICKER = true
+const __LOGCURSOR = true
 
 export default class Logger{
     static Log(msg){
@@ -27,5 +28,8 @@ export default class Logger{
         this.Warn(`[Sticker] ${msg}`)
     }
 
-    
+    static LogCursor(msg){
+        if(__LOGCURSOR)
+        this.Log(`[Cursor] ${msg}`)
+    }
 }

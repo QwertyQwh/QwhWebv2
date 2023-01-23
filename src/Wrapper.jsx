@@ -15,7 +15,7 @@ export default function Wrapper(){
   useEffectOnce(()=>{
     setstickerFunc(()=>(index)=>{stickerRef.current.playAnimation(index)})
   })
-  //#endregion
+//#endregion
 //#region  cursor
   const cursorRef = useRef()
   const [cursorFocus, setcursorFocus] = useState();
