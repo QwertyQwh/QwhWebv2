@@ -1,8 +1,14 @@
+
+@font-face { font-family: "zhfont"; src: url('../assets/fonts/FZYouHJW_503L.TTF'); } 
+
+
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
   cursor: none;
-
+  font-family: zhfont;
 }
 
 html,
@@ -14,9 +20,11 @@ body,
     left: 0;
     width: 100%;
     height: 100%;
-    background: #fdfcf5;
+    background: red;
 }
-
+/* ::-webkit-scrollbar {
+  display: none;
+} */
 
 .sticker{
     position: absolute;
@@ -57,3 +65,55 @@ body,
     pointer-events: none;
     mix-blend-mode: difference;
   }
+
+  .titleBlock{
+    height: 120vh;
+    width: 100%;
+    background-color: #DDA15E;
+    position: absolute;
+    top:0pt
+  }
+
+  .titleImg {
+    width:100%;
+    height:100vh;
+    object-fit: cover;
+    overflow: hidden;
+    top:0pt;
+    position: absolute;
+  }
+
+  .link{
+    position: absolute;
+    top:100pt;
+    left: 20pt;
+    width: 100pt;
+    height: 20pt;
+  }
+
+  .contentBlock{
+    background-color: #fefefe;
+    position: absolute;
+    left:0pt;
+    right: 20vw;
+    top:100vh;
+    display: block;
+  }
+
+  .txtBlock{
+    padding-top: 100pt;
+    padding-right:20%;
+    padding-left: 20%;
+    padding-bottom: 100pt;
+  }
+
+.blog{
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100%;
+  display: flex; 
+  flex-direction: column;
+  position: absolute;
+}
+

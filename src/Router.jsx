@@ -1,33 +1,34 @@
-import Home from './Home.js'
-import Test1 from './Contents/Test1.js'
-import Test2 from './Contents/Test2.js'
+import Home from './Home.jsx'
+import Test1 from './Contents/Test1.jsx'
+import Test2 from './Contents/Test2.jsx'
+import  {BlogLoader} from './Router/BlogLoader'
 import {
     createBrowserRouter,
     RouterProvider,
   } from "react-router-dom";
-import Wrapper from './Wrapper.js';
-import Blog from './Pages/Blog.js';
-  
+import Wrapper from './Wrapper.jsx';
+import Blog from './Pages/Blog.jsx';
+
   const router = createBrowserRouter([
     {
       path: "/",
       element: <Wrapper />,
-      errorElement : <Test2 />,
       children:[
           {
             path: "Home",
             element: <Home />,
-            children: [{
-                path: 'Blogs/:id',
-                element : <Blog name = 'Test1'/>
-            }]
+            errorElement : <Blog />,
           },
+        {
+            path: 'Blogs/:id',
+            element : <Blog />,
+            loader: BlogLoader,
+      }
       ]
     },
 
   ]);
 export default function Router(){
-    
     return <>
         <RouterProvider router={router} />
     </>

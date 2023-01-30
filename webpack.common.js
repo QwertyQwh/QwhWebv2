@@ -7,6 +7,9 @@ module.exports = {
   entry: {
     main:'./src/index.js',
   },
+  resolve: {
+    extensions: ['.js', '.json', '.png','.jpg','mp4'],
+  },
   module:{
     rules:[
       {
@@ -20,6 +23,10 @@ module.exports = {
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
+        type: 'asset/resource',
+       },
+       {
+        test: /\.(mp4|webm)$/,
         type: 'asset/resource',
        },
     ]

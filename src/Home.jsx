@@ -4,13 +4,13 @@ import { useRef,useState,useEffect,Suspense } from 'react'
 import { Perf } from 'r3f-perf'
 import { useControls,button } from 'leva'
 import { Vector3 } from 'three'
-import Camera from './Scene/Camera.js'
-import Stage from './Scene/Stage.js'
-import Post from './post/Post.js'
-import Loader from './UI/Loader.js'
+import Camera from './Scene/Camera.jsx'
+import Stage from './Scene/Stage.jsx'
+import Post from './post/Post.jsx'
+import Loader from './UI/Loader.jsx'
 import Logger from './Debug/Logger.js'
 import { useEffectOnce } from 'usehooks-ts'
-import Blog from './Pages/Blog.js'
+import Blog from './Pages/Blog'
 import { Routes, Route, Outlet, Link } from 'react-router-dom';
 
 
@@ -36,7 +36,7 @@ export default function Home(){
 
   return (<>
   <Suspense fallback = {<Loader />}>
-  <Link to="Blogs/1" >Blogs</Link>
+  <Link to="../Blogs/1" >Blogs</Link>
 
   <Canvas
   dpr = {[1,2]}

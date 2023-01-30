@@ -4,7 +4,7 @@ import { useRef,useState } from "react";
 import { useEffectOnce } from "usehooks-ts";
 import { CursorContext,StickerContext } from "./Contexts/Contexts";
 import Cursor from "./UI/Cursor";
-import Sticker from './UI/Sticker.js'
+import Sticker from './UI/Sticker'
 import { Link } from "react-router-dom";
 export default function Wrapper(){
     Logger.Warn("Wrapper rerendered")
@@ -28,7 +28,6 @@ export default function Wrapper(){
     return <>
     <StickerContext.Provider value = {stickerFunc}>
     <CursorContext.Provider value = {{Focus:cursorFocus,DeFocus: cursorDeFocus}}>
-        <Link to="Home">Home</Link>
         <Outlet />
     <Sticker  ref = {stickerRef}/>
     <Cursor ref = {cursorRef}/>
