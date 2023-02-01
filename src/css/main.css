@@ -98,6 +98,7 @@ body,
     right: 20vw;
     top:100vh;
     display: block;
+    opacity: 0.95;
   }
 
   .txtBlock{
@@ -117,3 +118,11 @@ body,
   position: absolute;
 }
 
+
+.fullscreen{
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top:0pt;
+  left:0pt;
+}

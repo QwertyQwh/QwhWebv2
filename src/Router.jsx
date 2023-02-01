@@ -17,7 +17,6 @@ import Blog from './Pages/Blog.jsx';
           {
             path: "Home",
             element: <Home />,
-            errorElement : <Blog />,
           },
         {
             path: 'Blogs/:id',
