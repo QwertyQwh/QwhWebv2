@@ -12,6 +12,7 @@ import Logger from './Debug/Logger.js'
 import { Routes, Route, Outlet, Link } from 'react-router-dom';
 import { Selection,Select } from '@react-three/postprocessing'
 import ThemeSection from './Scene/ThemeSection.jsx'
+import Catalog from './Router/Catalog.js'
 
 
 export default function Home(){
@@ -27,7 +28,7 @@ export default function Home(){
       options:['ACES','Cineon','Reinhard','Linear','None']
     },
     background: '#fdfcf5',
-    blur: false,
+    blur: true,
   })
 
   //We need to stop rendering a few frames later when actually trigger the effect
@@ -48,6 +49,6 @@ export default function Home(){
   </Canvas>
 
   </Suspense>
-  {blur? <ThemeSection />:null}
+  {blur && <ThemeSection configs = {Catalog}/>}
   </>
 )}

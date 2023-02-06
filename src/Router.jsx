@@ -1,6 +1,4 @@
 import Home from './Home.jsx'
-import Test1 from './Contents/Test1.jsx'
-import Test2 from './Contents/Test2.jsx'
 import  {BlogLoader} from './Router/BlogLoader'
 import {
     createBrowserRouter,

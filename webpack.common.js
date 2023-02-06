@@ -42,7 +42,13 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     static: path.resolve(__dirname, './dist'),
-    open: true,
+    open: {
+      target: ['http://localhost:8090/home'],
+      app: {
+        name: 'google-chrome',
+        arguments: [],
+      },
+    },
     hot: true,
     port: 8090,
   },
