@@ -3,7 +3,7 @@ import { PerspectiveCamera,Image, OrbitControl } from '@react-three/drei';
 import { ScreenQuad } from '@react-three/drei';
 import { useEffectOnce,useEventListener } from 'usehooks-ts';
 import { useRef,useEffect,useState} from 'react';
-import Logger from '../Debug/Logger';
+import Logger from '../../Debug/Logger';
 import Fake3DMat from './Fake3DMat';
 import TitleVideoMat from './TitleVideoMat';
 

@@ -11,7 +11,7 @@ import Loader from './UI/Loader.jsx'
 import Logger from './Debug/Logger.js'
 import { Routes, Route, Outlet, Link } from 'react-router-dom';
 import { Selection,Select } from '@react-three/postprocessing'
-import ThemeSection from './Scene/ThemeSection.jsx'
+import ThemeSection from './Pages/Blog/ThemeSection.jsx'
 import Catalog from './Router/Catalog.js'
 
 

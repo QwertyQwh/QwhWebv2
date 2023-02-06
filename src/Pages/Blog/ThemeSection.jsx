@@ -1,11 +1,11 @@
 import { Image } from "@react-three/drei"
 import { useThree } from "@react-three/fiber"
 import { Canvas,useFrame } from "@react-three/fiber"
-import Ball from '../assets/images/ball.jpg'
+import Ball from '../../assets/images/ball.jpg'
 import { ScrollControls,Scroll,useScroll } from "@react-three/drei"
 import { useRef } from "react"
 import { MathUtils } from "three"
-
+import 
 
 // function ThumbNail({ index, position, scale, c = new THREE.Color(), ...props }) {
 //         const ref = useRef()
@@ -61,7 +61,8 @@ export default function ThemeSection(props){
         return <>
         <div className="fullscreen">
         <Canvas>
-        <ThumbNails {...props}/>
+        {/* <ThumbNails {...props}/> */}
+        
         </Canvas>
         </div>
 

@@ -4,7 +4,6 @@ import { useControls } from "leva"
 import { useRef } from "react"
 import { memo,useState } from "react"
 import { useEventListener } from "usehooks-ts"
-import Logger from "../Debug/Logger"
 import * as THREE from 'three'
 import { useMemo } from "react"
 
@@ -41,7 +40,6 @@ frag)
 extend({FakeMaterial})
 
 export default function Fake3DMat({diffuse,depth}){
-    Logger.Warn('titleImg rerendered')
     const shaderRef = useRef()
     const handleWindowMouseMove = e  => {
         shaderRef.current.uMouse = new THREE.Vector2(e.clientX/window.innerWidth-0.5,e.clientY/window.innerHeight-0.5)

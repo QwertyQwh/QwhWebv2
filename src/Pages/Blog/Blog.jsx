@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useRef } from 'react';
 import { useEventListener,useEffectOnce } from 'usehooks-ts';
-import TitleImg from '../Scene/TitleImg';
-import nosignal from '../assets/images/nosignal.jpg'
-import nosignal_depth from '../assets/images/nosignal_depth.jpg'
+import TitleImg from './TitleImg';
+import nosignal from '../../assets/images/nosignal.jpg'
+import nosignal_depth from '../../assets/images/nosignal_depth.jpg'
 import { useLoaderData } from 'react-router-dom';
 
 export default function Blog(props){
@@ -15,9 +15,9 @@ export default function Blog(props){
     const titleBlkRef = useRef()
     const blogRef = useRef()
     useEffectOnce(()=>{
-        import(/* webpackMode: "lazy-once" */`../Contents/${data.content}`).then((con)=>{setcontent(<div ><con.default /></div>)})
-        setdiffuse(require(`../assets/images/${data.titleImg}.jpg`));
-        setdepth(require(`../assets/images/${data.titleImg}_depth.jpg`));
+        import(/* webpackMode: "lazy-once" */`../../Contents/${data.content}`).then((con)=>{setcontent(<div ><con.default /></div>)})
+        setdiffuse(require(`../../assets/images/${data.titleImg}.jpg`));
+        setdepth(require(`../../assets/images/${data.titleImg}_depth.jpg`));
         document.title = data.title
     })
     const handleScroll = e  => {

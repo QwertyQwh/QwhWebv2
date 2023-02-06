@@ -5,7 +5,7 @@ import {
     RouterProvider,
   } from "react-router-dom";
 import Wrapper from './Wrapper.jsx';
-import Blog from './Pages/Blog.jsx';
+import Blog from './Pages/Blog/Blog.jsx';
 
   const router = createBrowserRouter([
     {
