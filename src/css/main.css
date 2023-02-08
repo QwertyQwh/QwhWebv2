@@ -52,6 +52,7 @@ body,
     position: absolute;
     pointer-events: none;
     mix-blend-mode: difference;
+    opacity: 50%;
   }
 
 
@@ -64,6 +65,7 @@ body,
     left:50%;
     pointer-events: none;
     mix-blend-mode: difference;
+    opacity: 50%;
   }
 
   .titleBlock{

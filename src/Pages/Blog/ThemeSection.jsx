@@ -1,13 +1,11 @@
-import { Image, RenderTexture } from "@react-three/drei"
 import { useThree } from "@react-three/fiber"
 import { Canvas,useFrame } from "@react-three/fiber"
 import { ScrollControls,Scroll,useScroll } from "@react-three/drei"
-import { useRef } from "react"
+import { useRef,memo } from "react"
 import { MathUtils } from "three"
 import FadingImage from "./FadingImage"
-import { PerspectiveCamera } from "@react-three/drei"
-import { useEffectOnce } from "usehooks-ts"
-import Disp from '../../assets/images/disp3.jpg'
+import Disp from '../../assets/images/disp7.png'
+import Logger from "../../Debug/Logger"
 
 // function ThumbNail({ index, position, scale, c = new THREE.Color(), ...props }) {
 //         const ref = useRef()
@@ -30,27 +28,30 @@ import Disp from '../../assets/images/disp3.jpg'
 //         return <Image ref={ref} {...props} position={position} scale={scale} onClick={click} onPointerOver={over} onPointerOut={out} />
 //       }
 
-function ThumbNail({config,index,length}){
+const clicked = null;
+
+const ThumbNail = memo(function ThumbNail({config,index,length,position}){
         const Imgref = useRef()
         const scroll = useScroll()
         const origin_p = require(`../../assets/images/${config.titleImg}.png`)
+
         useFrame((state,delta)=>{
-                const y = scroll.curve(index / length - 1.5 / length, 10 / length)
-                // Imgref.current.scale.y = MathUtils.damp(Imgref.current.scale.y,4+y,6,delta)
-                // Imgref.current.scale.x = MathUtils.damp(Imgref.current.scale.x,1+y/3,6,delta)
+                const y = scroll.curve(index*1.15 / length - 4/length ,  8/ length)
+                Imgref.current.scale.y = MathUtils.damp(Imgref.current.scale.y,4+y,6,delta)
                 // Imgref.current.position.y = MathUtils.damp(Imgref.current.position.y,y/2-1,6,delta)
         })
-        return  <FadingImage origin_p = {origin_p} disp_p = {Disp} text = {config.thumbNail} scale = {[1,5,1]} position ={[index*1.25,0,0]}/>
-}
+        return  <FadingImage  ref = {Imgref} origin_p = {origin_p} disp_p = {Disp} text = {config.thumbNail} scale = {[1,5,1]} position ={position}/>
+})
 
 
 function ThumbNails({w = 1,gap = 0.15,configs}){
+        Logger.Warn("ThumbNails rerendered")
         const { width } = useThree((state) => state.viewport)
         const xW = w + gap
         const arr = Object.entries(configs);
-        return  <ScrollControls horizontal damping={0.5} pages={(width - xW + 9* xW) / width}>
+        return  <ScrollControls horizontal damping={0.5} pages={(width - xW + arr.length* xW) / width}>
         <Scroll >
-                {arr.map((obj,index)=>{return <ThumbNail key = {index} index = {index} config = {obj[1]} length={arr.length}/> })}
+                {arr.map((obj,index)=>{return <ThumbNail key = {index} index = {index} config = {obj[1]} length={arr.length} position = {[(index)*xW,0,0]}/> })}
         </Scroll>
         </ScrollControls>
 }
@@ -58,16 +59,15 @@ function ThumbNails({w = 1,gap = 0.15,configs}){
 
 
 export default function ThemeSection(props){
-        const origin_p = require(`../../assets/images/cake.png`)
-
+        Logger.Warn("ThemeSection rerendered")
         return <>
         <div className="fullscreen">
                 
         <Canvas>
-        {/* <ThumbNails {...props}/> */}
-        <FadingImage origin_p={origin_p}  disp_p = {Disp} text = "这里有六个字" scale = {[1,5,1]}>
+        <ThumbNails {...props}/>
+        {/* <FadingImage origin_p={origin_p}  disp_p = {Disp} text = "这里有六个字" scale = {[1,5,1]}> */}
 
-        </FadingImage>
+        {/* </FadingImage> */}
         </Canvas> 
         </div>
 
