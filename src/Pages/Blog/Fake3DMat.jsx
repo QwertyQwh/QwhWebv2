@@ -1,11 +1,8 @@
 import { useTexture,shaderMaterial } from "@react-three/drei"
 import { extend } from "@react-three/fiber"
-import { useControls } from "leva"
 import { useRef } from "react"
-import { memo,useState } from "react"
 import { useEventListener } from "usehooks-ts"
 import * as THREE from 'three'
-import { useMemo } from "react"
 
 
 const vert = /* glsl */`

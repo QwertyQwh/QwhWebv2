@@ -1,11 +1,13 @@
-import { Image } from "@react-three/drei"
+import { Image, RenderTexture } from "@react-three/drei"
 import { useThree } from "@react-three/fiber"
 import { Canvas,useFrame } from "@react-three/fiber"
-import Ball from '../../assets/images/ball.jpg'
 import { ScrollControls,Scroll,useScroll } from "@react-three/drei"
 import { useRef } from "react"
 import { MathUtils } from "three"
-import 
+import FadingImage from "./FadingImage"
+import { PerspectiveCamera } from "@react-three/drei"
+import { useEffectOnce } from "usehooks-ts"
+import Disp from '../../assets/images/disp3.jpg'
 
 // function ThumbNail({ index, position, scale, c = new THREE.Color(), ...props }) {
 //         const ref = useRef()
@@ -31,19 +33,18 @@ import
 function ThumbNail({config,index,length}){
         const Imgref = useRef()
         const scroll = useScroll()
-        console.log(config)
+        const origin_p = require(`../../assets/images/${config.titleImg}.png`)
         useFrame((state,delta)=>{
                 const y = scroll.curve(index / length - 1.5 / length, 10 / length)
-                Imgref.current.scale.y = MathUtils.damp(Imgref.current.scale.y,4+y,6,delta)
-                Imgref.current.scale.x = MathUtils.damp(Imgref.current.scale.x,1+y/3,6,delta)
+                // Imgref.current.scale.y = MathUtils.damp(Imgref.current.scale.y,4+y,6,delta)
+                // Imgref.current.scale.x = MathUtils.damp(Imgref.current.scale.x,1+y/3,6,delta)
                 // Imgref.current.position.y = MathUtils.damp(Imgref.current.position.y,y/2-1,6,delta)
         })
-        return  <Image ref = {Imgref} url = {Ball} position-x ={index*1.25} scale = {[1,4]}/>
+        return  <FadingImage origin_p = {origin_p} disp_p = {Disp} text = {config.thumbNail} scale = {[1,5,1]} position ={[index*1.25,0,0]}/>
 }
 
 
 function ThumbNails({w = 1,gap = 0.15,configs}){
-
         const { width } = useThree((state) => state.viewport)
         const xW = w + gap
         const arr = Object.entries(configs);
@@ -57,13 +58,17 @@ function ThumbNails({w = 1,gap = 0.15,configs}){
 
 
 export default function ThemeSection(props){
+        const origin_p = require(`../../assets/images/cake.png`)
 
         return <>
         <div className="fullscreen">
+                
         <Canvas>
         {/* <ThumbNails {...props}/> */}
-        
-        </Canvas>
+        <FadingImage origin_p={origin_p}  disp_p = {Disp} text = "这里有六个字" scale = {[1,5,1]}>
+
+        </FadingImage>
+        </Canvas> 
         </div>
 
         </>
