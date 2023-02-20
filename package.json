@@ -13,6 +13,7 @@
     "animejs": "^3.2.1",
     "r3f-perf": "^6.6.3",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.7.1",
     "react-router-dom": "^6.7.0",
     "react-scripts": "5.0.1",
     "three": "^0.148.0",
@@ -54,5 +55,5 @@
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1"
   },
-  "homepage" : "https://localhost:4000"
+  "homepage": "https://localhost:4000"
 }

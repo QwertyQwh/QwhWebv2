@@ -28,7 +28,7 @@ export default function Home(){
       options:['ACES','Cineon','Reinhard','Linear','None']
     },
     background: '#fdfcf5',
-    blur: true,
+    blur: false,
   })
 
   //We need to stop rendering a few frames later when actually trigger the effect
@@ -39,7 +39,7 @@ export default function Home(){
   <Link to="../Blogs/testVideo" >Blogs</Link>
   <Canvas  frameloop= {blur?"never":"always"}  dpr = {[1,2]} gl = {{
     toneMapping: tone == 'ACES'? THREE.ACESFilmicToneMapping: tone == 'Cineon'? THREE.CineonToneMapping: tone == 'Reinhard'?THREE.ReinhardToneMapping: tone == 'Linear'? THREE.LinearToneMapping: THREE.NoToneMapping,
-    outputEncoding: THREE.LinearEncoding,
+    outputEncoding: THREE.sRGBEncoding,
     antialias:true}} >
       <color args = {[background]} attach = 'background'/>
       <Perf position='bottom-left'/>

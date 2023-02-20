@@ -3,7 +3,7 @@ import { useControls } from "leva"
 export default function Light(){
     
   const {ambientIntensity,ambientColor} = useControls('light',{
-    ambientIntensity: 3,
+    ambientIntensity: 10,
     ambientColor : "hsl(40,10%,50%)"
   })
     return <>

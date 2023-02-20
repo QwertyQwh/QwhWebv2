@@ -10,7 +10,7 @@ export default function Stage(){
     return <>
         <OrbitControls />
         <Light />
-        <TestObject/>
+        {/* <TestObject/> */}
       <Pen />
         {/* <Cozy /> */}
     </>

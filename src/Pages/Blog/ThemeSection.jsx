@@ -30,6 +30,7 @@ import Logger from "../../Debug/Logger"
 
 const clicked = null;
 
+//TODO: THIS LOOKS FLAT! ADD SHADOWS! 
 const ThumbNail = memo(function ThumbNail({config,index,length,position}){
         const Imgref = useRef()
         const scroll = useScroll()
