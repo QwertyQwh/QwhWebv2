@@ -8,10 +8,6 @@ export default function Camera({targetPos,follow}){
     const speed = 0.05
     const threshold = 0.01
 
-
-    
-
-
     useEffect(()=>{
         camera.current.position.copy(targetPos)
     },[])

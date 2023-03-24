@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber";
-import { EffectComposer,DepthOfField } from "@react-three/postprocessing";
+import { EffectComposer,DepthOfField,Outline } from "@react-three/postprocessing";
 import {useControls } from 'leva'
 import { useRef,useEffect,memo } from "react";
 import Pencil from "./Pencil";
@@ -12,8 +12,8 @@ export default memo(function Post(props){
     const pencilRef = useRef();
 
 
-
-    return <EffectComposer>
+    //Using Outline seems to automatically create extra geometries, use some other approach instead.
+    return <EffectComposer multisampling={0} autoClear={false}>
          {/* <Pencil ref = {pencilRef} dispFactor = {dispFactor}/> */}
          { props.blur && <Blur ref = {blurRef} strength = {11} gamma = {20.}/> }
          {/* <BlurPass /> */}

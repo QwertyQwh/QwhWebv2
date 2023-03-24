@@ -1,7 +1,8 @@
 import { useContext } from "react";
 import {StickerContext,CursorContext} from "../Contexts/Contexts";
-
+import Logger from "../Debug/Logger";
 export default function TestObject(){
+    Logger.Warn("TestObject rerendering")
     const stick = useContext(StickerContext)
     const focus = useContext(CursorContext)
     return <>

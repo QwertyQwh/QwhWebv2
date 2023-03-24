@@ -94,7 +94,7 @@ export default forwardRef( function FadingImage({origin_p,disp_p,text,scale,posi
     // next, make the texture
     var texture = new THREE.Texture(txtcanvas); // now make texture
     texture.minFilter = THREE.LinearFilter;     // eliminate console message
-    texture.needsUpdate = true;                 // duh
+    texture.needsUpdate = true;                 
     return texture
   },[text])
 
@@ -103,10 +103,16 @@ export default forwardRef( function FadingImage({origin_p,disp_p,text,scale,posi
   useFrame(() => {
         Matref.current.dispFactor = THREE.MathUtils.lerp(Matref.current.dispFactor, hovered.value ? 1 : 0, 0.075)
   })
-  return (
+  return (<>
+
     <mesh ref = {meshRef} onPointerOver={(e) => {hovered.value = true}} onPointerOut={(e) => {hovered.value = false}}  scale = {scale} position = {position}>
       <planeGeometry />
       <imageFadeMaterial ref={Matref} tex={texture1} tex2={texture} disp={dispTexture} toneMapped={false} imageBounds = {imageBounds} scale = {[scale[0],scale[1]]}/>
     </mesh>
+    {/* <mesh scale = {scale} position-x = {position[0]+1} position-y = {position[1]+1} position-z = {position[2]}>
+      <planeGeometry />
+      <meshBasicMaterial color = "gray" />
+    </mesh> */}
+  </>
   )
 })

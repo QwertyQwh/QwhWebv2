@@ -15,7 +15,7 @@ export default function Blog(props){
     const titleBlkRef = useRef()
     const blogRef = useRef()
     useEffectOnce(()=>{
-        import(/* webpackMode: "lazy-once" */`../../Contents/${data.content}`).then((con)=>{setcontent(<div ><con.default /></div>)})
+        import(/* webpackMode: "lazy-once" */`../../BlogContents/${data.content}`).then((con)=>{setcontent(<div ><con.default /></div>)})
         setdiffuse(require(`../../assets/images/${data.titleImg}.png`));
         setdepth(require(`../../assets/images/${data.titleImg}_depth.png`));
         document.title = data.title

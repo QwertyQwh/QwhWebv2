@@ -46,6 +46,8 @@ const ThumbNail = memo(function ThumbNail({config,index,length,position}){
 
 
 function ThumbNails({w = 1,gap = 0.15,configs}){
+
+        //TODO: When Clicked, move to center the currently selected thumbnail and enlarge it. These two things should happen simultaneously. 
         Logger.Warn("ThumbNails rerendered")
         const { width } = useThree((state) => state.viewport)
         const xW = w + gap
