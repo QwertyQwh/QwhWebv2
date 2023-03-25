@@ -25,7 +25,7 @@ body,
     left: 0;
     width: 100%;
     height: 100%;
-    background: red;
+    background: lightcyan;
 }
 /* ::-webkit-scrollbar {
   display: none;
@@ -40,6 +40,8 @@ body,
 }
 
 
+/*Cursor region
+*/
 #cursorRim {
     border-radius: 50%;
     transform: translate(-50%, -50%);
@@ -72,6 +74,9 @@ body,
     mix-blend-mode: difference;
     opacity: 1;
   }
+
+  /*Blog region
+*/
 
   .titleBlock{
     height: 120vh;
@@ -158,4 +163,23 @@ body,
 
 .portrait{
   position:absolute;
+  overflow: hidden;
+}
+
+.portraitContainer{
+  width:100%;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: flex; 
+  position:absolute;
+  scroll-behavior: smooth;
+  flex-direction: column;
+}
+
+.portraitBg{
+  width:100%;
+  height:200vh;
+  position:absolute;
+  display: block;
 }
