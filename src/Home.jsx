@@ -1,7 +1,6 @@
 import * as THREE from 'three'
 import { Canvas ,useThree,useFrame} from "@react-three/fiber"
 import { useRef,useState,useEffect,Suspense } from 'react'
-import { Perf } from 'r3f-perf'
 import { useControls,button } from 'leva'
 import { Vector3 } from 'three'
 import Post from './post/Post.jsx'
@@ -14,7 +13,6 @@ import Stage from './Scene/Stage.jsx'
 import { OrbitControls } from '@react-three/drei'
 import Camera from './Scene/Camera.jsx'
 import PortraitCatalog from './Catalogs/PortraitCatalog.js'
-
 
 export default function Home(){
 
@@ -39,7 +37,7 @@ export default function Home(){
 
   return (<>
   <Suspense fallback = {<Loader />}>
-  <PortraitContainer start = {0} width = {1/3} aspect_ratio = {16/9} configs = {PortraitCatalog.Large}></PortraitContainer>
+  <PortraitContainer start = {0} width = {1/3} aspect_ratio = {16/9} configs = {PortraitCatalog.Large} padding = {1}></PortraitContainer>
 
   {/* <Link to="../Blogs/testVideo" >Blogs</Link> */}
   {/* <div className="container" ref = {containerRef}>

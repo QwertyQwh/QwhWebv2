@@ -1,9 +1,9 @@
 export default {
     Large:{
-        testVideo: {
+        testVideo6: {
             content: 'Test',
         },
-        testImg: {
+        testImg7: {
             content: 'Test',
         },
         testImg1: {
@@ -15,12 +15,5 @@ export default {
         testImg3: {
             content: 'Test',
         },
-        testImg4: {
-            content: 'Test',
-        },
-        testImg5: {
-            content: 'Test',
-        },
-        
     }
 }

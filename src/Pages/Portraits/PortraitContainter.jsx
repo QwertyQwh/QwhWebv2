@@ -1,26 +1,25 @@
 import { useRef,forwardRef,useImperativeHandle,useState,useEffect,useMemo } from "react";
-import { useWindowDimensions } from "../../Utils/WindowUtils";
 import { Canvas } from "@react-three/fiber";
 import Portrait from "./Portrait";
-import { useEventListener } from "usehooks-ts";
+import { useEffectOnce, useEventListener } from "usehooks-ts";
 import { useControls } from "leva";
-import { Vector3 } from 'three'
 import anime from "animejs";
 import * as THREE from 'three'
-import { PerspectiveCamera, View } from "@react-three/drei";
-import TestObject from "../../Scene/TestObject";
-import { useFrame } from "@react-three/fiber";
+import { View } from "@react-three/drei";
+import { Perf } from "r3f-perf";
+import MathUtils from "../../Utils/MathUtils";
+import Logger from "../../Debug/Logger";
+
+import SmoothScroll from "../../UI/SmoothScroll";
 
 let animation_cache = []
 const stopRendering = false
 function playAnimAppear(index){
     while(animation_cache.length<index+1){
         const anim =  anime.timeline({
-            targets:`#portrait-${index}`,
+            targets:`#portrait-${animation_cache.length}`,
             autoplay: false,
             loop:false,
-            width: ['10pt','10pt'],
-            height : ['10pt','10pt'],
             opacity: [0,0],
             duration: 500, 
         })
@@ -28,11 +27,14 @@ function playAnimAppear(index){
     }
     animation_cache[index].play()
 }
-const padding = 4;
+
+
+
 
 
 //This function acts as a list container for a column of portraits
-export default function PortraitContainer({start, width,aspect_ratio,configs}){
+export default function PortraitContainer({start, width,aspect_ratio,configs,padding}){
+    padding = padding +1;// A minimum padding of 1 is required. Actual padding is added on top of that. 
     const config_vals = Object.values(configs)
     const {follow,targetPos} = useControls('camera',{
         follow:false,
@@ -53,62 +55,86 @@ export default function PortraitContainer({start, width,aspect_ratio,configs}){
     const { innerWidth: window_width, innerHeight:window_height } = window;
     const portrait_width = window_width*width;
     const portrait_height = portrait_width/aspect_ratio;
-    const cur_top_portrait = useRef(0);
-    const count_containers = useMemo(()=>Math.min(Object.keys(configs).length,Math.ceil(window_height/portrait_height)), [window_height,window_width,configs])
-    const cur_bottom_portrait = useRef(count_containers);
+    const cur_top_block = useRef(0);
+    const count_containers = useMemo(()=>Math.min(Object.keys(configs).length,Math.ceil(window_height/portrait_height))+2*padding, [configs])
+    const cur_bottom_block = useRef(count_containers);
     const containerRef = useRef();
-    const handleScroll = e  => {
-        const top = Math.floor(containerRef.current.scrollTop/portrait_height)
-        // console.log(window_height+containerRef.current.scrollTop-portrait_height)
-        // console.log(trackRefs[0].current.getBoundingClientRect().top)
-        if(top>cur_top_portrait.current){
-            //We are scrolling down and the previous block disappeared 
-            console.log("down and disappear")
-            cur_top_portrait.current = top
-        }else if(top<cur_top_portrait.current){
-            // We are scrolling up and a new top block just appeared
-            console.log("up and new")
-            cur_top_portrait.current = top
-        }
-        const bottom = Math.floor(containerRef.current.scrollTop+window_height/portrait_height)
-        if(bottom>cur_bottom_portrait.current){
-            //We are scrolling down and a new bottom block just appeared
-            
-        }else if(top<cur_bottom_portrait.current){
-            // We are scrolling down and a new top block just appeared
-            
-        }
-    };
     const trackRefs = Array(count_containers).fill(0)
+    const viewRefs =  Array(count_containers).fill(0)
+    const display_indices = Array(count_containers).fill(0)
     for (let i = 0;i<trackRefs.length;i++) {
         trackRefs[i] = useRef()
+        display_indices[i] = useRef(i-padding);
+        viewRefs[i] = useRef()
     }
+
+
+
+    const handleScroll = val  => {
+        console.log('hello')
+        const top = Math.floor(val/portrait_height)
+        if(Math.abs(top-cur_top_block.current)>=2){
+            Logger.Warn("We are skipping blocks ")
+        }
+        if(top>cur_top_block.current){
+            //We are scrolling down and the previous block disappeared 
+            //1.
+            console.log("down and disappear")
+            cur_top_block.current = top
+        }else if(top<cur_top_block.current){
+            // We are scrolling up and a new top block just appeared
+            console.log("up and new")
+            cur_top_block.current = top
+        }
+        const bottom = Math.floor((val+window_height)/portrait_height)
+        // console.log(bottom)
+        if(bottom>cur_bottom_block.current){
+            //We are scrolling down and a new bottom block just appeared
+            //1. Move the topmost block down to the very bottom(include padding)
+            //2. Set its display index
+            console.log("down and appear")
+            cur_bottom_block.current = bottom;
+            const top_block_display_index =  MathUtils.proper_modulo(cur_top_block.current-padding+padding,count_containers)//Note how this is calculated
+            display_indices[top_block_display_index].current+=count_containers
+            var tmp = parseInt(trackRefs[top_block_display_index].current.style.top , 10);
+            trackRefs[top_block_display_index].current.style.top = `${tmp+count_containers*portrait_height}px`
+            const display = display_indices[top_block_display_index].current
+            viewRefs[top_block_display_index].current.setConfig(display>=0 && display<config_vals.length? config_vals[display]:null)
+        }else if(bottom<cur_bottom_block.current){
+            // We are scrolling up and a new bottom block just disappeared
+            //1.
+            console.log("up and disappear")
+            cur_bottom_block.current = bottom;
+        }
+    };
+
     const containers = useMemo(() => {
         console.log('containers changed')
         return trackRefs.map((obj,index)=>{
-            return <div ref = {trackRefs[index]} className="portrait"id = {`portrait-${index}`}style = {{left:start*window_width,top:portrait_height*index, width:portrait_width,height:portrait_height+padding}} key = {index}>
+            return <div ref = {trackRefs[index]} className="portrait"id = {`portrait-${index}`}style = {{left:start*window_width,top:portrait_height*display_indices[index].current, width:portrait_width,height:portrait_height+1}} key = {index}>
+            
             </div>
     })
 }, [count_containers])
 
     const viewers =  trackRefs.map((obj,index)=>{
+            const display = display_indices[index].current
             return <View  track = {trackRefs[index]} key = {index} >
-            <Portrait config = {config_vals[index]}/>
+            <Portrait ref = {viewRefs[index]} config = {display>=0 && display<config_vals.length? config_vals[display]:null}/>
             </View>
     })
-    useEventListener('scroll',handleScroll,containerRef)
+    // useEventListener('scroll',handleScroll,containerRef)
     return <>
-    <div ref = {containerRef} className = "portraitContainer">
-        <div className="portraitBg" />
+    <SmoothScroll ref = {containerRef} portraitHeight = {portrait_height}  handleScroll = {handleScroll}>
         {containers}
-
-        </div>
-                
+        </SmoothScroll >
         <Canvas  frameloop= {stopRendering||blur?"never":"always"}  dpr = {[1,2]} gl = {{
             toneMapping: tone == 'ACES'? THREE.ACESFilmicToneMapping: tone == 'Cineon'? THREE.CineonToneMapping: tone == 'Reinhard'?THREE.ReinhardToneMapping: tone == 'Linear'? THREE.LinearToneMapping: THREE.NoToneMapping,
             outputEncoding: THREE.sRGBEncoding,
             antialias:true}} className ='canvas' eventSource={containerRef} >
         {viewers}
+        <Perf position = 'bottom-right' />
         </Canvas>
+
     </>
 }
