@@ -53,11 +53,11 @@ export default function PortraitContainer({start, width,aspect_ratio,configs,pad
     // There's only going to be one invisible box. 
     //Since we are using pooling, we don't want our container to resize according to the window. The user always needs to refresh.
     const { innerWidth: window_width, innerHeight:window_height } = window;
-    const portrait_width = window_width*width;
-    const portrait_height = portrait_width/aspect_ratio;
+    const portrait_width = Math.ceil(window_width*width);
+    const portrait_height = Math.ceil(portrait_width/aspect_ratio);
     const cur_top_block = useRef(0);
-    const count_containers = useMemo(()=>Math.min(Object.keys(configs).length,Math.ceil(window_height/portrait_height))+2*padding, [configs])
-    const cur_bottom_block = useRef(count_containers);
+    const count_containers = useMemo(()=>Math.ceil(window_height/portrait_height)+2*padding, [configs])
+    const cur_bottom_block = useRef(Math.ceil(window_height/portrait_height)-1);
     const containerRef = useRef();
     const trackRefs = Array(count_containers).fill(0)
     const viewRefs =  Array(count_containers).fill(0)
@@ -71,30 +71,38 @@ export default function PortraitContainer({start, width,aspect_ratio,configs,pad
 
 
     const handleScroll = val  => {
-        console.log('hello')
         const top = Math.floor(val/portrait_height)
-        if(Math.abs(top-cur_top_block.current)>=2){
-            Logger.Warn("We are skipping blocks ")
+        const bottom = Math.floor((val+window_height)/portrait_height)
+        if(Math.abs(top-cur_top_block.current)>=2 || Math.abs(bottom-cur_bottom_block.current)>=2){
+            Logger.Warn("We are skipping blocks ")  
         }
         if(top>cur_top_block.current){
             //We are scrolling down and the previous block disappeared 
             //1.
-            console.log("down and disappear")
+            // console.log("down and disappear")x
             cur_top_block.current = top
         }else if(top<cur_top_block.current){
             // We are scrolling up and a new top block just appeared
-            console.log("up and new")
+            // console.log("up and new")
             cur_top_block.current = top
+            // const bottom_block_display_index =  MathUtils.proper_modulo(bottom+2*padding,count_containers)//Note how this is calculated
+            // Logger.Warn(`Moving block ${bottom_block_display_index} up and current bottom is ${bottom}`)
+            // // Set block Content
+            // display_indices[bottom_block_display_index].current-=count_containers
+            // var tmp = parseInt(trackRefs[bottom_block_display_index].current.style.top , 10);
+            // // Move block down
+            // trackRefs[bottom_block_display_index].current.style.top = `${tmp-count_containers*portrait_height}px`
+            // const display = display_indices[bottom_block_display_index].current
+            // viewRefs[bottom_block_display_index].current.setConfig(display>=0 && display<config_vals.length? config_vals[display]:null)
         }
-        const bottom = Math.floor((val+window_height)/portrait_height)
-        // console.log(bottom)
         if(bottom>cur_bottom_block.current){
             //We are scrolling down and a new bottom block just appeared
             //1. Move the topmost block down to the very bottom(include padding)
             //2. Set its display index
-            console.log("down and appear")
+            // console.log("down and appear")
             cur_bottom_block.current = bottom;
             const top_block_display_index =  MathUtils.proper_modulo(cur_top_block.current-padding+padding,count_containers)//Note how this is calculated
+            // Logger.Warn(`Moving block ${top_block_display_index} down`)
             display_indices[top_block_display_index].current+=count_containers
             var tmp = parseInt(trackRefs[top_block_display_index].current.style.top , 10);
             trackRefs[top_block_display_index].current.style.top = `${tmp+count_containers*portrait_height}px`
@@ -103,15 +111,24 @@ export default function PortraitContainer({start, width,aspect_ratio,configs,pad
         }else if(bottom<cur_bottom_block.current){
             // We are scrolling up and a new bottom block just disappeared
             //1.
-            console.log("up and disappear")
+            // console.log("up and disappear")
             cur_bottom_block.current = bottom;
+            const bottom_block_display_index =  MathUtils.proper_modulo(bottom+2*padding+1,count_containers)//Note how this is calculated
+            // Logger.Warn(`Moving block ${bottom_block_display_index} up and current bottom is ${bottom}`)
+            // Set block Content
+            display_indices[bottom_block_display_index].current-=count_containers
+            var tmp = parseInt(trackRefs[bottom_block_display_index].current.style.top , 10);
+            // Move block down
+            trackRefs[bottom_block_display_index].current.style.top = `${tmp-count_containers*portrait_height}px`
+            const display = display_indices[bottom_block_display_index].current
+            viewRefs[bottom_block_display_index].current.setConfig(display>=0 && display<config_vals.length? config_vals[display]:null)
         }
     };
 
     const containers = useMemo(() => {
         console.log('containers changed')
         return trackRefs.map((obj,index)=>{
-            return <div ref = {trackRefs[index]} className="portrait"id = {`portrait-${index}`}style = {{left:start*window_width,top:portrait_height*display_indices[index].current, width:portrait_width,height:portrait_height+1}} key = {index}>
+            return <div ref = {trackRefs[index]} className="portrait"id = {`portrait-${index}`}style = {{top:portrait_height*display_indices[index].current, width:portrait_width,height:portrait_height+3}} key = {index}>
             
             </div>
     })
@@ -125,7 +142,7 @@ export default function PortraitContainer({start, width,aspect_ratio,configs,pad
     })
     // useEventListener('scroll',handleScroll,containerRef)
     return <>
-    <SmoothScroll ref = {containerRef} portraitHeight = {portrait_height}  handleScroll = {handleScroll}>
+    <SmoothScroll ref = {containerRef} left = {start*window_width} portraitHeight = {portrait_height} portraitWidth = {portrait_width} handleScroll = {handleScroll} totalHeight = {config_vals.length*portrait_height}>
         {containers}
         </SmoothScroll >
         <Canvas  frameloop= {stopRendering||blur?"never":"always"}  dpr = {[1,2]} gl = {{

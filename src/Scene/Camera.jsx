@@ -10,6 +10,8 @@ export default function Camera({targetPos,follow}){
 
     useEffect(()=>{
         camera.current.position.copy(targetPos)
+        // camera.current.rotation.set([0,,0])
+        camera.current.lookAt(0, 0, 0)
     },[])
     useFrame((state, delta)=>{
         const dist = camera.current.position.distanceTo(targetPos)

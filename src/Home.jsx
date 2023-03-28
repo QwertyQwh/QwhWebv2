@@ -1,17 +1,10 @@
-import * as THREE from 'three'
-import { Canvas ,useThree,useFrame} from "@react-three/fiber"
 import { useRef,useState,useEffect,Suspense } from 'react'
 import { useControls,button } from 'leva'
-import { Vector3 } from 'three'
-import Post from './post/Post.jsx'
 import Loader from './UI/Loader.jsx'
 import ThemeSection from './Pages/Blog/ThemeSection.jsx'
 import Catalog from './Catalogs/BlogCatalog.js'
 import PortraitContainer from './Pages/Portraits/PortraitContainter.jsx'
 import { useEffectOnce } from 'usehooks-ts'
-import Stage from './Scene/Stage.jsx'
-import { OrbitControls } from '@react-three/drei'
-import Camera from './Scene/Camera.jsx'
 import PortraitCatalog from './Catalogs/PortraitCatalog.js'
 
 export default function Home(){
@@ -37,24 +30,11 @@ export default function Home(){
 
   return (<>
   <Suspense fallback = {<Loader />}>
-  <PortraitContainer start = {0} width = {1/3} aspect_ratio = {16/9} configs = {PortraitCatalog.Large} padding = {1}></PortraitContainer>
+  <PortraitContainer start = {0} width = {1/2} aspect_ratio = {16/9} configs = {PortraitCatalog.Large} padding = {1}></PortraitContainer>
+  <PortraitContainer start = {1/2} width = {1/3} aspect_ratio = {1} configs = {PortraitCatalog.Large} padding = {1}></PortraitContainer>
+  <PortraitContainer start = {5/6} width = {1/6} aspect_ratio = {1} configs = {PortraitCatalog.Large} padding = {1}></PortraitContainer>
 
   {/* <Link to="../Blogs/testVideo" >Blogs</Link> */}
-  {/* <div className="container" ref = {containerRef}>
-  <Canvas  frameloop= {stopRendering||blur?"never":"always"}  dpr = {[1,2]} gl = {{
-    toneMapping: tone == 'ACES'? THREE.ACESFilmicToneMapping: tone == 'Cineon'? THREE.CineonToneMapping: tone == 'Reinhard'?THREE.ReinhardToneMapping: tone == 'Linear'? THREE.LinearToneMapping: THREE.NoToneMapping,
-    outputEncoding: THREE.sRGBEncoding,
-    antialias:true}} className ='canvas' eventSource={containerRef} >
-            <color attach="background" args={['#fed200']} />
-          <OrbitControls makeDefault/>
-          <Camera targetPos={new Vector3(-5,5,0)} />
-          <Stage />
-      <color args = {[background]} attach = 'background'/>
-      <Perf position='bottom-left'/>
-        <Post blur = {blur}/>
-
-  </Canvas>
-        </div> */}
   </Suspense>
   {blur && <ThemeSection configs = {Catalog}/>}
   </>

@@ -12,8 +12,8 @@
 }
 
 ::-webkit-scrollbar {
-  /* width: 0px;
-  background: transparent;  */
+  width: 0px;
+  background: transparent; 
 }
 
 html,
@@ -178,12 +178,6 @@ body,
   position:absolute;
   scroll-behavior: smooth;
   flex-direction: column;
-  /* position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden; */
 
 }
 
@@ -194,19 +188,5 @@ body,
   display: block;
   justify-content: space-around;
   overflow: hidden;
-  /* width: 100%;
-  align-items: center;
-  height: 200vh;
-  display: flex;
-  overflow-y: hidden; */
-  /* display: flex;
-  justify-content: space-around;
-  width: 100%;
-  align-items: center;
-  height: 200vh; */
 }
 
-.portraitMask{
-  overflow: auto;
-  display: flex;
-}

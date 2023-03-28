@@ -12,8 +12,7 @@ export default forwardRef( function Portrait({config},ref){
   </>);
     const setConfig = (config)=>{
       if(config == null){
-        setcontent(  <color attach="background" args={["#FF00FF"]} />
-        )
+        // setcontent(  <color attach="background" args={["#FF00FF"]} />)
       }else{
         import(`./PortraitContents/${config.content}`).then((con)=>{setcontent(<con.default />)})
       }

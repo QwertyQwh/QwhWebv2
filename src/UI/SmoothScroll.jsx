@@ -3,7 +3,7 @@ import { useWindowSize } from "usehooks-ts";
 let prev_time = null;
 
 
-const  SmoothScroll = forwardRef(({ children,portraitHeight,handleScroll }, ref) => {
+const  SmoothScroll = forwardRef(({ children,left,portraitWidth,portraitHeight,handleScroll,totalHeight }, ref) => {
   // 1.
   const windowSize = useWindowSize();
 
@@ -40,15 +40,7 @@ const  SmoothScroll = forwardRef(({ children,portraitHeight,handleScroll }, ref)
 
   const smoothScrollingHandler = (timeStamp) => {
 
-
-    // if(prev_time == null){
-    //   prev_time = timeStamp
-    // }
-    // const elapsed = timeStamp-prev_time;
-    // console.log(elapsed)
-    // prev_time = timeStamp
     data.current = ref.current.scrollTop;
-    // console.log(data.current-data.previous)
     if(Math.abs(data.current-data.previous)>0.1){
       data.previous += Math.min((data.current - data.previous) * data.ease,portraitHeight);
       data.rounded = Math.round(data.previous * 100) / 100;
@@ -59,12 +51,16 @@ const  SmoothScroll = forwardRef(({ children,portraitHeight,handleScroll }, ref)
   };
 
   return (
-    <div className="portraitContainer" ref = {ref}>
-        <div className="portraitBg" >
+    <div className="portraitContainer" ref = {ref}style = {  {width: portraitWidth,
+      left:left,
+}}>
+        <div style = {  {width: portraitWidth,
+  height: totalHeight,
+  position:"absolute",
+  display: "block",
+  overflow: "hidden",}}>
       <div ref={scrollingContainerRef}>{children}</div>
     </div>
-      {/* <div ref = {maskRef} className="portraitMask"> */}
-      {/* </div> */}
     </div>
   );
 });
