@@ -78,27 +78,15 @@ export default function PortraitContainer({start, width,aspect_ratio,configs,pad
         }
         if(top>cur_top_block.current){
             //We are scrolling down and the previous block disappeared 
-            //1.
             // console.log("down and disappear")x
             cur_top_block.current = top
         }else if(top<cur_top_block.current){
             // We are scrolling up and a new top block just appeared
             // console.log("up and new")
             cur_top_block.current = top
-            // const bottom_block_display_index =  MathUtils.proper_modulo(bottom+2*padding,count_containers)//Note how this is calculated
-            // Logger.Warn(`Moving block ${bottom_block_display_index} up and current bottom is ${bottom}`)
-            // // Set block Content
-            // display_indices[bottom_block_display_index].current-=count_containers
-            // var tmp = parseInt(trackRefs[bottom_block_display_index].current.style.top , 10);
-            // // Move block down
-            // trackRefs[bottom_block_display_index].current.style.top = `${tmp-count_containers*portrait_height}px`
-            // const display = display_indices[bottom_block_display_index].current
-            // viewRefs[bottom_block_display_index].current.setConfig(display>=0 && display<config_vals.length? config_vals[display]:null)
         }
         if(bottom>cur_bottom_block.current){
             //We are scrolling down and a new bottom block just appeared
-            //1. Move the topmost block down to the very bottom(include padding)
-            //2. Set its display index
             // console.log("down and appear")
             cur_bottom_block.current = bottom;
             const top_block_display_index =  MathUtils.proper_modulo(cur_top_block.current-padding+padding,count_containers)//Note how this is calculated
@@ -110,7 +98,6 @@ export default function PortraitContainer({start, width,aspect_ratio,configs,pad
             viewRefs[top_block_display_index].current.setConfig(display>=0 && display<config_vals.length? config_vals[display]:null)
         }else if(bottom<cur_bottom_block.current){
             // We are scrolling up and a new bottom block just disappeared
-            //1.
             // console.log("up and disappear")
             cur_bottom_block.current = bottom;
             const bottom_block_display_index =  MathUtils.proper_modulo(bottom+2*padding+1,count_containers)//Note how this is calculated

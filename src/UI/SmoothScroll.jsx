@@ -4,39 +4,18 @@ let prev_time = null;
 
 
 const  SmoothScroll = forwardRef(({ children,left,portraitWidth,portraitHeight,handleScroll,totalHeight }, ref) => {
-  // 1.
-  const windowSize = useWindowSize();
 
-  //2.
   const scrollingContainerRef = useRef();
-  // const maskRef =useRef();
-  3.
   const data = {
-    ease: 0.02,
+    ease: 0.06,
     current: 0,
     previous: 0,
     rounded: 0,
   };
 
-  // // 4.
-  // useEffect(() => {
-  //   setBodyHeight();
-  // }, [windowSize.height]);
-
-  // const setBodyHeight = () => {
-  //   // maskRef.current.style.height = `${
-  //   //   scrollingContainerRef.current.getBoundingClientRect().height
-  //   // }px`;
-  //   document.body.style.height = `${
-  //     scrollingContainerRef.current.getBoundingClientRect().height
-  //   }px`;
-  // };
-
-  // 5.
   useEffect(() => {
     requestAnimationFrame(() => smoothScrollingHandler());
   }, []);
-
 
   const smoothScrollingHandler = (timeStamp) => {
 
