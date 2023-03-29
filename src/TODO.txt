@@ -1,5 +1,4 @@
 add input box            https://codesandbox.io/s/024uom
-pp outline                      https://codesandbox.io/s/nurp5t
 image gallery ? or blur background                   https://codesandbox.io/s/lx2h8
 sparks                               https://codesandbox.io/s/sbf2i?file=/src/index.js
 router transition               https://codesandbox.io/s/4j2q2?file=/src/App.js

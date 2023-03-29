@@ -22,7 +22,7 @@ export default forwardRef( function Portrait({config},ref){
       setConfig,
     };
   }, []);
-
+  
   useEffectOnce(()=>{setConfig(config)})
 return <>
   {content}

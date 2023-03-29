@@ -12,8 +12,8 @@
 }
 
 ::-webkit-scrollbar {
-  width: 0px;
-  background: transparent; 
+  /* width: 0px;
+  background: transparent;  */
 }
 
 html,
@@ -50,6 +50,7 @@ body,
     transition: opacity .3s;  
     transition-timing-function: ease-in;
     mix-blend-mode: difference;
+    z-index: 100;
   }
 
   #cursorInner {
@@ -60,6 +61,7 @@ body,
     pointer-events: none;
     mix-blend-mode: difference;
     opacity: 1;
+    z-index: 100;
   }
 
 
@@ -73,6 +75,7 @@ body,
     pointer-events: none;
     mix-blend-mode: difference;
     opacity: 1;
+    z-index: 100;
   }
 
   /*Blog region
@@ -190,3 +193,12 @@ body,
   overflow: hidden;
 }
 
+.portraitFocus{
+  margin: auto;
+  background-color: #DDA15E;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  position: absolute;
+  transition: 2s;
+}

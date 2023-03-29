@@ -1,44 +1,59 @@
 import React, { useEffect, useRef,forwardRef } from "react";
 import { useWindowSize } from "usehooks-ts";
-let prev_time = null;
 
 
-const  SmoothScroll = forwardRef(({ children,left,portraitWidth,portraitHeight,handleScroll,totalHeight }, ref) => {
+const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,handleScroll,totalHeights }, ref) => {
 
-  const scrollingContainerRef = useRef();
+  const scrollingContainerRef = Array(sectionCount).fill(0).map(()=>useRef());
   const data = {
     ease: 0.06,
     current: 0,
-    previous: 0,
-    rounded: 0,
+    previous: Array(sectionCount).fill(0),
   };
-
+  let totalHeight = 0
+  const speedMultiplier = Array(sectionCount).fill(1);
+  for(let i = 0;i<totalHeights.length;i++){
+    if(totalHeight<totalHeights[i]){
+      totalHeight = totalHeights[i]
+    }
+  }
+  for(let i = 0;i<totalHeights.length;i++){
+    speedMultiplier[i] = totalHeights[i]/totalHeight;
+  }
   useEffect(() => {
     requestAnimationFrame(() => smoothScrollingHandler());
   }, []);
 
-  const smoothScrollingHandler = (timeStamp) => {
+  const scrollSections =  Array(sectionCount).fill(0).map((obj,index)=>(
+    <div key = {index} ref={scrollingContainerRef[index]}>{sections[index]}</div>
+  ));
 
+  const smoothScrollingHandler = (timeStamp) => {
     data.current = ref.current.scrollTop;
-    if(Math.abs(data.current-data.previous)>0.1){
-      data.previous += Math.min((data.current - data.previous) * data.ease,portraitHeight);
-      data.rounded = Math.round(data.previous * 100) / 100;
-      scrollingContainerRef.current.style.transform = `translateY(${data.current-data.previous}px)`;
-      handleScroll(data.previous)
+    console.log("animation")
+    for(let i = 0;i<sectionCount;i++){
+      const realCurrent = data.current*speedMultiplier[i];
+      console.log(realCurrent, data.previous[i])
+      if(Math.abs(realCurrent-data.previous[i])>0.1){
+        data.previous[i] += Math.min((realCurrent - data.previous[i]) * data.ease,portraitHeight);
+        scrollingContainerRef[i].current.style.transform = `translateY(${realCurrent-data.previous[i]}px)`;
+        (handleScroll[i])(data.previous[i])
+      }
     }
     requestAnimationFrame((time) => smoothScrollingHandler(time));
   };
 
   return (
-    <div className="portraitContainer" ref = {ref}style = {  {width: portraitWidth,
+    <div className="portraitContainer" ref = {ref}style = {  {width: "100%",
       left:left,
 }}>
-        <div style = {  {width: portraitWidth,
+        <div style = {  {width: "100%",
   height: totalHeight,
   position:"absolute",
   display: "block",
   overflow: "hidden",}}>
-      <div ref={scrollingContainerRef}>{children}</div>
+      {/* <div ref={scrollingContainerRef}>{children}</div> */}
+      {scrollSections[0]}
     </div>
     </div>
   );
