@@ -63,7 +63,7 @@ export default function Home(){
   <Suspense fallback = {<Loader />}>
     {!isMobile?
     <>
-    <PortraitContainer sectionCount = {1} start = {[0]} width = {[1/2]} aspect_ratio = {[16/9]} configs = {[PortraitCatalog.Large]} padding = {1} handleFocusIn = {handleFocusIn}></PortraitContainer>
+    <PortraitContainer sectionCount = {3} start = {[0,1/2,5/6]} width = {[1/2,1/3,1/6]} aspect_ratio = {[16/9,9/16,1]} configs = {[PortraitCatalog.Large,PortraitCatalog.Large,PortraitCatalog.Large]} padding = {1} handleFocusIn = {handleFocusIn}></PortraitContainer>
     {/* <PortraitContainer start = {1/2} width = {1/3} aspect_ratio = {9/16} configs = {PortraitCatalog.Large} padding = {1} handleFocusIn = {handleFocusIn}></PortraitContainer> */}
     {/* <PortraitContainer start = {5/6} width = {1/6} aspect_ratio = {1} configs = {PortraitCatalog.Large} padding = {1} handleFocusIn = {handleFocusIn}></PortraitContainer> */}
     </>

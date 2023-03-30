@@ -2,9 +2,9 @@ import React, { useEffect, useRef,forwardRef } from "react";
 import { useWindowSize } from "usehooks-ts";
 
 
-const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,handleScroll,totalHeights }, ref) => {
-
+const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,handleScroll,totalHeights,section_length }, ref) => {
   const scrollingContainerRef = Array(sectionCount).fill(0).map(()=>useRef());
+  const { innerWidth: window_width, innerHeight:window_height } = window;
   const data = {
     ease: 0.06,
     current: 0,
@@ -12,6 +12,8 @@ const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,ha
   };
   let totalHeight = 0
   const speedMultiplier = Array(sectionCount).fill(1);
+  const diff = Array(sectionCount).fill(0);
+  console.log(totalHeights)
   for(let i = 0;i<totalHeights.length;i++){
     if(totalHeight<totalHeights[i]){
       totalHeight = totalHeights[i]
@@ -19,25 +21,34 @@ const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,ha
   }
   for(let i = 0;i<totalHeights.length;i++){
     speedMultiplier[i] = totalHeights[i]/totalHeight;
+    diff[i] = totalHeight-totalHeights[i]
   }
+  console.log(diff)
+  const totalScrollable = totalHeight-window_height
+  // console.log(speedMultiplier)
   useEffect(() => {
     requestAnimationFrame(() => smoothScrollingHandler());
   }, []);
-
-  const scrollSections =  Array(sectionCount).fill(0).map((obj,index)=>(
-    <div key = {index} ref={scrollingContainerRef[index]}>{sections[index]}</div>
-  ));
-
+  const scrollSections =  section_length.map((obj,index)=>{
+    return (<div key = {index} ref={scrollingContainerRef[index]}>{sections.slice(obj[0],obj[1])}</div>
+  )});
+  // console.log(scrollSections)
+  // const scrollSections =  section_length.map((obj,index)=>(
+  //   <div key = {index} ref={scrollingContainerRef[index]}>{sections}</div>
+  // ));
   const smoothScrollingHandler = (timeStamp) => {
     data.current = ref.current.scrollTop;
-    console.log("animation")
     for(let i = 0;i<sectionCount;i++){
-      const realCurrent = data.current*speedMultiplier[i];
-      console.log(realCurrent, data.previous[i])
+      const realCurrent = data.current;
       if(Math.abs(realCurrent-data.previous[i])>0.1){
         data.previous[i] += Math.min((realCurrent - data.previous[i]) * data.ease,portraitHeight);
-        scrollingContainerRef[i].current.style.transform = `translateY(${realCurrent-data.previous[i]}px)`;
-        (handleScroll[i])(data.previous[i])
+        if(i == 0){
+          console.log(offset)
+        }
+        const offset = diff[i]*(data.previous[i]/totalScrollable)
+        scrollingContainerRef[i].current.style.transform = `translateY(${offset+realCurrent-data.previous[i]}px)`;
+        // scrollingContainerRef[i].current.style.transform = `translateY(${offset}px)`;
+        (handleScroll[i])(data.previous[i]- offset)
       }
     }
     requestAnimationFrame((time) => smoothScrollingHandler(time));
@@ -45,7 +56,6 @@ const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,ha
 
   return (
     <div className="portraitContainer" ref = {ref}style = {  {width: "100%",
-      left:left,
 }}>
         <div style = {  {width: "100%",
   height: totalHeight,
@@ -53,7 +63,7 @@ const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,ha
   display: "block",
   overflow: "hidden",}}>
       {/* <div ref={scrollingContainerRef}>{children}</div> */}
-      {scrollSections[0]}
+      {scrollSections}
     </div>
     </div>
   );
