@@ -70,7 +70,7 @@ export default function Home(){
       :
     <PortraitContainer start = {0} width = {1} aspect_ratio = {16/9} configs = {PortraitCatalog.Large} padding = {1} handleFocusIn = {handleFocusIn}></PortraitContainer>
   }
-  {/* <div ref = {focusRef} className='portraitFocus'/> */}
+  <div ref = {focusRef} className='portraitFocus'/>
 
   {/* <Link to="../Blogs/testVideo" >Blogs</Link> */}
   </Suspense>

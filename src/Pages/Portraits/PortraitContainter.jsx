@@ -91,9 +91,7 @@ export default function PortraitContainer({sectionCount,start, width,aspect_rati
             
             const top = Math.floor(val/portrait_height)
             const bottom = Math.floor((val+window_height)/portrait_height)
-            // if(j == 0){
-            //     console.log(bottom)
-            // }
+
             if(Math.abs(top-cur_top_blocks[j].current)>=2 || Math.abs(bottom-cur_bottom_blocks[j].current)>=2){
                 Logger.Warn("We are skipping blocks ")  
             }
@@ -108,7 +106,7 @@ export default function PortraitContainer({sectionCount,start, width,aspect_rati
             }
             if(bottom>cur_bottom_blocks[j].current){
                 //We are scrolling down and a new bottom block just appeared
-                console.log("down and appear")
+                // console.log("down and appear")
                 cur_bottom_blocks[j].current = bottom;
                 const top_block_display_index =  section_length[j][0]+ MathUtils.proper_modulo(cur_top_blocks[j].current-padding+padding,count_containers)//Note how this is calculated
                 // Logger.Warn(`Moving block ${top_block_display_index} down`)
@@ -120,7 +118,7 @@ export default function PortraitContainer({sectionCount,start, width,aspect_rati
                 viewRefs.current[top_block_display_index].current.setConfig(display>=0 && display<config_vals.length? config_vals[display]:null)
             }else if(bottom<cur_bottom_blocks[j].current){
                 // We are scrolling up and a new bottom block just disappeared
-                console.log("up and disappear")
+                // console.log("up and disappear")
                 cur_bottom_blocks[j].current = bottom;
                 const bottom_block_display_index =  section_length[j][0]+MathUtils.proper_modulo(bottom+2*padding+1,count_containers)//Note how this is calculated
                 // Logger.Warn(`Moving block ${bottom_block_display_index} up and current bottom is ${bottom}`)
@@ -193,7 +191,6 @@ trackRefs.current.map((obj,index)=>{
     </View>
 })
 
-    // useEventListener('scroll',handleScroll,containerRef)
     return <>
     <SmoothScroll sectionCount = {sectionCount} ref = {containerRef} left = {start.map((obj,index)=>obj*window_width)} portraitHeight = {portrait_min_height} handleScroll = {handleScrolls} totalHeights = {totalHeights} sections = {containers} section_length = {section_length} >
         {/* {containers} */}
@@ -203,7 +200,7 @@ trackRefs.current.map((obj,index)=>{
             outputEncoding: THREE.sRGBEncoding,
             antialias:true}} className ='canvas' eventSource={containerRef} >
         {viewers}
-        {/* <Perf position = 'bottom-right' /> */}
+        <Perf position = 'bottom-right' />
         </Canvas>
 
     </>

@@ -11,21 +11,17 @@ const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,ha
     previous: Array(sectionCount).fill(0),
   };
   let totalHeight = 0
-  const speedMultiplier = Array(sectionCount).fill(1);
   const diff = Array(sectionCount).fill(0);
-  console.log(totalHeights)
+  // console.log(totalHeights)
   for(let i = 0;i<totalHeights.length;i++){
     if(totalHeight<totalHeights[i]){
       totalHeight = totalHeights[i]
     }
   }
   for(let i = 0;i<totalHeights.length;i++){
-    speedMultiplier[i] = totalHeights[i]/totalHeight;
     diff[i] = totalHeight-totalHeights[i]
   }
-  console.log(diff)
   const totalScrollable = totalHeight-window_height
-  // console.log(speedMultiplier)
   useEffect(() => {
     requestAnimationFrame(() => smoothScrollingHandler());
   }, []);
@@ -39,15 +35,10 @@ const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,ha
   const smoothScrollingHandler = (timeStamp) => {
     data.current = ref.current.scrollTop;
     for(let i = 0;i<sectionCount;i++){
-      const realCurrent = data.current;
-      if(Math.abs(realCurrent-data.previous[i])>0.1){
-        data.previous[i] += Math.min((realCurrent - data.previous[i]) * data.ease,portraitHeight);
-        if(i == 0){
-          console.log(offset)
-        }
+      if(Math.abs(data.current-data.previous[i])>0.1){
+        data.previous[i] += Math.min((data.current - data.previous[i]) * data.ease,portraitHeight);
         const offset = diff[i]*(data.previous[i]/totalScrollable)
-        scrollingContainerRef[i].current.style.transform = `translateY(${offset+realCurrent-data.previous[i]}px)`;
-        // scrollingContainerRef[i].current.style.transform = `translateY(${offset}px)`;
+        scrollingContainerRef[i].current.style.transform = `translateY(${offset+data.current-data.previous[i]}px)`;
         (handleScroll[i])(data.previous[i]- offset)
       }
     }
