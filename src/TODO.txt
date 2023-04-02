@@ -1,6 +1,25 @@
+Next Steps:
+Portrait loading 
+focus 
+header and footer
+
+
+
+Plans:
 add input box            https://codesandbox.io/s/024uom
 image gallery ? or blur background                   https://codesandbox.io/s/lx2h8
 sparks                               https://codesandbox.io/s/sbf2i?file=/src/index.js
 router transition               https://codesandbox.io/s/4j2q2?file=/src/App.js
 ASCII renderer             https://codesandbox.io/s/5jvdu3
 LightFormer                 https://github.com/pmndrs/drei#lightformer
+physics                 https://github.com/pmndrs/use-cannon/blob/master/packages/react-three-cannon/README.md
+
+GearBox:
+Distort Material https://codesandbox.io/s/l03yb?file=/src/App.js
+useAspect 
+Volumetric spotlight https://codesandbox.io/s/tx1pq?file=/src/App.js
+Ragdoll physics https://codesandbox.io/s/wdzv4?file=/src/App.js:137-156
+
+
+Modification:
+Infinite portrait scroll?

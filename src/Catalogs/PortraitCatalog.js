@@ -15,14 +15,14 @@ export default {
         testImg4: {
             content: 'Test',
         },
-        testImg5: {
-            content: 'Test',
-        },
-        testImg6: {
-            content: 'Test',
-        },
-        testImg7: {
-            content: 'Test',
-        },
+        // testImg5: {
+        //     content: 'Test',
+        // },
+        // testImg6: {
+        //     content: 'Test',
+        // },
+        // testImg7: {
+        //     content: 'Test',
+        // },
     }
 }

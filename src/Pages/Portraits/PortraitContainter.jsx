@@ -5,10 +5,13 @@ import { useEffectOnce, useEventListener } from "usehooks-ts";
 import { useControls } from "leva";
 import anime from "animejs";
 import * as THREE from 'three'
-import { View } from "@react-three/drei";
+import { OrbitControls, View } from "@react-three/drei";
 import { Perf } from "r3f-perf";
 import MathUtils from "../../Utils/MathUtils";
 import Logger from "../../Debug/Logger";
+import TestObject from "../../Scene/TestObject";
+import Camera from "../../Scene/Camera";
+import { Vector3 } from "three";
 
 import SmoothScroll from "../../UI/SmoothScroll";
 
@@ -60,6 +63,7 @@ export default function PortraitContainer({sectionCount,start, width,aspect_rati
     const cur_bottom_blocks = Array(sectionCount).fill(0).map(()=>useRef(0));
     const handleScrolls = Array(sectionCount).fill(0);
     const totalHeights = Array(sectionCount).fill(0);
+    const bottom_indices = Array(sectionCount).fill(0)
     let portrait_min_height = 100000;
     const containerRef = useRef();
     const containers = Array(totalCount).fill(0);
@@ -74,7 +78,7 @@ export default function PortraitContainer({sectionCount,start, width,aspect_rati
         const config_vals = Object.values(configs[j])
         const portrait_width = Math.ceil(window_width*width[j]);
         const portrait_height = Math.ceil(portrait_width/aspect_ratio[j]);
-        totalHeights[j] = portrait_height*(config_vals.length-padding)
+        totalHeights[j] = portrait_height*(config_vals.length)
         if(portrait_min_height>portrait_height){
             portrait_min_height = portrait_height
         }
@@ -86,6 +90,7 @@ export default function PortraitContainer({sectionCount,start, width,aspect_rati
         for (let i = 0;i<curCount;i++) {
             display_indices[i+AccumCount] = useRef(i-padding);
         }
+        bottom_indices[j] = (config_vals.length+padding)%count_containers-1
         //TODO
         handleScrolls[j] = val  => {
             
@@ -167,9 +172,9 @@ trackRefs.current.map((obj,index)=>{
     const portrait_height = Math.ceil(portrait_width/aspect_ratio[segment]);
     // console.log(portrait_height*display_indices[real_index].current)
     containers[real_index] =  <div ref = {trackRefs.current[real_index]} className="portrait"id = {`portrait-${real_index}`}
-    style = {{top:portrait_height*display_indices[real_index].current, width:portrait_width,height:portrait_height+3,left:start[segment]*window_width}} 
+    style = {{top:portrait_height*display_indices[real_index].current, width:portrait_width,height:portrait_height+1,left:start[segment]*window_width}} 
     key = {real_index}
-    onClick = {()=>{ handleFocusIn( {...trackRefs.current[real_index].current.style, left: `${parseInt(trackRes[real_index].current.style.left,10)+start[segment]*window_width}px`}) }} 
+    onClick = {()=>{ handleFocusIn( {...trackRefs.current[real_index].current.style, left: `${parseInt(trackRefs.current[real_index].current.style.left,10)}px`}) }} 
     />
 })
 
@@ -177,8 +182,8 @@ trackRefs.current.map((obj,index)=>{
     const real_index = index
     let segment = 0
     let accum = 0
-    for(;segment<sectionCount; i++){
-        if(section_length[segment][0]<=index){
+    for(;segment<sectionCount; segment++){
+        if(section_length[segment][0]<=index && section_length[segment][1]>index){
             break;
         }
         accum = section_length[segment][1]
@@ -186,22 +191,23 @@ trackRefs.current.map((obj,index)=>{
     const config_vals = Object.values(configs[segment])
     // console.log("view generated", real_index,trackRefs.current[real_index])
     const display = display_indices[real_index].current
-    viewers[real_index] = <View  track = {trackRefs.current[real_index]} key = {real_index} >
-    <Portrait ref = {viewRefs.current[real_index]} config = {display>=0 && display<config_vals.length? config_vals[accum+display]:null}/>
+    viewers[real_index] = <View index = {bottom_indices[segment] == index-accum?2:1} track = {trackRefs.current[real_index]} key = {real_index} >
+    <Portrait ref = {viewRefs.current[real_index]} config = {display>=0 && display<config_vals.length? config_vals[display]:null}/>
     </View>
 })
 
     return <>
-    <SmoothScroll sectionCount = {sectionCount} ref = {containerRef} left = {start.map((obj,index)=>obj*window_width)} portraitHeight = {portrait_min_height} handleScroll = {handleScrolls} totalHeights = {totalHeights} sections = {containers} section_length = {section_length} >
+    <SmoothScroll sectionCount = {sectionCount} ref = {containerRef} left = {start.map((obj,index)=>obj*window_width)} portraitHeight = {portrait_min_height} handleScroll = {handleScrolls} totalHeights = {totalHeights} sections = {containers} section_length = {section_length}  >
         {/* {containers} */}
         </SmoothScroll >
         <Canvas  frameloop= {stopRendering||blur?"never":"always"}  dpr = {[1,2]} gl = {{
             toneMapping: tone == 'ACES'? THREE.ACESFilmicToneMapping: tone == 'Cineon'? THREE.CineonToneMapping: tone == 'Reinhard'?THREE.ReinhardToneMapping: tone == 'Linear'? THREE.LinearToneMapping: THREE.NoToneMapping,
             outputEncoding: THREE.sRGBEncoding,
             antialias:true}} className ='canvas' eventSource={containerRef} >
+
         {viewers}
+        
         <Perf position = 'bottom-right' />
         </Canvas>
-
     </>
 }
