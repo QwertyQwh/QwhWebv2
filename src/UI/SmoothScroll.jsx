@@ -1,20 +1,20 @@
 import React, { useEffect, useRef,forwardRef } from "react";
-import { useWindowSize } from "usehooks-ts";
-
+import { useEffectOnce, useWindowSize } from "usehooks-ts";
 
 const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,handleScroll,totalHeights,section_length }, ref) => {
-
+  
   const footerRef = useRef()
   const scrollingContainerRef = Array(sectionCount).fill(0).map(()=>useRef());
   const { innerWidth: window_width, innerHeight:window_height } = window;
+  const footerHeight = 0.4*window_height
   const data = {
     ease: 0.06,
     current: 0,
     previous: Array(sectionCount).fill(0),
+    footerPrevious: totalHeight/2
   };
   let totalHeight = 0
   const diff = Array(sectionCount).fill(0);
-  // console.log(totalHeights)
   for(let i = 0;i<totalHeights.length;i++){
     if(totalHeight<totalHeights[i]){
       totalHeight = totalHeights[i]
@@ -24,6 +24,8 @@ const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,ha
     diff[i] = totalHeight-totalHeights[i]
   }
   const totalScrollable = totalHeight-window_height
+  const footerScrollable = totalScrollable+footerHeight
+
   useEffect(() => {
     requestAnimationFrame(() => smoothScrollingHandler());
   }, []);
@@ -40,16 +42,19 @@ const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,ha
       if(Math.abs(data.current-data.previous[i])>0.1){
         data.previous[i] += Math.min((data.current - data.previous[i]) * data.ease,portraitHeight);
         const offset = diff[i]* Math.min((data.previous[i]/totalScrollable),1)
-        console.log(i,data.previous[i])
 
         scrollingContainerRef[i].current.style.transform = `translateY(${Math.floor(offset+data.current-data.previous[i])}px)`;
         (handleScroll[i])(data.previous[i]- offset)
       }
     }
+    const footerUp = (1-data.current/footerScrollable)*totalHeight/3;
+    footerRef.current.style.transform = `translateY(${-footerUp}px)`
     requestAnimationFrame((time) => smoothScrollingHandler(time));
   };
 
-  
+  useEffectOnce(()=>{
+  })
+
   return (
     <>
     <div className="portraitContainer" ref = {ref}style = {  {width: "100%",
@@ -65,8 +70,19 @@ const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,ha
       {scrollSections}
 
     </div>
-
-    <div ref={footerRef}  className='footer' style = {{top:totalHeight}}/>
+    <div ref={footerRef}  className='footer' style = {{top:totalHeight,height:footerHeight}}>
+    A loooooooooooooooooooooooooooot of gibberish<br></br>
+    A loooooooooooooooooooooooooooot of gibberish<br></br>
+    A loooooooooooooooooooooooooooot of gibberish<br></br>
+    A loooooooooooooooooooooooooooot of gibberish<br></br>
+    A loooooooooooooooooooooooooooot of gibberish<br></br>
+    A loooooooooooooooooooooooooooot of gibberish<br></br>
+    A loooooooooooooooooooooooooooot of gibberish<br></br>
+    A loooooooooooooooooooooooooooot of gibberish<br></br>
+    A loooooooooooooooooooooooooooot of gibberish<br></br>
+    A loooooooooooooooooooooooooooot of gibberish<br></br>
+    </div>
+    {/* <div className='footer' style = {{top:totalHeight}}/> */}
     </div>
     </>
   );
