@@ -9,31 +9,22 @@ import { OrbitControls, View } from "@react-three/drei";
 import { Perf } from "r3f-perf";
 import MathUtils from "../../Utils/MathUtils";
 import Logger from "../../Debug/Logger";
-import TestObject from "../../Scene/TestObject";
-import Camera from "../../Scene/Camera";
-import { Vector3 } from "three";
-
 import SmoothScroll from "../../UI/SmoothScroll";
-
 let animation_cache = []
 const stopRendering = false
-function playAnimAppear(index){
-    while(animation_cache.length<index+1){
-        const anim =  anime.timeline({
-            targets:`#portrait-${animation_cache.length}`,
-            autoplay: false,
-            loop:false,
-            opacity: [0,0],
-            duration: 500, 
-        })
-        animation_cache.append(anim)
-    }
-    animation_cache[index].play()
-}
-
-
-
-
+// function playAnimAppear(index){
+//     while(animation_cache.length<index+1){
+//         const anim =  anime.timeline({
+//             targets:`#portrait-${animation_cache.length}`,
+//             autoplay: false,
+//             loop:false,
+//             opacity: [0,1],
+//             duration: 1000, 
+//         })
+//         animation_cache.append(anim)
+//     }
+//     animation_cache[index].play()
+// }
 
 //This function acts as a list container for a column of portraits
 export default function PortraitContainer({sectionCount,start, width,aspect_ratio,configs,padding,handleFocusIn}){
@@ -121,6 +112,7 @@ export default function PortraitContainer({sectionCount,start, width,aspect_rati
                 const display = display_indices[top_block_display_index].current
                 // console.log(top_block_display_index,viewRefs.current[top_block_display_index].current)
                 viewRefs.current[top_block_display_index].current.setConfig(display>=0 && display<config_vals.length? config_vals[display]:null)
+                // playAnimAppear(top_block_display_index)
             }else if(bottom<cur_bottom_blocks[j].current){
                 // We are scrolling up and a new bottom block just disappeared
                 // console.log("up and disappear")
@@ -134,30 +126,14 @@ export default function PortraitContainer({sectionCount,start, width,aspect_rati
                 trackRefs.current[bottom_block_display_index].current.style.top = `${tmp-count_containers*portrait_height}px`
                 const display = display_indices[bottom_block_display_index].current
                 viewRefs.current[bottom_block_display_index].current.setConfig(display>=0 && display<config_vals.length? config_vals[display]:null)
+                // playAnimAppear(bottom_block_display_index)
+
             }
 
     }
     AccumCount += curCount
 };
 
-
-// Array(curCount).fill(0).map((obj,index)=>{
-//     const real_index = index+AccumCount
-//     console.log("div generated", trackRefs.current[real_index])
-//     containers[real_index] =  (<div ref = {trackRefs.current[real_index]} className="portrait"id = {`portrait-${real_index}`}
-//     style = {{top:portrait_height*display_indices[real_index].current, width:portrait_width,height:portrait_height+3,left:0}} 
-//     key = {real_index}
-//     onClick = {()=>{ handleFocusIn( {...trackRefs.current[real_index].current.style, left: `${parseInt(trackRes[real_index].current.style.left,10)+start*window_width}px`}) }} />)
-// })
-
-//  Array(curCount).fill(0).map((obj,index)=>{
-//     const real_index = index+AccumCount
-//     console.log("view generated", real_index,trackRefs.current[real_index])
-//     const display = display_indices[real_index].current
-//     viewers[real_index] = <View  track = {trackRefs.current[real_index]} key = {real_index} >
-//     <Portrait ref = {viewRefs[real_index]} config = {display>=0 && display<config_vals.length? config_vals[display]:null}/>
-//     </View>
-// })
 trackRefs.current.map((obj,index)=>{
     const real_index = index
     // console.log("div generated", real_index, trackRefs.current[real_index])
@@ -204,9 +180,7 @@ trackRefs.current.map((obj,index)=>{
             toneMapping: tone == 'ACES'? THREE.ACESFilmicToneMapping: tone == 'Cineon'? THREE.CineonToneMapping: tone == 'Reinhard'?THREE.ReinhardToneMapping: tone == 'Linear'? THREE.LinearToneMapping: THREE.NoToneMapping,
             outputEncoding: THREE.sRGBEncoding,
             antialias:true}} className ='canvas' eventSource={containerRef} >
-
         {viewers}
-        
         <Perf position = 'bottom-right' />
         </Canvas>
     </>

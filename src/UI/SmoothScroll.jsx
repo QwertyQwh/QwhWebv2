@@ -1,6 +1,6 @@
 import React, { useEffect, useRef,forwardRef } from "react";
 import { useEffectOnce, useWindowSize } from "usehooks-ts";
-
+import Footer from "./Footer";
 const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,handleScroll,totalHeights,section_length }, ref) => {
   
   const footerRef = useRef()
@@ -57,32 +57,15 @@ const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,ha
 
   return (
     <>
-    <div className="portraitContainer" ref = {ref}style = {  {width: "100%",
-}}>
-        <div style = {  {width: "100%",
-  height: totalHeight,
-  position:"absolute",
-  display: "block",
-  overflow: "hidden",
-  
-  }}>
-      {/* <div ref={scrollingContainerRef}>{children}</div> */}
+    <div className="portraitContainer" ref = {ref}style = {  {width: "100%"}}>
+    <div style = {{width: "100%",
+                  height: totalHeight,
+                  position:"absolute",
+                  display: "block",
+                  overflow: "hidden",}}>
       {scrollSections}
-
     </div>
-    <div ref={footerRef}  className='footer' style = {{top:totalHeight,height:footerHeight}}>
-    A loooooooooooooooooooooooooooot of gibberish<br></br>
-    A loooooooooooooooooooooooooooot of gibberish<br></br>
-    A loooooooooooooooooooooooooooot of gibberish<br></br>
-    A loooooooooooooooooooooooooooot of gibberish<br></br>
-    A loooooooooooooooooooooooooooot of gibberish<br></br>
-    A loooooooooooooooooooooooooooot of gibberish<br></br>
-    A loooooooooooooooooooooooooooot of gibberish<br></br>
-    A loooooooooooooooooooooooooooot of gibberish<br></br>
-    A loooooooooooooooooooooooooooot of gibberish<br></br>
-    A loooooooooooooooooooooooooooot of gibberish<br></br>
-    </div>
-    {/* <div className='footer' style = {{top:totalHeight}}/> */}
+    <Footer ref = {footerRef} style = {{top:totalHeight,height:footerHeight}}/>
     </div>
     </>
   );

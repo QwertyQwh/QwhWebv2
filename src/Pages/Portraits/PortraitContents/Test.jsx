@@ -11,7 +11,7 @@ import { OrbitControls } from '@react-three/drei'
 import Camera from '../../../Scene/Camera.jsx'
 import Palette from '../../../Catalogs/Palette.js'
 
-export default function Portrait(props){
+export default function Test(props){
 return <>
 <Suspense fallback = {<></>} > 
             <color attach="background" args={[Palette.get_random_color_from_palette()]} />

@@ -7,6 +7,7 @@ import PortraitContainer from './Pages/Portraits/PortraitContainter.jsx'
 import { useEffectOnce } from 'usehooks-ts'
 import PortraitCatalog from './Catalogs/PortraitCatalog.js'
 import { DeviceContext } from './Contexts/Contexts.js'
+import { useNavigate } from 'react-router-dom'
 
 export default function Home(){
 
@@ -40,8 +41,8 @@ export default function Home(){
 })
 
   const handleFocusIn = ({left,top,width,height})=>{
-    return;
     console.log("focusing")
+    return;
     requestAnimationFrame(()=>{
       focusRef.current.style.transition = "0s";
       console.log( focusRef.current.style.transition )
@@ -70,6 +71,7 @@ export default function Home(){
     
   }
   return (<>
+
   <Suspense fallback = {<Loader />}>
     {!isMobile?
     <>
@@ -78,11 +80,12 @@ export default function Home(){
     {/* <PortraitContainer start = {5/6} width = {1/6} aspect_ratio = {1} configs = {PortraitCatalog.Large} padding = {1} handleFocusIn = {handleFocusIn}></PortraitContainer> */}
     </>
       :
-    <PortraitContainer sectionCount = {1}  start = {[0]} width = {[1]} aspect_ratio = {[16/9]} configs = {[PortraitCatalog.Large]} padding = {1} handleFocusIn = {handleFocusIn}></PortraitContainer>
+    <PortraitContainer sectionCount = {2}  start = {[0,2/3]} width = {[2/3,1/3]} aspect_ratio = {[16/9,1]} configs = {[PortraitCatalog.Large,PortraitCatalog.Large]} padding = {1} handleFocusIn = {handleFocusIn}></PortraitContainer>
   }
+
   {/* <div ref = {focusRef} className='portraitFocus'/> */}
 
-  {/* <Link to="../Blogs/testVideo" >Blogs</Link> */}
+  {/* <Link to="../Blogs/test1" >Blogs</Link> */}
   </Suspense>
   {blur && <ThemeSection configs = {Catalog}/>}
   </>

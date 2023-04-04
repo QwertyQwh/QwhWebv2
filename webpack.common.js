@@ -29,6 +29,13 @@ module.exports = {
         test: /\.(mp4|webm)$/,
         type: 'asset/resource',
        },
+       {
+        test: /\.svg$/,
+        use: [{loader:'@svgr/webpack',
+        options: {
+          svgo: false,
+        }}],
+      },
     ]
   },
   resolve: {
