@@ -3,12 +3,16 @@ import {EffectComposer, SSAO, SMAA, Selection, Outline, Select } from "@react-th
 import hammerColor from '../assets/textures/hammer_color.png'
 import Logger from "../Debug/Logger"
 import { forwardRef,useState,memo, useMemo } from "react"
+import { useEffectOnce } from "usehooks-ts"
 import TestObject from "./TestObject"
 export default function Pen(props){
     Logger.Warn('Hammer is rerendered!')
-    const model = useGLTF('./assets/model/hammer.gltf')
+    const model =  useGLTF('./assets/model/hammer.gltf')
     const color = useTexture(hammerColor)    
     color.flipY = false
+    useEffectOnce(()=>{
+        Logger.Warn("End of Pen")
+    })
     return <>
         <mesh geometry={model.nodes.ground.geometry} position = {model.nodes.ground.position}  >
         <meshBasicMaterial map={color} />

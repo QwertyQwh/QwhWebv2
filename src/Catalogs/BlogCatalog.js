@@ -1,7 +1,17 @@
 export default {
+    NotFound:{
+        title: 'testVideo',
+        thumbNail: '测试用标题',
+        isFake3D: false,
+        titleImg: 'cake',
+        content: 'Test1',
+        isVideo: true,
+        titleVideo: 'cake',
+    },
     testVideo: {
         title: 'testVideo',
         thumbNail: '测试用标题',
+        isFake3D: false,
         titleImg: 'cake',
         content: 'Test1',
         isVideo: true,
@@ -10,6 +20,7 @@ export default {
     testImg: {
         title: 'testImg',
         thumbNail: '测试用标题',
+        isFake3D: false,
         titleImg: 'cake',
         content: 'Test1',
         isVideo: false,
@@ -18,6 +29,7 @@ export default {
     test1: {
         title: 'testImg',
         thumbNail: '测试用标题',
+        isFake3D: false,
         titleImg: 'cake',
         content: 'Test1',
         isVideo: false,
@@ -26,6 +38,7 @@ export default {
     test2: {
         title: 'testImg',
         thumbNail: '测试用标题',
+        isFake3D: false,
         titleImg: 'cake',
         content: 'Test1',
         isVideo: false,
@@ -34,6 +47,7 @@ export default {
     test3: {
         title: 'testImg',
         thumbNail: '测试用标题',
+        isFake3D: false,
         titleImg: 'cake',
         content: 'Test1',
         isVideo: false,
@@ -42,6 +56,7 @@ export default {
     test4: {
         title: 'testImg',
         thumbNail: '测试用标题',
+        isFake3D: false,
         titleImg: 'cake',
         content: 'Test1',
         isVideo: false,
@@ -50,6 +65,7 @@ export default {
     test5: {
         title: 'testImg',
         thumbNail: '测试用标题',
+        isFake3D: false,
         titleImg: 'cake',
         content: 'Test1',
         isVideo: false,
@@ -58,6 +74,7 @@ export default {
     test6: {
         title: 'testImg',
         thumbNail: '测试用标题',
+        isFake3D: false,
         titleImg: 'cake',
         content: 'Test1',
         isVideo: false,
@@ -66,6 +83,7 @@ export default {
     test7: {
         title: 'testImg',
         thumbNail: '测试用标题',
+        isFake3D: false,
         titleImg: 'cake',
         content: 'Test1',
         isVideo: false,
@@ -74,6 +92,7 @@ export default {
     test8: {
         title: 'testImg',
         thumbNail: '测试用标题',
+        isFake3D: false,
         titleImg: 'cake',
         content: 'Test1',
         isVideo: false,

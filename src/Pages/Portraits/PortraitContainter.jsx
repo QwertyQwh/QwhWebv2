@@ -101,7 +101,7 @@ export default function PortraitContainer({sectionCount,start, width,aspect_rati
                 cur_top_blocks[j].current = top
             }
             if(bottom>cur_bottom_blocks[j].current){
-                //We are scrolling down and a new bottom block just appeared
+                //We are scrolling down and a new bottom block just appeared, move the top block down 
                 // console.log("down and appear")
                 cur_bottom_blocks[j].current = bottom;
                 const top_block_display_index =  section_length[j][0]+ MathUtils.proper_modulo(cur_top_blocks[j].current-padding+padding,count_containers)//Note how this is calculated
@@ -109,12 +109,18 @@ export default function PortraitContainer({sectionCount,start, width,aspect_rati
                 display_indices[top_block_display_index].current+=count_containers
                 var tmp = parseInt(trackRefs.current[top_block_display_index].current.style.top , 10);
                 trackRefs.current[top_block_display_index].current.style.top = `${tmp+count_containers*portrait_height}px`
+                // Hide the bottom blocks when exceeding the portrait section, otherwise would block footer.
+                if(tmp+count_containers*portrait_height>=totalHeights[j]){
+                    trackRefs.current[top_block_display_index].current.style.display = 'none'
+                }
                 const display = display_indices[top_block_display_index].current
                 // console.log(top_block_display_index,viewRefs.current[top_block_display_index].current)
-                viewRefs.current[top_block_display_index].current.setConfig(display>=0 && display<config_vals.length? config_vals[display]:null)
+                const real_config = display>=0 && display<config_vals.length? config_vals[display]:null;
+                viewRefs.current[top_block_display_index].current.setConfig(real_config)
+   
                 // playAnimAppear(top_block_display_index)
             }else if(bottom<cur_bottom_blocks[j].current){
-                // We are scrolling up and a new bottom block just disappeared
+                // We are scrolling up and a new bottom block just disappeared, move the bottom block up
                 // console.log("up and disappear")
                 cur_bottom_blocks[j].current = bottom;
                 const bottom_block_display_index =  section_length[j][0]+MathUtils.proper_modulo(bottom+2*padding+1,count_containers)//Note how this is calculated
@@ -124,6 +130,7 @@ export default function PortraitContainer({sectionCount,start, width,aspect_rati
                 var tmp = parseInt(trackRefs.current[bottom_block_display_index].current.style.top , 10);
                 // Move block down
                 trackRefs.current[bottom_block_display_index].current.style.top = `${tmp-count_containers*portrait_height}px`
+                trackRefs.current[bottom_block_display_index].current.style.display = 'flex'
                 const display = display_indices[bottom_block_display_index].current
                 viewRefs.current[bottom_block_display_index].current.setConfig(display>=0 && display<config_vals.length? config_vals[display]:null)
                 // playAnimAppear(bottom_block_display_index)
@@ -172,6 +179,9 @@ trackRefs.current.map((obj,index)=>{
     </View>
 })
 
+useEffect(()=>{
+    Logger.Warn("end of portraitContainer")
+})
     return <>
     <SmoothScroll sectionCount = {sectionCount} ref = {containerRef} left = {start.map((obj,index)=>obj*window_width)} portraitHeight = {portrait_min_height} handleScroll = {handleScrolls} totalHeights = {totalHeights} sections = {containers} section_length = {section_length}  >
         {/* {containers} */}
@@ -179,7 +189,7 @@ trackRefs.current.map((obj,index)=>{
         <Canvas  frameloop= {stopRendering||blur?"never":"always"}  dpr = {[1,2]} gl = {{
             toneMapping: tone == 'ACES'? THREE.ACESFilmicToneMapping: tone == 'Cineon'? THREE.CineonToneMapping: tone == 'Reinhard'?THREE.ReinhardToneMapping: tone == 'Linear'? THREE.LinearToneMapping: THREE.NoToneMapping,
             outputEncoding: THREE.sRGBEncoding,
-            antialias:true}} className ='canvas' eventSource={containerRef} >
+            antialias:true, alpha:true}} className ='canvas' eventSource={containerRef} >
         {viewers}
         <Perf position = 'bottom-right' />
         </Canvas>

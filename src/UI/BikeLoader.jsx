@@ -1,8 +1,12 @@
 import LoadingSvg from '../assets/svg/loading.svg'
 import { useEffectOnce } from 'usehooks-ts'
 import anime from 'animejs';
+import Logger from '../Debug/Logger';
+import { useProgress } from '@react-three/drei';
+export default function BikeLoader({}){
+  const { active, progress, errors, item, loaded, total } = useProgress()
 
-export default function Loader(){
+  Logger.Warn("Loader rerendering")
     useEffectOnce(()=>{
         anime({
             targets: ".svg-loading3,.svg-loading2,.svg-loading1",
@@ -37,6 +41,7 @@ export default function Loader(){
   justifyContent: "center"
   }}>
         <LoadingSvg  />
+        <div>{`${progress}%`}</div>
     </div>
     </>
 }

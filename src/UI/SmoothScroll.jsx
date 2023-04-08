@@ -1,6 +1,7 @@
 import React, { useEffect, useRef,forwardRef } from "react";
 import { useEffectOnce, useWindowSize } from "usehooks-ts";
 import Footer from "./Footer";
+import Logger from "../Debug/Logger";
 const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,handleScroll,totalHeights,section_length }, ref) => {
   
   const footerRef = useRef()
@@ -8,7 +9,7 @@ const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,ha
   const { innerWidth: window_width, innerHeight:window_height } = window;
   const footerHeight = 0.4*window_height
   const data = {
-    ease: 0.06,
+    ease: 0.04,
     current: 0,
     previous: Array(sectionCount).fill(0),
     footerPrevious: totalHeight/2
@@ -27,8 +28,13 @@ const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,ha
   const footerScrollable = totalScrollable+footerHeight
 
   useEffect(() => {
+    Logger.Warn("end of smoothscroll")
+    console.log(ref)
     requestAnimationFrame(() => smoothScrollingHandler());
   }, []);
+
+
+
   const scrollSections =  section_length.map((obj,index)=>{
     return (<div key = {index} ref={scrollingContainerRef[index]} style = {{}}>{sections.slice(obj[0],obj[1])}</div>
   )});
@@ -37,23 +43,24 @@ const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,ha
   //   <div key = {index} ref={scrollingContainerRef[index]}>{sections}</div>
   // ));
   const smoothScrollingHandler = (timeStamp) => {
-    data.current = ref.current.scrollTop;
-    for(let i = 0;i<sectionCount;i++){
-      if(Math.abs(data.current-data.previous[i])>0.1){
-        data.previous[i] += Math.min((data.current - data.previous[i]) * data.ease,portraitHeight);
-        const offset = diff[i]* Math.min((data.previous[i]/totalScrollable),1)
-
-        scrollingContainerRef[i].current.style.transform = `translateY(${Math.floor(offset+data.current-data.previous[i])}px)`;
-        (handleScroll[i])(data.previous[i]- offset)
+    if(ref.current){
+      data.current = ref.current.scrollTop;
+      for(let i = 0;i<sectionCount;i++){
+        if(Math.abs(data.current-data.previous[i])>0.1){
+          data.previous[i] += Math.min((data.current - data.previous[i]) * data.ease,portraitHeight);
+          const offset = diff[i]* Math.min((data.previous[i]/totalScrollable),1)
+          scrollingContainerRef[i].current.style.transform = `translateY(${Math.floor(offset+data.current-data.previous[i])}px)`;
+          (handleScroll[i])(data.previous[i]- offset)
+        }
       }
+      const footerUp = (1-data.current/footerScrollable)*totalHeight/3;
+      footerRef.current.style.transform = `translateY(${-footerUp}px)`
     }
-    const footerUp = (1-data.current/footerScrollable)*totalHeight/3;
-    footerRef.current.style.transform = `translateY(${-footerUp}px)`
+
     requestAnimationFrame((time) => smoothScrollingHandler(time));
   };
 
-  useEffectOnce(()=>{
-  })
+
 
   return (
     <>
@@ -62,7 +69,8 @@ const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,ha
                   height: totalHeight,
                   position:"absolute",
                   display: "block",
-                  overflow: "hidden",}}>
+                  overflow: "hidden",
+                  }}>
       {scrollSections}
     </div>
     <Footer ref = {footerRef} style = {{top:totalHeight,height:footerHeight}}/>

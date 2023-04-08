@@ -23,7 +23,7 @@ export default forwardRef( function Cursor(props,ref){
     Logger.Warn("mouse rerendered")
     //0: circle cursor
     //1: tibet cursor
-    const [cursorStyle, setcursorStyle] = useState(1);
+    const [cursorStyle, setcursorStyle] = useState(0);
     const {foo} = useControls('cursor',{
         foo: button(() => setcursorStyle(1-cursorStyle)),
     })

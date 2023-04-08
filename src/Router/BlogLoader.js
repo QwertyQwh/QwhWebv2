@@ -1,4 +1,7 @@
 import Catalog from "../Catalogs/BlogCatalog"
 export function BlogLoader({params}){
-    return Catalog[params.id];
+    if(Catalog[params.id]){
+        return Catalog[params.id];
+    }
+    return null;
 }
