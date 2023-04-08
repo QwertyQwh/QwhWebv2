@@ -155,7 +155,7 @@ trackRefs.current.map((obj,index)=>{
     const portrait_height = Math.ceil(portrait_width/aspect_ratio[segment]);
     // console.log(portrait_height*display_indices[real_index].current)
     containers[real_index] =  <div ref = {trackRefs.current[real_index]} className="portrait"id = {`portrait-${real_index}`}
-    style = {{top:portrait_height*display_indices[real_index].current, width:portrait_width,height:portrait_height+1,left:start[segment]*window_width}} 
+    style = {{top:portrait_height*display_indices[real_index].current, width:portrait_width+1,height:portrait_height+1,left:start[segment]*window_width}} 
     key = {real_index}
     onClick = {()=>{ handleFocusIn( {...trackRefs.current[real_index].current.style, left: `${parseInt(trackRefs.current[real_index].current.style.left,10)}px`}) }} 
     />
@@ -174,7 +174,8 @@ trackRefs.current.map((obj,index)=>{
     const config_vals = Object.values(configs[segment])
     // console.log("view generated", real_index,trackRefs.current[real_index])
     const display = display_indices[real_index].current
-    viewers[real_index] = <View index = {bottom_indices[segment] == index-accum?2:1} track = {trackRefs.current[real_index]} key = {real_index} >
+    // bottom_indices[segment] == index-accum?100:real_index
+    viewers[real_index] = <View index = {real_index} track = {trackRefs.current[real_index]} key = {real_index} >
     <Portrait ref = {viewRefs.current[real_index]} config = {display>=0 && display<config_vals.length? config_vals[display]:null}/>
     </View>
 })

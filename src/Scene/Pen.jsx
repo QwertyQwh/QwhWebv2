@@ -10,9 +10,6 @@ export default function Pen(props){
     const model =  useGLTF('./assets/model/hammer.gltf')
     const color = useTexture(hammerColor)    
     color.flipY = false
-    useEffectOnce(()=>{
-        Logger.Warn("End of Pen")
-    })
     return <>
         <mesh geometry={model.nodes.ground.geometry} position = {model.nodes.ground.position}  >
         <meshBasicMaterial map={color} />

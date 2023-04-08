@@ -15,7 +15,6 @@ import Cube from '../../../Scene/Cube.jsx'
 import Logger from '../../../Debug/Logger.js'
 
 export default function TestPen(props){
-  Logger.Warn("end of TestPen")
 return <> 
             <color attach="background" args={[Palette.get_random_color_from_palette()]} />
           {/* <OrbitControls makeDefault/> */}

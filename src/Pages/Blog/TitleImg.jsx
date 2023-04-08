@@ -6,7 +6,7 @@ import { useRef,useEffect,useState} from 'react';
 import Logger from '../../Debug/Logger';
 import Fake3DMat from './Fake3DMat';
 import TitleVideoMat from './TitleVideoMat';
-
+import { MeshBasicMaterial } from 'three';
 
 export default function TitleImg(props){
     Logger.Warn('titleImg rerendered')

@@ -17,7 +17,9 @@ export default function Blog(props){
     useEffectOnce(()=>{
         import(/* webpackMode: "lazy-once" */`../../BlogContents/${data.content}`).then((con)=>{setcontent(<div ><con.default /></div>)})
         setdiffuse(require(`../../assets/images/${data.titleImg}.png`));
-        setdepth(require(`../../assets/images/${data.titleImg}_depth.png`));
+        if(data.isFake3D){
+            setdepth(require(`../../assets/images/${data.titleImg}_depth.png`));
+        }
         document.title = data.title
     })
     const handleScroll = e  => {
@@ -28,7 +30,7 @@ export default function Blog(props){
     return <div ref = {blogRef} className='blog'>
         <div ref = {titleBlkRef} className='titleBlock'>
     <div ref={titleImgRef}   className = 'titleImg'>
-        <TitleImg diffuse = {diffuse} depth = {depth} isVideo = {data.isVideo} titleVideo = {data.titleVideo}/>
+        <TitleImg diffuse = {diffuse} isFake3D = {data.isFake3D} depth = {depth} isVideo = {data.isVideo} titleVideo = {data.titleVideo}/>
         </div>
         </div>
         <div className='contentBlock'>

@@ -28,8 +28,6 @@ const  SmoothScroll = forwardRef(({ sectionCount,sections,left,portraitHeight,ha
   const footerScrollable = totalScrollable+footerHeight
 
   useEffect(() => {
-    Logger.Warn("end of smoothscroll")
-    console.log(ref)
     requestAnimationFrame(() => smoothScrollingHandler());
   }, []);
 
