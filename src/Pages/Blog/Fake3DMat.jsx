@@ -12,7 +12,6 @@ const vert = /* glsl */`
     vUv = uv;
   }`
 const frag = /* glsl */`
-  // mostly from https://gist.github.com/statico/df64c5d167362ecf7b34fca0b1459a44
   uniform sampler2D diffuse;
   uniform sampler2D depth;
   uniform vec2 uMouse;

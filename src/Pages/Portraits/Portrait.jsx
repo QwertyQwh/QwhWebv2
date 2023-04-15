@@ -19,7 +19,6 @@ export default forwardRef( function Portrait({config},ref){
       }else{
         // const Content = lazy(()=>import(`./PortraitContents/${config.content}`))
         import(`./PortraitContents/${config.content}`).then((con)=>{setcontent(<con.default />)})
-        // .then((con)=>{setcontent(<con.default />)})
       }
     }
 
@@ -35,6 +34,5 @@ export default forwardRef( function Portrait({config},ref){
 
 return <>
   {content}
-  {/* <TestPen/> */}
 </>
 })

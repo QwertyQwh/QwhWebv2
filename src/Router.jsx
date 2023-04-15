@@ -6,6 +6,7 @@ import {
   } from "react-router-dom";
 import Wrapper from './Wrapper.jsx';
 import Blog from './Pages/Blog/Blog.jsx';
+import TestScene from './Scene/TestScene.jsx';
 
   const router = createBrowserRouter([
     {
@@ -15,6 +16,10 @@ import Blog from './Pages/Blog/Blog.jsx';
           {
             path: "Home",
             element: <Home />,
+          },
+          {
+            path: "Test",
+            element: <TestScene />,
           },
         {
             path: 'Blogs/:id',

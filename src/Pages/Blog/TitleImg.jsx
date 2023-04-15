@@ -36,9 +36,6 @@ export default function TitleImg(props){
   {props.isVideo?<TitleVideoMat {...props} />: <Fake3DMat {...props} />}
 </mesh>
 
-  {/* <Image url={img} position = {[0,0,-10]} scale = {[9,4.5]}>  
-  <shaderMaterial vertexShader={vert} fragmentShader = {frag} />
-   </Image> */}
 
 
 </Canvas>

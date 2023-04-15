@@ -19,10 +19,6 @@ module.exports = merge(common, {
         use: [MiniCssExtractPlugin.loader, "css-loader"]
       },
       {
-        test: /\.(png|jpg|gif)$/,
-        type: 'asset/resource'
-      },
-      {
         test: /\.(glb)$/,
         type: 'asset/resource'
       }

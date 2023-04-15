@@ -22,6 +22,14 @@ module.exports = {
         use: ['babel-loader']
       },
       {
+        test: /\.(png|jpg|gif)$/,
+        type: 'asset/resource'
+      },
+      {
+        test: /\.(png|jpg|gif|hdr)$/,
+        type: 'asset/resource'
+      },
+      {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         type: 'asset/resource',
        },

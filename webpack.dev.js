@@ -20,10 +20,6 @@ module.exports = merge(common, {
         test: /\.css/,
         use: ["style-loader","css-loader"]
       },
-      {
-        test: /\.(png|jpg|gif|glb)$/,
-        type: 'asset/resource'
-      }
     ]
   }
 });

@@ -130,13 +130,12 @@ export default function PortraitContainer({sectionCount,start, width,aspect_rati
                 var tmp = parseInt(trackRefs.current[bottom_block_display_index].current.style.top , 10);
                 // Move block down
                 trackRefs.current[bottom_block_display_index].current.style.top = `${tmp-count_containers*portrait_height}px`
+                // set the display back in case it has been set to none in the previous block 
                 trackRefs.current[bottom_block_display_index].current.style.display = 'flex'
                 const display = display_indices[bottom_block_display_index].current
                 viewRefs.current[bottom_block_display_index].current.setConfig(display>=0 && display<config_vals.length? config_vals[display]:null)
                 // playAnimAppear(bottom_block_display_index)
-
             }
-
     }
     AccumCount += curCount
 };
@@ -150,10 +149,8 @@ trackRefs.current.map((obj,index)=>{
             break;
         }
     }
-    // console.log(start[segment]*window_width)
     const portrait_width = Math.ceil(window_width*width[segment]);
     const portrait_height = Math.ceil(portrait_width/aspect_ratio[segment]);
-    // console.log(portrait_height*display_indices[real_index].current)
     containers[real_index] =  <div ref = {trackRefs.current[real_index]} className="portrait"id = {`portrait-${real_index}`}
     style = {{top:portrait_height*display_indices[real_index].current, width:portrait_width+1,height:portrait_height+1,left:start[segment]*window_width}} 
     key = {real_index}
