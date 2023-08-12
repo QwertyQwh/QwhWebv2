@@ -24,9 +24,9 @@ export default forwardRef( function Cursor(props,ref){
     //0: circle cursor
     //1: tibet cursor
     const [cursorStyle, setcursorStyle] = useState(0);
-    const {foo} = useControls('cursor',{
-        foo: button(() => setcursorStyle(1-cursorStyle)),
-    })
+    // const {foo} = useControls('cursor',{
+    //     foo: button(() => setcursorStyle(1-cursorStyle)),
+    // })
     // cursor 0 
     const rimRef = useRef()
     const innerRef = useRef()

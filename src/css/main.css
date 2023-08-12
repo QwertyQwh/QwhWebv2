@@ -245,26 +245,19 @@ body,
 
 .homeShapes{
   position: absolute;
-  top: 0vh;
   width: 40vw;
   left: 45vw;
   display: block;
   mix-blend-mode: multiply;
-  transition: inherit;
-  transition-timing-function: inherit;
 }
 .homeOverlays{
   position: absolute;
-  top: 0vh;
   width: 40vw;
   left: 45vw;
   display: block;
-  transition: transform 3s;
-  transition-timing-function: inherit;
 }
 .homeStripe{
   position: absolute;
-  top: 0vh;
   width: 50vw;
   left: 40vw;
   display: block;
@@ -281,26 +274,62 @@ body,
   /* display: flex;  */
   /* flex-direction: column; */
   position: absolute;
-  transition: transform 2s;
-  transition-timing-function: cubic-bezier(.7,0,.29,.99);
 }
 .homeTitles{
+  position:relative;
+  text-align: center;
+  width: 40vw;
+  left: 0vw;
+  top:100vh; /* A hack to move everything out of staring frame*/
+  display: block;
+}
+.homeTitles a{
+  display: inline-block;
+  font-size: 3em;
+  color:#DF5F3F;
+}
+
+.homeIntroTitle{
   position: absolute;
   text-align: center;
   width: 40vw;
   display: block;
   margin: 0%;
-  transition: transform 4s;
-  transition-timing-function: inherit;
 }
-.homeTitles h1{
+
+.homeIntro{
+  position: absolute;
+  width: 40vw;
+  left: 45vw;
+  display: block;
+}
+.homeIntroTitle h1{
   display: block;
   font-size: 3em;
   color:#DF5F3F;
-
+}
+.homeIcons{
+  position: absolute;
+  left: 92vw;
+  width: 6vw;
+  text-align: center;
+  height: 10vh;
 }
 
+#Phone{
+  stroke-dashoffset: 0;
+  stroke-dasharray: 68 999;
+}
 
+.homeHintCopy{
+  opacity: 0;
+  position: absolute;
+  left: 70vw;
+  width: 20vw;
+  font-size: 5vw;
+  color:#EADCC2;
+  text-align: center;
+}
 
 
 
