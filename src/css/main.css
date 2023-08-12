@@ -259,8 +259,8 @@ body,
   width: 40vw;
   left: 45vw;
   display: block;
-  transition: inherit;
-
+  transition: transform 3s;
+  transition-timing-function: inherit;
 }
 .homeStripe{
   position: absolute;
@@ -282,20 +282,22 @@ body,
   /* flex-direction: column; */
   position: absolute;
   transition: transform 2s;
-  transition-timing-function: ease-in-out;
+  transition-timing-function: cubic-bezier(.7,0,.29,.99);
 }
-.homeTitle{
+.homeTitles{
   position: absolute;
   text-align: center;
   width: 40vw;
   display: block;
   margin: 0%;
+  transition: transform 4s;
+  transition-timing-function: inherit;
 }
-.homeTitle h1{
+.homeTitles h1{
   display: block;
   font-size: 3em;
   color:#DF5F3F;
-  font-family: OCRA
+
 }
 
 

@@ -1,1 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.42 258.26"><polygon points="253.41 161.98 103.65 248.45 8.67 189.1 158.43 102.63 253.41 161.98" style="fill:#df5f3f"/><polygon points="253.42 171.8 103.66 258.26 8.68 198.91 158.44 112.45 253.42 171.8" style="fill:#df5f3f"/><polygon points="149.76 98.89 0 185.35 0 86.46 149.76 0 149.76 98.89" style="fill:#df5f3f"/><polyline points="0 185.35 8.67 189.1 8.67 180.34" style="fill:#df5f3f"/><polyline points="149.76 8.77 149.76 0 158.44 3.76" style="fill:#df5f3f"/><polyline points="8.68 198.91 8.67 189.1 16.84 194.2" style="fill:#df5f3f"/><polyline points="253.42 171.8 245.25 166.69 253.41 161.98" style="fill:#df5f3f"/><path d="M364.9,296.67a20.31,20.31,0,0,1-29.76-.11l-4.74-39.17h40.18" transform="translate(-134.13 -206.13)" style="fill:#df5f3f"/><path d="M371.11,249.78a31.87,31.87,0,0,0-41.11.13v6.73l41.11.75Z" transform="translate(-134.13 -206.13)" style="fill:#df5f3f"/><path d="M373.48,255.56c-5.79-5-14.29-8-22.89-8.11s-17.19,2.59-23.12,7.36a6.93,6.93,0,0,0,0,1.93c.27.72,1.62,1.47,2.34,1.86a19.47,19.47,0,0,0,7,1.88,147.79,147.79,0,0,0,16.56,1.15c6.93.08,14.14-.4,20.19-3.79" transform="translate(-134.13 -206.13)" style="fill:#df5f3f"/><path d="M339.44,211.5a6.18,6.18,0,0,0-3.47,8.11c.76,1.64,2.21,2.83,3.39,4.2a14.88,14.88,0,0,1,2.38,3.78,2.86,2.86,0,0,1,.31,1.21,2.7,2.7,0,0,1-.6,1.4,10.23,10.23,0,0,1-5.1,3.75" transform="translate(-134.13 -206.13)" style="fill:none;stroke:#df5f3f;stroke-linecap:round;stroke-linejoin:round;stroke-width:4px"/><path d="M364.11,211.5a6.18,6.18,0,0,0-3.47,8.11c.76,1.64,2.21,2.83,3.39,4.2a15.16,15.16,0,0,1,2.38,3.78,2.86,2.86,0,0,1,.31,1.21,2.7,2.7,0,0,1-.6,1.4A10.23,10.23,0,0,1,361,234" transform="translate(-134.13 -206.13)" style="fill:none;stroke:#df5f3f;stroke-linecap:round;stroke-linejoin:round;stroke-width:4px"/><path d="M351.7,211.5a6.18,6.18,0,0,0-3.47,8.11c.76,1.64,2.21,2.83,3.39,4.2a15.16,15.16,0,0,1,2.38,3.78,2.19,2.19,0,0,1-.29,2.61,10.23,10.23,0,0,1-5.1,3.75" transform="translate(-134.13 -206.13)" style="fill:none;stroke:#df5f3f;stroke-linecap:round;stroke-linejoin:round;stroke-width:4px"/><polygon points="158.44 102.72 8.68 189.19 8.68 90.3 158.44 3.83 158.44 102.72" style="fill:#df5f3f"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.42 258.26">
+  <g id="laptop">
+    <polygon points="253.41 161.98 103.65 248.45 8.67 189.1 158.43 102.63 253.41 161.98" style="fill: #df5f3f"/>
+    <g>
+      <polygon points="253.42 171.8 103.66 258.26 8.68 198.91 158.44 112.45 253.42 171.8" style="fill: #df5f3f"/>
+      <polygon points="149.76 98.89 0 185.35 0 86.46 149.76 0 149.76 98.89" style="fill: #df5f3f"/>
+    </g>
+    <polyline points="0 185.35 8.67 189.1 8.67 180.34" style="fill: #df5f3f"/>
+    <polyline points="149.76 8.77 149.76 0 158.44 3.76" style="fill: #df5f3f"/>
+    <polyline points="8.68 198.91 8.67 189.1 16.84 194.2" style="fill: #df5f3f"/>
+    <polyline points="253.42 171.8 245.25 166.69 253.41 161.98" style="fill: #df5f3f"/>
+    <path d="M371.07,314.32a20.31,20.31,0,0,1-29.76-.11L336.57,275h40.17" transform="translate(-134.13 -206.13)" style="fill: #df5f3f"/>
+    <path d="M377.27,267.43a31.9,31.9,0,0,0-41.11.13v6.74l41.11.74Z" transform="translate(-134.13 -206.13)" style="fill: #df5f3f"/>
+    <path d="M379.65,273.22c-5.79-5-14.29-8-22.9-8.11s-17.18,2.59-23.11,7.35a7,7,0,0,0,0,1.94c.26.72,1.61,1.46,2.33,1.86a19.71,19.71,0,0,0,7,1.87,145.45,145.45,0,0,0,16.55,1.15c6.93.09,14.15-.39,20.19-3.79" transform="translate(-134.13 -206.13)" style="fill: #df5f3f"/>
+    <polygon points="158.44 102.72 8.68 189.19 8.68 90.3 158.44 3.83 158.44 102.72" style="fill: #df5f3f"/>
+  </g>
+  <g id="steam">
+    <path d="M370.28,229.15c-13.78,7.87,13.25,16-3.09,22.46" transform="translate(-134.13 -206.13)" style="fill: none;stroke: #df5f3f;stroke-linecap: round;stroke-linejoin: round;stroke-width: 4px"/>
+    <path d="M357.86,229.15c-13.77,7.87,13.26,16-3.09,22.46" transform="translate(-134.13 -206.13)" style="fill: none;stroke: #df5f3f;stroke-linecap: round;stroke-linejoin: round;stroke-width: 4px"/>
+    <path d="M345.61,229.15c-13.78,7.87,13.25,16-3.09,22.46" transform="translate(-134.13 -206.13)" style="fill: none;stroke: #df5f3f;stroke-linecap: round;stroke-linejoin: round;stroke-width: 4px"/>
+  </g>
+</svg>
