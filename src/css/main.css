@@ -248,6 +248,7 @@ body,
   width: 40vw;
   left: 45vw;
   display: block;
+  height: 50vh;
   mix-blend-mode: multiply;
 }
 .homeOverlays{
@@ -255,6 +256,21 @@ body,
   width: 40vw;
   left: 45vw;
   display: block;
+}
+
+.homeOverlays .screen{
+  top:-115.5vw;
+  left: -6.9vw;
+  position: relative;
+}
+
+#Laptop_Overlay_Center{
+  transform: scale(0.488) 
+}
+
+.homeOverlays .reflection{
+  top:-156vw;
+  position: relative;
 }
 .homeStripe{
   position: absolute;
@@ -276,7 +292,7 @@ body,
   position: absolute;
 }
 .homeTitles{
-  position:relative;
+  position:absolute;
   text-align: center;
   width: 40vw;
   left: 0vw;
@@ -298,28 +314,56 @@ body,
 }
 
 .homeIntro{
-  position: absolute;
-  width: 40vw;
-  left: 45vw;
-  display: block;
+  height: 10vh;
 }
+
+.homeIntro .line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  height: 3px;
+  width: 100%;
+  background-color: #402d2d;
+  transform-origin: 0.5 0;
+}
+
+
 .homeIntroTitle h1{
   display: block;
   font-size: 3em;
   color:#DF5F3F;
 }
-.homeIcons{
+
+.homeIconContainer{
   position: absolute;
+  align-items: center;
+  text-align: center;
   left: 92vw;
   width: 6vw;
+  top:0%;
+}
+.homeIcons{
+  position: relative;
   text-align: center;
-  height: 10vh;
+  margin-top: 2vh;
 }
 
 #Phone{
   stroke-dashoffset: 0;
-  stroke-dasharray: 68 999;
+  stroke-dasharray: 69 999;
 }
+
+#Email{
+  stroke-dashoffset: 0;
+  stroke-dasharray: 112 999;
+}
+#Wechat{
+  stroke-dashoffset: 0;
+  stroke-dasharray: 105 999;
+}
+
 
 .homeHintCopy{
   opacity: 0;
@@ -330,6 +374,12 @@ body,
   color:#EADCC2;
   text-align: center;
 }
+
+
+#Laptop_Overlay_Center{
+  overflow: initial;
+}
+
 
 
 

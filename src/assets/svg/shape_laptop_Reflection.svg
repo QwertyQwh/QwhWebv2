@@ -1,0 +1,19 @@
+<svg id="Laptop_Overlay_Reflection" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 253.42 258.26">
+  <defs>
+    <linearGradient id="linear-gradient" x1="90.37" y1="118.89" x2="176.49" y2="255.59" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#eadcc2"/>
+      <stop offset="0.02" stop-color="#cccfba"/>
+      <stop offset="0.07" stop-color="#9dbcae"/>
+      <stop offset="0.11" stop-color="#74aaa3"/>
+      <stop offset="0.16" stop-color="#529c9a"/>
+      <stop offset="0.21" stop-color="#369093"/>
+      <stop offset="0.26" stop-color="#20878d"/>
+      <stop offset="0.32" stop-color="#118089"/>
+      <stop offset="0.39" stop-color="#087c87"/>
+      <stop offset="0.48" stop-color="#057b86"/>
+    </linearGradient>
+  </defs>
+  <polygon points="149.76 98.89 0 185.35 0 86.46 149.76 0 149.76 98.89" style="fill: none"/>
+  <polygon points="253.42 171.8 103.66 258.26 8.68 198.91 158.44 112.45 253.42 171.8" style="fill: none"/>
+  <polygon points="212.28 152.23 90.52 224.65 32.72 187.55 156.47 116.1 212.28 152.23" style="fill: url(#linear-gradient)"/>
+</svg>

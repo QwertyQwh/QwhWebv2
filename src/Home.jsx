@@ -1,11 +1,14 @@
 import { useRef,useState,useEffect,Suspense,useContext } from 'react'
 import Svg_ShapeLaptop from './assets/svg/shape_laptop.svg'
 import Svg_ShapeLaptopOverlay from './assets/svg/shape_laptop_overlay.svg'
+import Svg_ShapeLaptopCenter from './assets/svg/shape_laptop_Center.svg'
+import Svg_ShapeLaptopReflection from './assets/svg/shape_laptop_Reflection.svg'
 import { useEffectOnce, useWindowSize,useEventListener } from 'usehooks-ts'
 import { useControls,button } from 'leva'
 import { useSwipeable } from 'react-swipeable'
-import {HiOutlineMail} from 'react-icons/hi'
 import Svg_ShapeIconPhone from './assets/svg/shape_Icon_Phone.svg'
+import Svg_ShapeIconEmail from './assets/svg/shape_Icon_Email.svg'
+import Svg_ShapeIconWechat from './assets/svg/shape_Icon_Wechat.svg'
 import { CursorContext } from './Contexts/Contexts'
 import anime, { easings } from 'animejs'
 const IntroPage = 0;
@@ -20,19 +23,25 @@ const easingFunc = "cubicBezier(.7,0,.29,.99)"
 
 
 export default function Home(){
-  const [index, setIndex] = useState(0);
+  //#region states and refs
+  const [index, setIndex] = useState(1);
   const titleCoding = useRef()
   const titleArt = useRef()
   const titleWriting = useRef()
   const titleIntro = useRef()
   const iconEmail = useRef()
+  const iconPhone = useRef()
+  const iconWechat = useRef()
   const Bg = useRef()
   const laptop = useRef()
   const hintCopy = useRef()
   const laptopOverlay = useRef()
+  const containerIcons = useRef()
   const {width,height} = useWindowSize()
   const isInTransition = useRef(false)
+  const isIconAnim = useRef(false)
   const cursor = useContext(CursorContext)
+  //#endregion
   //#region split the titles for animation
   const cntntCoding = []
   const cntntArt = []
@@ -105,8 +114,24 @@ export default function Home(){
   })
   
   useEffectOnce(()=>{
-
-    iconEmail.current.style.top = '10vh'
+    anime({
+      targets: "#Laptop_Overlay_Center",
+      scale: 0.488,
+      duration:10,
+    })
+    // anime.timeline({loop: true})
+    // .add({
+    //   targets: '.homeIntro .line',
+    //   opacity: [0.5,1],
+    //   scaleX: [0, 1],
+    //   easing: "easeInOutExpo",
+    //   duration: 700
+    // }).add({
+    //   targets: '.homeIntro .line',
+    //   duration: 600,
+    //   easing: "easeOutExpo",
+    //   translateY: (el, i) => (-0.625 + 0.625*2*i) + "em"
+    // })
     anime({
       targets: '.homeIntroTitle',
       opacity: [0,1],
@@ -128,6 +153,10 @@ export default function Home(){
 
 //#region IconEvents
   const OnPhoneClicked = ()=>{
+    if(isIconAnim.current){
+      return
+    }
+    isIconAnim.current = true
     anime({
       targets: '.homeHintCopy',
       opacity: [0,1],
@@ -143,18 +172,194 @@ export default function Home(){
       duration: 1500,
       direction: 'alternate',
       loop: 2,
+      complete: ()=>{isIconAnim.current = false}
     })
     navigator.clipboard.writeText("(+1) 5513446880");
-    hintCopy.current.style.top = '10vh';
+    const rect = iconPhone.current.getBoundingClientRect();
+    hintCopy.current.style.top = `${rect.top}px`;
   }
 
   const onPhoneEnter = ()=>{
     cursor.Focus()
+    anime({
+      targets: iconPhone.current,
+      width: '8vw',
+      left: '-1vh',
+      duration: 1000,
+      easing:'easeOutElastic(1, .6)'
+    })
+    anime({
+      targets: containerIcons.current,
+      top: '-1vh',
+      duration: 1000,
+      easing:'easeOutElastic(1, .6)'
+    })
+
   }
   const onPhoneLeave = ()=>{
     cursor.DeFocus();
+    anime({
+      targets: iconPhone.current,
+      width: '6vw',
+      left: '0vh',
+      duration: 1000,
+      easing:'easeOutElastic(1, .6)'
+    })
+    anime({
+      targets: containerIcons.current,
+      top: '0vh',
+      duration: 1000,
+      easing:'easeOutElastic(1, .6)'
+    })
   }
+  const OnEmailClicked = ()=>{
+    if(isIconAnim.current){
+      return
+    }
+    isIconAnim.current = true
+    anime({
+      targets: '.homeHintCopy',
+      opacity: [0,1],
+      easing: 'easeInOutQuad',
+      duration: 1000,
+      direction: 'alternate',
+      loop: 2,
+    })
+    anime({
+      targets: '#Email path',
+      strokeDashoffset:  -113,
+      easing: 'easeInOutQuad',
+      duration: 1500,
+      direction: 'alternate',
+      loop: 2,
+      complete: ()=>{isIconAnim.current = false}
+    })
+    navigator.clipboard.writeText("qinweihang19988@outlook.com");
+    const rect = iconEmail.current.getBoundingClientRect();
+    hintCopy.current.style.top = `${rect.top}px`;
+  }
+
+  const onEmailEnter = ()=>{
+    cursor.Focus()
+    anime({
+      targets: iconEmail.current,
+      width: '8vw',
+      left: '-1vh',
+      duration: 1000,
+      easing:'easeOutElastic(1, .6)'
+    })
+    anime({
+      targets: containerIcons.current,
+      top: '-1vh',
+      duration: 1000,
+      easing:'easeOutElastic(1, .6)'
+    })
+  }
+  const onEmailLeave = ()=>{
+    cursor.DeFocus();
+    anime({
+      targets: iconEmail.current,
+      width: '6vw',
+      left: '0vh',
+      duration: 1000,
+      easing:'easeOutElastic(1, .6)'
+    })
+    anime({
+      targets: containerIcons.current,
+      top: '0vh',
+      duration: 1000,
+      easing:'easeOutElastic(1, .6)'
+    })
+  }
+  const OnWechatClicked = ()=>{
+    if(isIconAnim.current){
+      return
+    }
+    isIconAnim.current = true
+    anime({
+      targets: '.homeHintCopy',
+      opacity: [0,1],
+      easing: 'easeInOutQuad',
+      duration: 1000,
+      direction: 'alternate',
+      loop: 2,
+    })
+    anime({
+      targets: '#Wechat path',
+      strokeDashoffset:  -104,
+      easing: 'easeInOutQuad',
+      duration: 1500,
+      direction: 'alternate',
+      loop: 2,
+      complete: ()=>{isIconAnim.current = false}
+    })
+    navigator.clipboard.writeText("ID: QwertyQwh");
+    const rect = iconWechat.current.getBoundingClientRect();
+    hintCopy.current.style.top = `${rect.top}px`;
+  }
+
+  const onWechatEnter = ()=>{
+    cursor.Focus()
+    anime({
+      targets: iconWechat.current,
+      width: '8vw',
+      left: '-1vh',
+      duration: 1000,
+      easing:'easeOutElastic(1, .6)'
+    })
+    anime({
+      targets: containerIcons.current,
+      top: '-1vh',
+      duration: 1000,
+      easing:'easeOutElastic(1, .6)'
+    })
+  }
+  const onWechatLeave = ()=>{
+    cursor.DeFocus();
+    anime({
+      targets: iconWechat.current,
+      width: '6vw',
+      left: '0vh',
+      duration: 1000,
+      easing:'easeOutElastic(1, .6)'
+    })
+    anime({
+      targets: containerIcons.current,
+      top: '0vh',
+      duration: 1000,
+      easing:'easeOutElastic(1, .6)'
+    })
+  }
+  
 //#endregion
+
+
+const onLaptopEnter = ()=>{
+  if(isInTransition.current){
+    return
+  }
+  cursor.Focus()
+  anime({
+    targets: "#Laptop_Overlay_Center",
+    scale: 2,
+    translateY:'3vh',
+    duration:800,
+  })
+}
+const onLaptopLeave = ()=>{
+  if(isInTransition.current){
+    return
+  }
+  cursor.DeFocus()
+  anime({
+    targets: "#Laptop_Overlay_Center",
+    scale: 0.488,
+    translateY:'0vh',
+    duration:800,
+  })
+}
+
+//#region scrollEvents
 
   const handleWheel= (event)=>{
     if (event.deltaY < 0)
@@ -175,21 +380,34 @@ export default function Home(){
     onSwipedUp: (eventData) => handleWheel({deltaY:1}),
     onSwipedDown: (eventData) => handleWheel({deltaY:-1}),
   });
-  
-
-  useEventListener('transitionend',()=>{isInTransition.current = false},laptopOverlay)
   useEventListener('wheel', handleWheel,window);
+  //#endregion
+
+
+  //TODO: SEPERATE LAYOVER INTO TWO SECTIONS
 return (<div {...handlers}>
 
   <div  className='homeBg' ref = {Bg} >
 
-  <span className='homeStripe'>
+  <span className='homeStripe' >
   </span>
-  <span className='homeOverlays' ref = {laptopOverlay}>
+  <div className='homeOverlays' ref = {laptopOverlay}>
+  <span >
   <Svg_ShapeLaptopOverlay />
   </span>
-  <span className='homeShapes' ref = {laptop}>
+  <span className='screen' >
+  <Svg_ShapeLaptopCenter />
+  </span>
+  <span className='reflection' >
+  <Svg_ShapeLaptopReflection />
+  </span>
+  </div>
+  <div className='homeShapes' onMouseEnter={onLaptopEnter} onMouseLeave = {onLaptopLeave} ref = {laptop} >
   <Svg_ShapeLaptop />
+  </div>
+  <span className='homeShapes homeIntro'>
+  <span className="line "></span>
+  <span className="line "></span>
   </span>
 
   <div className='homeIntroTitle' ref = {titleIntro}>
@@ -205,10 +423,17 @@ return (<div {...handlers}>
 {cntntWriting}
 </div>
 
-  <div className='homeIcons' onClick={OnPhoneClicked} onMouseEnter={onPhoneEnter} onMouseLeave={onPhoneLeave} ref = {iconEmail}>
+  <div className='homeIconContainer' ref = {containerIcons}>
+  <div className='homeIcons' onClick={OnEmailClicked} onMouseEnter={onEmailEnter} onMouseLeave={onEmailLeave} ref = {iconEmail}>
+  <Svg_ShapeIconEmail />
+  </div>
+  <div className='homeIcons' onClick={OnPhoneClicked} onMouseEnter={onPhoneEnter} onMouseLeave={onPhoneLeave} ref = {iconPhone}>
   <Svg_ShapeIconPhone />
   </div>
-
+  <div className='homeIcons' onClick={OnWechatClicked} onMouseEnter={onWechatEnter} onMouseLeave={onWechatLeave} ref = {iconWechat}>
+  <Svg_ShapeIconWechat />
+  </div>
+  </div>
   <div className='homeHintCopy' ref = {hintCopy}>
   Copied!
   </div>
