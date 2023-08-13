@@ -1,0 +1,5 @@
+Functions: FuncFoo
+variables: varFoo
+
+txt: javascript String
+cntnt: react component

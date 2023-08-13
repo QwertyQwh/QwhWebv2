@@ -9,22 +9,20 @@ import { Link } from "react-router-dom";
 export default function Wrapper(){
     Logger.Warn("Wrapper rerendered")
 //#region sticker
-  const [stickerFunc, setstickerFunc] = useState();
+  const stickerFunc = useRef()
   const stickerRef = useRef()
   const { innerWidth: width, innerHeight:height } = window;
-  console.log(width,height)
-
   useEffectOnce(()=>{
-    setstickerFunc(()=>(index)=>{stickerRef.current.playAnimation(index)})
+    stickerFunc.current = stickerRef.current.playAnimation
   })
 //#endregion
 //#region  cursor
   const cursorRef = useRef()
-  const [cursorFocus, setcursorFocus] = useState();
-  const [cursorDeFocus, setcursorDeFocus] = useState();
+  const cursorFocus = useRef();
+  const cursorDeFocus = useRef();
   useEffectOnce(()=>{
-    setcursorFocus(()=>()=>{cursorRef.current.playFocus()})
-    setcursorDeFocus(()=>()=>{cursorRef.current.playDeFocus()})
+    cursorFocus.current = cursorRef.current.playFocus
+    cursorDeFocus.current = cursorRef.current.playDeFocus
   })
 //#endregion
     return <>

@@ -3,15 +3,18 @@ import Svg_ShapeLaptop from './assets/svg/shape_laptop.svg'
 import Svg_ShapeLaptopOverlay from './assets/svg/shape_laptop_overlay.svg'
 import Svg_ShapeLaptopCenter from './assets/svg/shape_laptop_Center.svg'
 import Svg_ShapeLaptopReflection from './assets/svg/shape_laptop_Reflection.svg'
+import Svg_Avator from './assets/svg/avator.svg'
 import { useEffectOnce, useWindowSize,useEventListener } from 'usehooks-ts'
-import { useControls,button } from 'leva'
 import { useSwipeable } from 'react-swipeable'
 import Svg_ShapeIconPhone from './assets/svg/shape_Icon_Phone.svg'
 import Svg_ShapeIconEmail from './assets/svg/shape_Icon_Email.svg'
 import Svg_ShapeIconWechat from './assets/svg/shape_Icon_Wechat.svg'
 import { CursorContext } from './Contexts/Contexts'
-import anime, { easings } from 'animejs'
+import anime from 'animejs'
 import {RandomAscii} from './Utils/MathUtils'
+import { memo } from 'react'
+import Logger from './Debug/Logger'
+
 const IntroPage = 0;
 const codingPage = 1;
 const ArtPage = 2;
@@ -20,12 +23,37 @@ const MaxPage = 3
 const txtCoding = 'coding_'
 const txtArt = "~Art~"
 const txtWriting = "Writing."
+const txtIntro = "Weihang Qin"
 const easingFunc = "cubicBezier(.7,0,.29,.99)"
+const cntntGreet = (<>  
+  Hello there! You've hit my site. <br></br>
+A game programmer with artsy inclinations, I post my work here, as well as random thoughts. <br></br> 
+<br />
+Well, mostly random thoughts.
+</>)
+////
+  //#region split the titles for animation
+  const cntntCoding = []
+  const cntntArt = []
+  const cntntWriting = []
+  const cntntIntro = []
+  txtCoding.split("").forEach((val,ind)=> {cntntCoding.push( <span key = {`coding${ind}`}>
+    <a  style ={{fontFamily: "OCRA"}} className='codingLetters'>{val}</a>
+    </span>)})
+  txtArt.split("").forEach((val,ind)=> {cntntArt.push( <span key = {`art${ind}`}>
+    <a  style ={{fontFamily: "Amatic"}} className='artLetters'>{val}</a>
+    </span>)})
+  txtWriting.split("").forEach((val,ind)=> {cntntWriting.push( <span key = {`writing${ind}`}>
+  <a  style ={{fontFamily: "OLDENG"}} className='writingLetters'>{val}</a>
+  </span>)})
+  txtIntro.split("").forEach((val,ind)=> {cntntIntro.push( <span key = {`intro${ind}`}>
+  <a  style ={{fontFamily: "Allison"}} className='introLetters'>{val}</a>
+  </span>)})
+  //#endregion
 
-
-export default function Home(){
+export default memo(function Home(){
   //#region states and refs
-  const [index, setIndex] = useState(1);
+  const [index, setIndex] = useState(0);
   const titleCoding = useRef()
   const titleArt = useRef()
   const titleWriting = useRef()
@@ -39,27 +67,114 @@ export default function Home(){
   const laptopOverlay = useRef()
   const containerIcons = useRef()
   const dot = useRef()
+  const homeIntro = useRef()
+  const greetIntro = useRef()
   const codingCounter = useRef(0)
   const {width,height} = useWindowSize()
-  const isInTransition = useRef(false)
-  const isIconAnim = useRef(false)
+  const animCtrl_Transition = useRef(false)
+  const animCtrl_Icon = useRef(false)
+  const animCtrl_Avator = useRef(false)
   const cursor = useContext(CursorContext)
   //#endregion
-  //#region split the titles for animation
-  const cntntCoding = []
-  const cntntArt = []
-  const cntntWriting = []
-  txtCoding.split("").forEach((val,ind)=> {cntntCoding.push( <span key = {`coding${ind}`}>
-    <a  style ={{fontFamily: "OCRA"}} className='codingLetters'>{val}</a>
-    </span>)})
-  txtArt.split("").forEach((val,ind)=> {cntntArt.push( <span key = {`art${ind}`}>
-    <a  style ={{fontFamily: "Amatic"}} className='artLetters'>{val}</a>
-    </span>)})
-  txtWriting.split("").forEach((val,ind)=> {cntntWriting.push( <span key = {`writing${ind}`}>
-  <a  style ={{fontFamily: "OLDENG"}} className='writingLetters'>{val}</a>
-  </span>)})
-  //#endregion
+  const PlayAvatorJump = ()=>{
+    if(animCtrl_Avator.current){
+      return
+    }
+    animCtrl_Avator.current = true
+    anime.timeline({loop:false}).add({
+      targets: "#Avator",
+      translateY:[0,-0.8*width],
+      scaleY: [1,1.3],
+      scaleX: [1,0.7],
+      easing:"easeOutExpo",
+      duration: 400,
+    }).add({
+      targets: "#Avator",
+      translateY:[-0.8*width,0],
+      scaleX: [0.7,1],
+      scaleY: [1.3,1],
+      duration: 400,
+      easing: 'easeOutBounce'
+    }).add({
+      targets: "#Avator_Eyes",
+      opacity:[
+        {value:1,duration:100},
+        {value:0,duration:150},
+        {value:1,duration:250},
+        {value:0,duration:150},
+        {value:1,duration:100},
+      ],
+      easing: "steps(1)",
+      complete:()=>{
+        animCtrl_Avator.current = false
+      }
+    })
+  }
+  const OnAvatorOver = ()=>{
+    PlayAvatorJump()
+  }
   useEffect(()=>{
+    Logger.Warn('Home rerendered')
+    if(index == IntroPage){
+      anime.timeline({loop: false})
+      .add({
+        targets: '.homeIntro .line',
+        opacity: [0.5,1],
+        scaleX: [0, 1],
+        translateY: [0,0],
+        easing: "easeInOutExpo",
+        duration: 700,
+        delay:1500
+      }).add({
+        targets: '.homeIntro .line',
+        duration: 600,
+        easing: "easeOutExpo",
+        translateY: (el, i) => (-0.12*width + 0.12*2*width*i) + "px"
+      }).add({
+        targets: greetIntro.current,
+        opacity: [0,1],
+        scaleY: [0, 1],
+        easing: "easeOutQuad",
+        duration: 600,
+      },'-=600').add({
+        targets: titleIntro.current,
+        duration:2000,
+        easing:"easeInOutQuad",
+        opacity: [0,1],
+      },"-=1200").add({
+        targets: "#Avator",
+        opacity: [0,1],
+        easing: "easeOutExpo",
+        duration: 500,
+      },'-=1100')
+      anime.timeline().add({
+        targets: "#Avator",
+        translateY:[0.4*width,-0.8*width],
+        scaleY: [1,1.3],
+        scaleX: [1,0.7],
+        easing:"easeOutExpo",
+        duration: 400,
+        delay:2500,
+      }).add({
+        targets: "#Avator",
+        translateY:[-0.8*width,0],
+        scaleX: [0.7,1],
+        scaleY: [1.3,1],
+        duration: 400,
+        easing: 'easeOutBounce'
+      }).add({
+        targets: "#Avator_Eyes",
+        opacity:[
+          {value:1,duration:100},
+          {value:0,duration:150},
+          {value:1,duration:250},
+          {value:0,duration:150},
+          {value:1,duration:100},
+        ],
+        easing: "steps(1)",
+      })
+    }
+
     anime({
       targets: laptop.current,
       translateY: (3*(-index+codingPage)+0.5)*height-0.35*0.5*width,
@@ -74,13 +189,20 @@ export default function Home(){
       easing: easingFunc,
       loop: false,
       complete: function(anim) {
-        isInTransition.current = false;
+        animCtrl_Transition.current = false;
       }
+    })
+    anime({
+      targets: homeIntro.current,
+      translateY: (3*(-index+IntroPage)+0.0)*height,
+      duration:2000,
+      easing: easingFunc,
+      loop: false,
     })
     //#region letters transition
     anime({
       targets: ".codingLetters",
-      translateY: (-index+codingPage+0.5)*height-0.2*0.4*width-height,
+      translateY: (-index+codingPage+0.5)*height-0.2*0.4*width,
       delay: (el, i) => 15* i*i,
       duration:3500,
       easing: easingFunc,
@@ -88,7 +210,7 @@ export default function Home(){
     })
     anime({
       targets: ".artLetters",
-      translateY: (-index+ ArtPage+0.5)*height-0.2*0.4*width-height,
+      translateY: (-index+ ArtPage+0.5)*height-0.2*0.4*width,
       delay: (el, i) => 15* i*i,
       duration:3500,
       easing: easingFunc,
@@ -96,24 +218,26 @@ export default function Home(){
     })
     anime({
       targets: ".writingLetters",
-      translateY: (-index+ WritingPage+0.5)*height-0.2*0.4*width-height,
+      translateY: (-index+ WritingPage+0.5)*height-0.2*0.4*width,
+      delay: (el, i) => 15* i*i,
+      duration:3500,
+      easing: easingFunc,
+      loop: false,
+    })
+    anime({
+      targets: '.introLetters',
+      translateY: (-index+ IntroPage+0.5)*height-0.2*0.4*width,
       delay: (el, i) => 15* i*i,
       duration:3500,
       easing: easingFunc,
       loop: false,
     })
     //#endregion
-    anime({
-      targets: titleIntro.current,
-      translateY: (-index+ IntroPage+0.5)*height-0.2*0.4*width,
-      duration:4000,
-      easing: easingFunc,
-      loop: false,
-    })
-    isInTransition.current = true
+
+    animCtrl_Transition.current = true
     
     Bg.current.style.fontSize = `${Math.ceil(width*40/1920)}px`
-    
+    homeIntro.current.style.top = `${0.5*height-0.10*width}px`
   })
   
   useEffectOnce(()=>{
@@ -123,24 +247,12 @@ export default function Home(){
       scale: 0.488,
       duration:10,
     })
-    // anime.timeline({loop: true})
-    // .add({
-    //   targets: '.homeIntro .line',
-    //   opacity: [0.5,1],
-    //   scaleX: [0, 1],
-    //   easing: "easeInOutExpo",
-    //   duration: 700
-    // }).add({
-    //   targets: '.homeIntro .line',
-    //   duration: 600,
-    //   easing: "easeOutExpo",
-    //   translateY: (el, i) => (-0.625 + 0.625*2*i) + "em"
-    // })
+
     anime({
-      targets: '.homeIntroTitle',
-      opacity: [0,1],
-      easing: 'easeInExpo',
-      duration: 4000,
+      targets: [laptop.current,laptopOverlay.current,titleCoding.current,titleArt.current,titleWriting.current],
+      opacity: [-1,1],
+      easing: 'steps(2)',
+      duration: 8000,
       loop: false,
     });
     anime({
@@ -157,10 +269,10 @@ export default function Home(){
 
 //#region IconEvents
   const OnPhoneClicked = ()=>{
-    if(isIconAnim.current){
+    if(animCtrl_Icon.current){
       return
     }
-    isIconAnim.current = true
+    animCtrl_Icon.current = true
     anime({
       targets: '.homeHintCopy',
       opacity: [0,1],
@@ -176,7 +288,7 @@ export default function Home(){
       duration: 1500,
       direction: 'alternate',
       loop: 2,
-      complete: ()=>{isIconAnim.current = false}
+      complete: ()=>{animCtrl_Icon.current = false}
     })
     navigator.clipboard.writeText("(+1) 5513446880");
     const rect = iconPhone.current.getBoundingClientRect();
@@ -184,7 +296,7 @@ export default function Home(){
   }
 
   const OnPhoneEnter = ()=>{
-    cursor.Focus()
+    cursor.Focus.current()
     anime({
       targets: iconPhone.current,
       width: '8vw',
@@ -201,7 +313,7 @@ export default function Home(){
 
   }
   const OnPhoneLeave = ()=>{
-    cursor.DeFocus();
+    cursor.DeFocus.current();
     anime({
       targets: iconPhone.current,
       width: '6vw',
@@ -217,10 +329,10 @@ export default function Home(){
     })
   }
   const OnEmailClicked = ()=>{
-    if(isIconAnim.current){
+    if(animCtrl_Icon.current){
       return
     }
-    isIconAnim.current = true
+    animCtrl_Icon.current = true
     anime({
       targets: '.homeHintCopy',
       opacity: [0,1],
@@ -236,7 +348,7 @@ export default function Home(){
       duration: 1500,
       direction: 'alternate',
       loop: 2,
-      complete: ()=>{isIconAnim.current = false}
+      complete: ()=>{animCtrl_Icon.current = false}
     })
     navigator.clipboard.writeText("qinweihang19988@outlook.com");
     const rect = iconEmail.current.getBoundingClientRect();
@@ -244,7 +356,7 @@ export default function Home(){
   }
 
   const OnEmailEnter = ()=>{
-    cursor.Focus()
+    cursor.Focus.current()
     anime({
       targets: iconEmail.current,
       width: '8vw',
@@ -261,7 +373,7 @@ export default function Home(){
   }
   
   const OnEmailLeave = ()=>{
-    cursor.DeFocus();
+    cursor.DeFocus.current();
     anime({
       targets: iconEmail.current,
       width: '6vw',
@@ -277,10 +389,10 @@ export default function Home(){
     })
   }
   const OnWechatClicked = ()=>{
-    if(isIconAnim.current){
+    if(animCtrl_Icon.current){
       return
     }
-    isIconAnim.current = true
+    animCtrl_Icon.current = true
     anime({
       targets: '.homeHintCopy',
       opacity: [0,1],
@@ -296,7 +408,7 @@ export default function Home(){
       duration: 1500,
       direction: 'alternate',
       loop: 2,
-      complete: ()=>{isIconAnim.current = false}
+      complete: ()=>{animCtrl_Icon.current = false}
     })
     navigator.clipboard.writeText("ID: QwertyQwh");
     const rect = iconWechat.current.getBoundingClientRect();
@@ -304,7 +416,7 @@ export default function Home(){
   }
 
   const OnWechatEnter = ()=>{
-    cursor.Focus()
+    cursor.Focus.current()
     anime({
       targets: iconWechat.current,
       width: '8vw',
@@ -320,7 +432,7 @@ export default function Home(){
     })
   }
   const OnWechatLeave = ()=>{
-    cursor.DeFocus();
+    cursor.DeFocus.current();
     anime({
       targets: iconWechat.current,
       width: '6vw',
@@ -340,10 +452,10 @@ export default function Home(){
 
 //#region shapes events
 const OnShapesEnter = (page)=>{
-  if(isInTransition.current){
-    return
-  }
-  cursor.Focus()
+  // if(isInTransition.current){
+  //   return
+  // }
+  cursor.Focus.current()
   switch (page) {
     case codingPage:
       anime({
@@ -357,10 +469,10 @@ const OnShapesEnter = (page)=>{
 
 }
 const OnShapesLeave = (page)=>{
-  if(isInTransition.current){
-    return
-  }
-  cursor.DeFocus()
+  // if(isInTransition.current){
+  //   return
+  // }
+  cursor.DeFocus.current()
   switch (page) {
     case codingPage:
       anime({
@@ -381,8 +493,8 @@ const OnShapesClick = (page)=>{
       anime({
         targets: ".homeDot",
         scale: [0,80],
-        duration:1000,
-        easing: 'easeInSine'
+        duration:800,
+        easing: 'easeInQuad'
       })
       break;
   }
@@ -395,7 +507,7 @@ const OnShapesClick = (page)=>{
   const handleWheel= (event)=>{
     if (event.deltaY < 0)
     {
-      if(!isInTransition.current){
+      if(!animCtrl_Transition.current){
         if(index-1>=0){
           OnShapesLeave(index)
           setIndex(index-1,0)
@@ -404,7 +516,7 @@ const OnShapesClick = (page)=>{
     }
     else if (event.deltaY > 0)
     {
-      if(!isInTransition.current){
+      if(!animCtrl_Transition.current){
         if(index+1<=MaxPage){
           OnShapesLeave(index)
           setIndex(index+1)
@@ -460,8 +572,24 @@ return (<div {...handlers}>
 
   <div  className='homeBg' ref = {Bg} >
 
-  <span className='homeStripe' >
+  <span className='homeStripe' />
+  <span className='_IntroSection'>
+  <div className='homeShapes homeIntro' ref = {homeIntro}>
+  <span className='avator' onMouseOver={OnAvatorOver}> <Svg_Avator /></span>
+  <span ref = {greetIntro}>
+  <a>
+  {cntntGreet}
+  </a>
   </span>
+  <span className="line "></span>
+  <span className="line "></span>
+  </div>
+  
+  <div className='homeTitles' ref = {titleIntro} >
+  {cntntIntro}
+  </div>
+  </span>
+  <span className='_CodingSection'>
   <div className='homeOverlays' ref = {laptopOverlay}>
   <span >
   <Svg_ShapeLaptopOverlay />
@@ -476,40 +604,36 @@ return (<div {...handlers}>
   <div className='homeShapes' onMouseEnter={()=>OnShapesEnter(1)} onMouseLeave = {()=>OnShapesLeave(1)} onClick={()=>OnShapesClick(1)} ref = {laptop} >
   <Svg_ShapeLaptop />
   </div>
-  <span className='homeShapes homeIntro'>
-  <span className="line "></span>
-  <span className="line "></span>
-  </span>
-
-  <div className='homeIntroTitle' ref = {titleIntro} >
-  <h1 style ={{fontFamily: "Poiret"}}>Weihang Qin<br></br></h1>
-  </div>
   <div className='homeTitles'ref={titleCoding} onMouseEnter={()=>OnTitlesEnter(1)}>
   {cntntCoding}
   </div>
+  </span>
+
+  
   <div className='homeTitles'ref={titleArt}>
   {cntntArt}
 </div>
 <div className='homeTitles'ref={titleWriting}>
 {cntntWriting}
 </div>
+<span className='_IconSection'>
+<div className='homeIconContainer' ref = {containerIcons}>
+<div className='homeIcons' onClick={OnEmailClicked} onMouseEnter={OnEmailEnter} onMouseLeave={OnEmailLeave} ref = {iconEmail}>
+<Svg_ShapeIconEmail />
+</div>
+<div className='homeIcons' onClick={OnPhoneClicked} onMouseEnter={OnPhoneEnter} onMouseLeave={OnPhoneLeave} ref = {iconPhone}>
+<Svg_ShapeIconPhone />
+</div>
+<div className='homeIcons' onClick={OnWechatClicked} onMouseEnter={OnWechatEnter} onMouseLeave={OnWechatLeave} ref = {iconWechat}>
+<Svg_ShapeIconWechat />
+</div>
+</div>
+<div className='homeHintCopy' ref = {hintCopy}>
+Copied!
+</div>
+</span>
 
-  <div className='homeIconContainer' ref = {containerIcons}>
-  <div className='homeIcons' onClick={OnEmailClicked} onMouseEnter={OnEmailEnter} onMouseLeave={OnEmailLeave} ref = {iconEmail}>
-  <Svg_ShapeIconEmail />
-  </div>
-  <div className='homeIcons' onClick={OnPhoneClicked} onMouseEnter={OnPhoneEnter} onMouseLeave={OnPhoneLeave} ref = {iconPhone}>
-  <Svg_ShapeIconPhone />
-  </div>
-  <div className='homeIcons' onClick={OnWechatClicked} onMouseEnter={OnWechatEnter} onMouseLeave={OnWechatLeave} ref = {iconWechat}>
-  <Svg_ShapeIconWechat />
-  </div>
-  </div>
-  <div className='homeHintCopy' ref = {hintCopy}>
-  Copied!
-  </div>
-
-  <span className='homeDot' ref = {dot}></span>
+  <span className='homeDot' ref = {dot} />
   
   </div>
-</div>)}
+</div>)})
