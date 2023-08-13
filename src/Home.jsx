@@ -11,6 +11,7 @@ import Svg_ShapeIconEmail from './assets/svg/shape_Icon_Email.svg'
 import Svg_ShapeIconWechat from './assets/svg/shape_Icon_Wechat.svg'
 import { CursorContext } from './Contexts/Contexts'
 import anime, { easings } from 'animejs'
+import {RandomAscii} from './Utils/MathUtils'
 const IntroPage = 0;
 const codingPage = 1;
 const ArtPage = 2;
@@ -37,6 +38,8 @@ export default function Home(){
   const hintCopy = useRef()
   const laptopOverlay = useRef()
   const containerIcons = useRef()
+  const dot = useRef()
+  const codingCounter = useRef(0)
   const {width,height} = useWindowSize()
   const isInTransition = useRef(false)
   const isIconAnim = useRef(false)
@@ -114,6 +117,7 @@ export default function Home(){
   })
   
   useEffectOnce(()=>{
+    //hack to override the scale before anime
     anime({
       targets: "#Laptop_Overlay_Center",
       scale: 0.488,
@@ -179,7 +183,7 @@ export default function Home(){
     hintCopy.current.style.top = `${rect.top}px`;
   }
 
-  const onPhoneEnter = ()=>{
+  const OnPhoneEnter = ()=>{
     cursor.Focus()
     anime({
       targets: iconPhone.current,
@@ -196,7 +200,7 @@ export default function Home(){
     })
 
   }
-  const onPhoneLeave = ()=>{
+  const OnPhoneLeave = ()=>{
     cursor.DeFocus();
     anime({
       targets: iconPhone.current,
@@ -239,7 +243,7 @@ export default function Home(){
     hintCopy.current.style.top = `${rect.top}px`;
   }
 
-  const onEmailEnter = ()=>{
+  const OnEmailEnter = ()=>{
     cursor.Focus()
     anime({
       targets: iconEmail.current,
@@ -255,7 +259,8 @@ export default function Home(){
       easing:'easeOutElastic(1, .6)'
     })
   }
-  const onEmailLeave = ()=>{
+  
+  const OnEmailLeave = ()=>{
     cursor.DeFocus();
     anime({
       targets: iconEmail.current,
@@ -298,7 +303,7 @@ export default function Home(){
     hintCopy.current.style.top = `${rect.top}px`;
   }
 
-  const onWechatEnter = ()=>{
+  const OnWechatEnter = ()=>{
     cursor.Focus()
     anime({
       targets: iconWechat.current,
@@ -314,7 +319,7 @@ export default function Home(){
       easing:'easeOutElastic(1, .6)'
     })
   }
-  const onWechatLeave = ()=>{
+  const OnWechatLeave = ()=>{
     cursor.DeFocus();
     anime({
       targets: iconWechat.current,
@@ -333,31 +338,57 @@ export default function Home(){
   
 //#endregion
 
-
-const onLaptopEnter = ()=>{
+//#region shapes events
+const OnShapesEnter = (page)=>{
   if(isInTransition.current){
     return
   }
   cursor.Focus()
-  anime({
-    targets: "#Laptop_Overlay_Center",
-    scale: 2,
-    translateY:'3vh',
-    duration:800,
-  })
+  switch (page) {
+    case codingPage:
+      anime({
+        targets: "#Laptop_Overlay_Center",
+        scale: 2,
+        translateY:'3vh',
+        duration:800,
+      })
+      break;
+  }
+
 }
-const onLaptopLeave = ()=>{
+const OnShapesLeave = (page)=>{
   if(isInTransition.current){
     return
   }
   cursor.DeFocus()
-  anime({
-    targets: "#Laptop_Overlay_Center",
-    scale: 0.488,
-    translateY:'0vh',
-    duration:800,
-  })
+  switch (page) {
+    case codingPage:
+      anime({
+        targets: "#Laptop_Overlay_Center",
+        scale: 0.488,
+        translateY:'0vh',
+        duration:800,
+      })
+      break;
+  }
+
 }
+const OnShapesClick = (page)=>{
+  dot.current.style.top = '45%'
+  dot.current.style.left = '55%'
+  switch(page){
+    case codingPage:
+      anime({
+        targets: ".homeDot",
+        scale: [0,80],
+        duration:1000,
+        easing: 'easeInSine'
+      })
+      break;
+  }
+
+}
+//#endregion
 
 //#region scrollEvents
 
@@ -365,13 +396,19 @@ const onLaptopLeave = ()=>{
     if (event.deltaY < 0)
     {
       if(!isInTransition.current){
-        setIndex(Math.max(index-1,0))
+        if(index-1>=0){
+          OnShapesLeave(index)
+          setIndex(index-1,0)
+        }
       }
     }
     else if (event.deltaY > 0)
     {
       if(!isInTransition.current){
-        setIndex( Math.min(index+1,MaxPage))
+        if(index+1<=MaxPage){
+          OnShapesLeave(index)
+          setIndex(index+1)
+        }
       }
     }
   }
@@ -383,7 +420,41 @@ const onLaptopLeave = ()=>{
   useEventListener('wheel', handleWheel,window);
   //#endregion
 
+//#region title Events
+const CodingInterval = ()=>{
+  if(++codingCounter.current>txtCoding.length){
+    clearInterval(CodingTimer)
+    clearInterval(GlitchingTimer)
+    GlitchingTimer = null
+    CodingTimer = null
+    codingCounter.current = 0
+    return
+  } 
+}
+const GlitchingInterval = ()=>{
+  document.querySelectorAll(".codingLetters").forEach((elmt,id)=>{
+    if(id>=codingCounter.current){
+      elmt.textContent = RandomAscii()
+    }else{
+      elmt.textContent = txtCoding[id]
+    }
+  })
+}
+let CodingTimer = null
+let GlitchingTimer = null
+const OnTitleCodingEnter = ()=>{
+    CodingTimer ??= setInterval(CodingInterval,150)
+    GlitchingTimer ??= setInterval(GlitchingInterval,20);
+}
 
+const OnTitlesEnter = (page)=>{
+  switch(page){
+    case codingPage:
+      OnTitleCodingEnter()
+      break;
+  }
+}
+//#endregion
   //TODO: SEPERATE LAYOVER INTO TWO SECTIONS
 return (<div {...handlers}>
 
@@ -402,7 +473,7 @@ return (<div {...handlers}>
   <Svg_ShapeLaptopReflection />
   </span>
   </div>
-  <div className='homeShapes' onMouseEnter={onLaptopEnter} onMouseLeave = {onLaptopLeave} ref = {laptop} >
+  <div className='homeShapes' onMouseEnter={()=>OnShapesEnter(1)} onMouseLeave = {()=>OnShapesLeave(1)} onClick={()=>OnShapesClick(1)} ref = {laptop} >
   <Svg_ShapeLaptop />
   </div>
   <span className='homeShapes homeIntro'>
@@ -410,10 +481,10 @@ return (<div {...handlers}>
   <span className="line "></span>
   </span>
 
-  <div className='homeIntroTitle' ref = {titleIntro}>
+  <div className='homeIntroTitle' ref = {titleIntro} >
   <h1 style ={{fontFamily: "Poiret"}}>Weihang Qin<br></br></h1>
   </div>
-  <div className='homeTitles'ref={titleCoding}>
+  <div className='homeTitles'ref={titleCoding} onMouseEnter={()=>OnTitlesEnter(1)}>
   {cntntCoding}
   </div>
   <div className='homeTitles'ref={titleArt}>
@@ -424,13 +495,13 @@ return (<div {...handlers}>
 </div>
 
   <div className='homeIconContainer' ref = {containerIcons}>
-  <div className='homeIcons' onClick={OnEmailClicked} onMouseEnter={onEmailEnter} onMouseLeave={onEmailLeave} ref = {iconEmail}>
+  <div className='homeIcons' onClick={OnEmailClicked} onMouseEnter={OnEmailEnter} onMouseLeave={OnEmailLeave} ref = {iconEmail}>
   <Svg_ShapeIconEmail />
   </div>
-  <div className='homeIcons' onClick={OnPhoneClicked} onMouseEnter={onPhoneEnter} onMouseLeave={onPhoneLeave} ref = {iconPhone}>
+  <div className='homeIcons' onClick={OnPhoneClicked} onMouseEnter={OnPhoneEnter} onMouseLeave={OnPhoneLeave} ref = {iconPhone}>
   <Svg_ShapeIconPhone />
   </div>
-  <div className='homeIcons' onClick={OnWechatClicked} onMouseEnter={onWechatEnter} onMouseLeave={onWechatLeave} ref = {iconWechat}>
+  <div className='homeIcons' onClick={OnWechatClicked} onMouseEnter={OnWechatEnter} onMouseLeave={OnWechatLeave} ref = {iconWechat}>
   <Svg_ShapeIconWechat />
   </div>
   </div>
@@ -438,6 +509,7 @@ return (<div {...handlers}>
   Copied!
   </div>
 
+  <span className='homeDot' ref = {dot}></span>
   
   </div>
 </div>)}

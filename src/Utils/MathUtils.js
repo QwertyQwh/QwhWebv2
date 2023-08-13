@@ -1,3 +1,5 @@
+import { randInt } from "three/src/math/MathUtils";
+
 function proper_modulo(x,y){
     if(x>=0){
         return x%y
@@ -6,5 +8,9 @@ function proper_modulo(x,y){
     }
 }
 
+function RandomAscii(){
+    return String.fromCharCode(randInt(33,126))
+}
 
-export default {proper_modulo}
+
+export  {proper_modulo,RandomAscii}
