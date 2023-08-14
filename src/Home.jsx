@@ -222,7 +222,7 @@ export default memo(function Home(){
     anime({
       targets: ".codingLetters",
       translateY: (-index+codingPage+0.5)*height-0.2*0.4*width,
-      delay: (el, i) => 15* i*i,
+      delay: (el, i) => 150*i,
       duration:3500,
       easing: easingFunc,
       loop: false,
@@ -289,7 +289,7 @@ export default memo(function Home(){
     anime({
       targets: ".artLetters",
       translateY: (-index+ ArtPage+0.5)*height-0.2*0.4*width,
-      delay: (el, i) => 15* i*i,
+      delay: (el, i) => 150*i,
       duration:3500,
       easing: easingFunc,
       loop: false,
@@ -297,7 +297,7 @@ export default memo(function Home(){
     anime({
       targets: ".writingLetters",
       translateY: (-index+ WritingPage+0.5)*height-0.2*0.4*width,
-      delay: (el, i) => 15* i*i,
+      delay: (el, i) => 150* i,
       duration:3500,
       easing: easingFunc,
       loop: false,
