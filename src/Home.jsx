@@ -3,6 +3,9 @@ import Svg_ShapeLaptop from './assets/svg/shape_laptop.svg'
 import Svg_ShapeLaptopOverlay from './assets/svg/shape_laptop_overlay.svg'
 import Svg_ShapeLaptopCenter from './assets/svg/shape_laptop_Center.svg'
 import Svg_ShapeLaptopReflection from './assets/svg/shape_laptop_Reflection.svg'
+import Svg_ShapeWritingBook from './assets/svg/shape_writing_book.svg'
+import Svg_ShapeWritingOverlay from './assets/svg/shape_writing_overlay.svg'
+
 import Svg_Avator from './assets/svg/avator.svg'
 import Svg_ScrollDown from './assets/svg/scrollDown.svg'
 import { useEffectOnce, useWindowSize,useEventListener } from 'usehooks-ts'
@@ -18,13 +21,14 @@ import Logger from './Debug/Logger'
 
 const IntroPage = 0;
 const codingPage = 1;
-const ArtPage = 2;
-const WritingPage = 3;
+const artPage = 2;
+const writingPage = 3;
 const MaxPage = 3
 const txtCoding = 'coding_'
 const txtArt = "~Art~"
 const txtWriting = "Writing."
 const txtIntro = "Weihang Qin"
+const txtWritingBook = "Once-Upon-A-Time..." // The - symbol is a hack to prevent the space from disappearing when setting display to inline-block
 const easingFunc = "cubicBezier(.7,0,.29,.99)"
 const cntntGreet = (<>  
   Hello there! You've hit my site. <br></br>
@@ -38,17 +42,21 @@ Well, mostly random thoughts.
   const cntntArt = []
   const cntntWriting = []
   const cntntIntro = []
-  txtCoding.split("").forEach((val,ind)=> {cntntCoding.push( <span key = {`coding${ind}`}>
+  const cntntWritingBook = []
+  txtCoding.split("").forEach((val,ind)=> {cntntCoding.push( <span key = {`coding_${ind}`}>
     <a  style ={{fontFamily: "OCRA"}} className='codingLetters'>{val}</a>
     </span>)})
-  txtArt.split("").forEach((val,ind)=> {cntntArt.push( <span key = {`art${ind}`}>
+  txtArt.split("").forEach((val,ind)=> {cntntArt.push( <span key = {`art_${ind}`}>
     <a  style ={{fontFamily: "Amatic"}} className='artLetters'>{val}</a>
     </span>)})
-  txtWriting.split("").forEach((val,ind)=> {cntntWriting.push( <span key = {`writing${ind}`}>
+  txtWriting.split("").forEach((val,ind)=> {cntntWriting.push( <span key = {`writing_${ind}`}>
   <a  style ={{fontFamily: "OLDENG"}} className='writingLetters'>{val}</a>
   </span>)})
-  txtIntro.split("").forEach((val,ind)=> {cntntIntro.push( <span key = {`intro${ind}`}>
+  txtIntro.split("").forEach((val,ind)=> {cntntIntro.push( <span key = {`intro_${ind}`}>
   <a  style ={{fontFamily: "Allison"}} className='introLetters'>{val}</a>
+  </span>)})
+  txtWritingBook.split("").forEach((val,ind)=> {cntntWritingBook.push( <span key = {`writingBook_${ind}`} id = {`writingBook_${ind}`} style = {{display:"inline-block"}}>
+  <a  style ={{fontFamily: "Chalk"}} className='writingBookLetters'>{val}</a>
   </span>)})
   //#endregion
 
@@ -64,6 +72,10 @@ export default memo(function Home(){
   const iconWechat = useRef()
   const Bg = useRef()
   const laptop = useRef()
+  const writingBook = useRef()
+  const writingOverlay = useRef()
+  const writingBookText = useRef()
+  const writingBookOverlayText = useRef()
   const hintCopy = useRef()
   const laptopOverlay = useRef()
   const containerIcons = useRef()
@@ -228,6 +240,37 @@ export default memo(function Home(){
       loop: false,
     })
   }
+  const PlayWritingTransition = ()=>{
+    anime({
+      targets: writingOverlay.current,
+      translateY: (3*(-index+writingPage)+0.5)*height+0.1*0.5*width-0.0*width,
+      duration:4000,
+      easing: easingFunc,
+      loop: false,
+    })
+    anime({
+      targets: writingBook.current,
+      translateY: (3*(-index+writingPage)+0.5)*height+0.1*0.5*width,
+      duration:2000,
+      easing: easingFunc,
+      loop: false,
+    })
+    anime({
+      targets: [writingBookText.current,writingBookOverlayText.current],
+      translateY: (3*(-index+writingPage)+0.5)*height-0.3*0.5*width,
+      duration:2000,
+      easing: easingFunc,
+      loop: false,
+    })
+    anime({
+      targets: ".writingLetters",
+      translateY: (-index+ writingPage+0.5)*height-0.2*0.4*width,
+      delay: (el, i) => 150* i,
+      duration:3500,
+      easing: easingFunc,
+      loop: false,
+    })
+  }
   const PlayIntroTransition = ()=>{
     anime({
       targets: homeIntro.current,
@@ -265,6 +308,23 @@ export default memo(function Home(){
       easing: 'easeInOutQuad'
     })
   }
+  const PlayWritingBookOverlayTextFadeIn = ()=>{
+    anime({
+      targets: writingBookOverlayText.current,
+      opacity:1,
+      duration:600,
+      easing: 'easeInOutQuad'
+    })
+  }
+  const PlayWritingBookOverlayTextFadeOut = ()=>{
+    anime({
+      targets: writingBookOverlayText.current,
+      opacity:0,
+      duration:600,
+      easing: 'easeInOutQuad'
+    })
+  }
+  
   let scrollDownTimer = null
   //#endregion
   useEffect(()=>{
@@ -278,30 +338,24 @@ export default memo(function Home(){
           easing: 'linear',
           opacity:1,
          })
-      }, 4000);
+      }, 3500);
     }else{
       clearTimeout(scrollDownTimer)
     }
     PlayCodingTransition()
+    PlayWritingTransition()
     PlayIntroTransition()
     //#region letters transition
 
     anime({
       targets: ".artLetters",
-      translateY: (-index+ ArtPage+0.5)*height-0.2*0.4*width,
+      translateY: (-index+ artPage+0.5)*height-0.2*0.4*width,
       delay: (el, i) => 150*i,
       duration:3500,
       easing: easingFunc,
       loop: false,
     })
-    anime({
-      targets: ".writingLetters",
-      translateY: (-index+ WritingPage+0.5)*height-0.2*0.4*width,
-      delay: (el, i) => 150* i,
-      duration:3500,
-      easing: easingFunc,
-      loop: false,
-    })
+
 
     //#endregion
 
@@ -314,18 +368,27 @@ export default memo(function Home(){
   useEffect(()=>{
     Bg.current.style.fontSize = `${Math.ceil(width*40/1920)}px`
     homeIntro.current.style.top = `${0.5*height-0.10*width}px`
-    // document.querySelector("#Scroll_Down").style.transform = `scale(${width/1920/3})`
+    writingBookText.current.style.fontSize = `${0.05*width}px`
+    writingBookOverlayText.current.style.fontSize = `${0.05*width}px`
+    writingBookText.current.style.color = "#cd522f"
+    writingBookOverlayText.current.style.color = "#EADCC2"
+    //The initial position of writing book letters
+    console.log("setting")
+    document.querySelector(".homeShapes #writingBook_2").style.transform = 'translateX(5em)'
+    document.querySelectorAll("#writingBook_4").forEach((elmt)=>{elmt.style.opacity = 0})
+    document.querySelectorAll("#writingBook_9").forEach((elmt)=>{elmt.style.opacity = 0})
+    document.querySelectorAll("#writingBook_11").forEach((elmt)=>{elmt.style.opacity = 0})
   },[width,height])
   useEffectOnce(()=>{
     //hack to override the scale before anime
     document.querySelector("#Laptop_Overlay_Center").style.transform = "scale(0.488)"
     document.querySelector(".scrollDown").style.opacity = 0
-
+    writingBookOverlayText.current.style.opacity = 0
     PlayCodingCoffeSteamLoop()
     PlayGlobalFadeIn()
     PlayAvatorBlinkLoop()
     PlayScrollDownLoop()
-    setIndex(0)
+    setIndex(3)
   })
 
 //#region IconEvents
@@ -520,6 +583,7 @@ const OnShapesEnter = (page)=>{
   // if(isInTransition.current){
   //   return
   // }
+  console.log("enter")
   cursor.Focus.current()
   switch (page) {
     case codingPage:
@@ -529,6 +593,9 @@ const OnShapesEnter = (page)=>{
         translateY:'3vh',
         duration:800,
       })
+      break;
+    case writingPage:
+      PlayWritingBookOverlayTextFadeIn()
       break;
   }
 
@@ -546,6 +613,9 @@ const OnShapesLeave = (page)=>{
         translateY:'0vh',
         duration:800,
       })
+      break;
+    case writingPage:
+      PlayWritingBookOverlayTextFadeOut()
       break;
   }
 
@@ -669,15 +739,30 @@ return (<div {...handlers}>
   <Svg_ShapeLaptopReflection />
   </span>
   </div>
-  <div className='homeShapes' onMouseEnter={()=>OnShapesEnter(1)} onMouseLeave = {()=>OnShapesLeave(1)} onClick={()=>OnShapesClick(1)} ref = {laptop} >
+  <div className='homeShapes' onMouseEnter={()=>OnShapesEnter(codingPage)} onMouseLeave = {()=>OnShapesLeave(codingPage)} onClick={()=>OnShapesClick(codingPage)} ref = {laptop} >
   <Svg_ShapeLaptop />
   </div>
   <div className='homeTitles'ref={titleCoding} onMouseEnter={()=>OnTitlesEnter(1)}>
   {cntntCoding}
   </div>
   </span>
+  <div className='homeOverlays' ref = {writingOverlay}>
+  <span >
+  <Svg_ShapeWritingOverlay />
+  </span>
+  </div>
+  <div className='homeOverlays' ref = {writingBookOverlayText}>
+  {cntntWritingBook}
+  </div>
+  <div className='homeShapes'  ref = {writingBookText} >
+  {cntntWritingBook}
+  </div>
+  <div className='homeShapes' ref={writingBook} onMouseEnter={()=>OnShapesEnter(writingPage)} onMouseLeave = {()=>OnShapesLeave(writingPage)}>
+  <Svg_ShapeWritingBook />
+  </div>
 
-  
+
+
   <div className='homeTitles'ref={titleArt}>
   {cntntArt}
 </div>
