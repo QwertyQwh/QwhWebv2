@@ -18,6 +18,7 @@ import anime from 'animejs'
 import {RandomAscii} from './Utils/MathUtils'
 import { memo } from 'react'
 import Logger from './Debug/Logger'
+import { randInt } from 'three/src/math/MathUtils'
 
 const IntroPage = 0;
 const codingPage = 1;
@@ -28,7 +29,7 @@ const txtCoding = 'coding_'
 const txtArt = "~Art~"
 const txtWriting = "Writing."
 const txtIntro = "Weihang Qin"
-const txtWritingBook = "Once-Upon-A-Time..." // The - symbol is a hack to prevent the space from disappearing when setting display to inline-block
+const txtWritingBook = "Once-Upon-A-Time" // The - symbol is a hack to prevent the space from disappearing when setting display to inline-block
 const easingFunc = "cubicBezier(.7,0,.29,.99)"
 const cntntGreet = (<>  
   Hello there! You've hit my site. <br></br>
@@ -55,9 +56,10 @@ Well, mostly random thoughts.
   txtIntro.split("").forEach((val,ind)=> {cntntIntro.push( <span key = {`intro_${ind}`}>
   <a  style ={{fontFamily: "Allison"}} className='introLetters'>{val}</a>
   </span>)})
-  txtWritingBook.split("").forEach((val,ind)=> {cntntWritingBook.push( <span key = {`writingBook_${ind}`} id = {`writingBook_${ind}`} style = {{display:"inline-block"}}>
-  <a  style ={{fontFamily: "Chalk"}} className='writingBookLetters'>{val}</a>
+  txtWritingBook.split("").forEach((val,ind)=> {cntntWritingBook.push( <span key = {`writingBook_${ind}`} className='writingBookLetters' id = {`writingBook_${ind}`} style = {{display:"inline-block"}}>
+  <a  style ={{fontFamily: "Joker"}} className='writingBookLettersText'>{val}</a>
   </span>)})
+
   //#endregion
 
 export default memo(function Home(){
@@ -243,14 +245,14 @@ export default memo(function Home(){
   const PlayWritingTransition = ()=>{
     anime({
       targets: writingOverlay.current,
-      translateY: (3*(-index+writingPage)+0.5)*height+0.1*0.5*width-0.0*width,
+      translateY: (3*(-index+writingPage)+0.5)*height+0.2*0.5*width-0.0*width,
       duration:4000,
       easing: easingFunc,
       loop: false,
     })
     anime({
       targets: writingBook.current,
-      translateY: (3*(-index+writingPage)+0.5)*height+0.1*0.5*width,
+      translateY: (3*(-index+writingPage)+0.5)*height+0.2*0.5*width,
       duration:2000,
       easing: easingFunc,
       loop: false,
@@ -300,6 +302,137 @@ export default memo(function Home(){
       endDelay: 500,
     });
   }
+  const writingBookLettersConvergeDuration = 1000
+  const PlayWritingBookLettersConverge = ()=>{
+    anime({
+      targets: ".homeShapes .writingBookLetters",
+      translateX: 0,
+      translateY: 0,
+      scale: 1,
+      duration :writingBookLettersConvergeDuration,
+      easing: "easeOutCubic",
+    })
+  }
+  const PlayWritingBookLettersScatter = ()=>{
+    anime({
+      targets: ".homeShapes #writingBook_0",
+      translateX: 3,
+      translateY: -1.5,
+      scale: 2.2,
+      duration :writingBookLettersConvergeDuration,
+      easing: "easeInOutSine",
+      complete: ()=>writingBookLettersLoopAnims.current.forEach((elmt,id)=>{console.log(elmt);elmt.restart()})
+    })
+    anime({
+      targets: ".homeShapes #writingBook_1",
+      translateX: 8,
+      translateY: 2,
+      scale: 0.7,
+      duration :writingBookLettersConvergeDuration,
+      easing: "easeInOutSine",
+    })
+    anime({
+      targets: ".homeShapes #writingBook_2",
+      translateX: 3,
+      translateY: 2.5,
+      scale: 1.6,
+      duration :writingBookLettersConvergeDuration,
+      easing: "easeInOutSine",
+    })
+    anime({
+      targets: ".homeShapes #writingBook_3",
+      translateX: 3.6,
+      translateY: -1.5,
+      scale: 0.8,
+      duration :writingBookLettersConvergeDuration,
+      easing: "easeInOutSine",
+    })
+    anime({
+      targets: ".homeShapes #writingBook_5",
+      translateX: 2.5,
+      translateY: 0.9,
+      scale: 2.4,
+      duration :writingBookLettersConvergeDuration,
+      easing: "easeInOutSine",
+    })
+    anime({
+      targets: ".homeShapes #writingBook_6",
+      translateX: 2.5,
+      translateY: 2.5,
+      scale: 1,
+      duration :writingBookLettersConvergeDuration,
+      easing: "easeInOutSine",
+    })
+    anime({
+      targets: ".homeShapes #writingBook_7",
+      translateX: 4,
+      translateY: 0.5,
+      scale: 1,
+      duration :writingBookLettersConvergeDuration,
+      easing: "easeInOutSine",
+    })
+    anime({
+      targets: ".homeShapes #writingBook_8",
+      translateX: -4,
+      translateY: -1.2,
+      scale: 1.5,
+      duration :writingBookLettersConvergeDuration,
+      easing: "easeInOutSine",
+    })
+    anime({
+      targets: ".homeShapes #writingBook_10",
+      translateX: -4.8,
+      translateY: 1,
+      scale: 1.5,
+      duration :writingBookLettersConvergeDuration,
+      easing: "easeInOutSine",
+    })
+    anime({
+      targets: ".homeShapes #writingBook_12",
+      translateX: 1.2,
+      translateY: -1,
+      scale: 1.7,
+      duration :writingBookLettersConvergeDuration,
+      easing: "easeInOutSine",
+    })
+    anime({
+      targets: ".homeShapes #writingBook_13",
+      translateX: -5.1,
+      translateY: 1,
+      scale: 0.8,
+      duration :writingBookLettersConvergeDuration,
+      easing: "easeInOutSine",
+    })
+    anime({
+      targets: ".homeShapes #writingBook_14",
+      translateX: -1.5,
+      translateY: -1.1,
+      scale: 1.2,
+      duration :writingBookLettersConvergeDuration,
+      easing: "easeInOutSine",
+    })
+    anime({
+      targets: ".homeShapes #writingBook_15",
+      translateX: -4.8,
+      translateY: 0,
+      scale: 1.2,
+      duration :writingBookLettersConvergeDuration,
+      easing: "easeInOutSine",
+    })
+  }
+  const writingBookLettersLoopAnims = useRef([])
+  const PlayWritingBookLettersLoop = ()=>{
+    for (let i = 0; i < txtWritingBook.length; i++) {
+      writingBookLettersLoopAnims.current.push(anime({
+        targets:  `.homeShapes #writingBook_${i}` ,
+        translateY: '-=0.5',
+        duration : 2000+randInt(-1000,1000),
+        easing: "easeInOutSine",
+        direction: 'alternate',
+        loop:true
+      }))
+    }
+  }
   const PlayScrollDownLoop = ()=>{
     anime.timeline({targets:".scrollDown",loop:true}).add({
       opacity:[0,1,0],
@@ -312,16 +445,16 @@ export default memo(function Home(){
     anime({
       targets: writingBookOverlayText.current,
       opacity:1,
-      duration:600,
-      easing: 'easeInOutQuad'
+      duration:1000,
+      easing: 'easeInSine'
     })
   }
   const PlayWritingBookOverlayTextFadeOut = ()=>{
     anime({
       targets: writingBookOverlayText.current,
       opacity:0,
-      duration:600,
-      easing: 'easeInOutQuad'
+      duration:1000,
+      easing: 'easeOutSine'
     })
   }
   
@@ -368,17 +501,32 @@ export default memo(function Home(){
   useEffect(()=>{
     Bg.current.style.fontSize = `${Math.ceil(width*40/1920)}px`
     homeIntro.current.style.top = `${0.5*height-0.10*width}px`
-    writingBookText.current.style.fontSize = `${0.05*width}px`
-    writingBookOverlayText.current.style.fontSize = `${0.05*width}px`
+    writingBookText.current.style.fontSize = `${0.035*width}px`
+    writingBookOverlayText.current.style.fontSize = `${0.035*width}px`
     writingBookText.current.style.color = "#cd522f"
     writingBookOverlayText.current.style.color = "#EADCC2"
     //The initial position of writing book letters
-    console.log("setting")
-    document.querySelector(".homeShapes #writingBook_2").style.transform = 'translateX(5em)'
+    document.querySelector(".homeShapes #writingBook_0").style.transform = 'translateX(3em) translateY(-1.5em) scale(2.2)'
+    document.querySelector(".homeShapes #writingBook_1").style.transform = 'translateX(8em) translateY(2em) scale(0.7)'
+    document.querySelector(".homeShapes #writingBook_2").style.transform = 'translateX(3em) translateY(2.5em) scale(1.6)'
+    document.querySelector(".homeShapes #writingBook_3").style.transform = 'translateX(3.6em) translateY(-1.5em) scale(0.8)'
+    document.querySelector(".homeShapes #writingBook_5").style.transform = 'translateX(2.5em) translateY(0.9em) scale(2.4)'
+    document.querySelector(".homeShapes #writingBook_6").style.transform = 'translateX(2.5em) translateY(2.5em) scale(1)'
+    document.querySelector(".homeShapes #writingBook_7").style.transform = 'translateX(4em) translateY(0.5em) scale(1)'
+    document.querySelector(".homeShapes #writingBook_8").style.transform = 'translateX(-4em) translateY(-1.2em) scale(1.5)'
+    document.querySelector(".homeShapes #writingBook_10").style.transform = 'translateX(-4.8em) translateY(1em) scale(1.5)'
+    document.querySelector(".homeShapes #writingBook_12").style.transform = 'translateX(1.2em) translateY(-1em) scale(1.7)'
+    document.querySelector(".homeShapes #writingBook_13").style.transform = 'translateX(-5.1em) translateY(1em) scale(0.8)'
+    document.querySelector(".homeShapes #writingBook_14").style.transform = 'translateX(-1.5em) translateY(-1.1em) scale(1.2)'
+    document.querySelector(".homeShapes #writingBook_15").style.transform = 'translateX(-4.8em) translateY(0em) scale(1.2)'
+    // document.querySelector(".homeShapes #writingBook_16").style.opacity = 0
+    // document.querySelector(".homeShapes #writingBook_17").style.opacity = 0
+    // document.querySelector(".homeShapes #writingBook_18").style.opacity = 0
     document.querySelectorAll("#writingBook_4").forEach((elmt)=>{elmt.style.opacity = 0})
     document.querySelectorAll("#writingBook_9").forEach((elmt)=>{elmt.style.opacity = 0})
     document.querySelectorAll("#writingBook_11").forEach((elmt)=>{elmt.style.opacity = 0})
   },[width,height])
+
   useEffectOnce(()=>{
     //hack to override the scale before anime
     document.querySelector("#Laptop_Overlay_Center").style.transform = "scale(0.488)"
@@ -388,6 +536,7 @@ export default memo(function Home(){
     PlayGlobalFadeIn()
     PlayAvatorBlinkLoop()
     PlayScrollDownLoop()
+    PlayWritingBookLettersLoop()
     setIndex(3)
   })
 
@@ -583,8 +732,8 @@ const OnShapesEnter = (page)=>{
   // if(isInTransition.current){
   //   return
   // }
-  console.log("enter")
   cursor.Focus.current()
+
   switch (page) {
     case codingPage:
       anime({
@@ -596,6 +745,8 @@ const OnShapesEnter = (page)=>{
       break;
     case writingPage:
       PlayWritingBookOverlayTextFadeIn()
+      PlayWritingBookLettersConverge()
+      writingBookLettersLoopAnims.current.forEach((elmt,id)=>{elmt.pause()})
       break;
   }
 
@@ -616,6 +767,7 @@ const OnShapesLeave = (page)=>{
       break;
     case writingPage:
       PlayWritingBookOverlayTextFadeOut()
+      PlayWritingBookLettersScatter()
       break;
   }
 
@@ -709,6 +861,7 @@ return (<div {...handlers}>
   <div  className='homeBg' ref = {Bg} >
 
   <span className='homeStripe' />
+  
   <span className='_IntroSection'>
   <div className='homeShapes homeIntro' ref = {homeIntro}>
   <span className='avator' onMouseOver={OnAvatorOver}> <Svg_Avator /></span>
@@ -746,6 +899,7 @@ return (<div {...handlers}>
   {cntntCoding}
   </div>
   </span>
+  <span className='_WritingSection'>
   <div className='homeOverlays' ref = {writingOverlay}>
   <span >
   <Svg_ShapeWritingOverlay />
@@ -760,15 +914,16 @@ return (<div {...handlers}>
   <div className='homeShapes' ref={writingBook} onMouseEnter={()=>OnShapesEnter(writingPage)} onMouseLeave = {()=>OnShapesLeave(writingPage)}>
   <Svg_ShapeWritingBook />
   </div>
-
-
+  <div className='homeTitles'ref={titleWriting}>
+  {cntntWriting}
+  </div>
+  </span>
+  
 
   <div className='homeTitles'ref={titleArt}>
   {cntntArt}
 </div>
-<div className='homeTitles'ref={titleWriting}>
-{cntntWriting}
-</div>
+
 <span className='_IconSection'>
 <div className='homeIconContainer' ref = {containerIcons}>
 <div className='homeIcons' onClick={OnEmailClicked} onMouseEnter={OnEmailEnter} onMouseLeave={OnEmailLeave} ref = {iconEmail}>
