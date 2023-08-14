@@ -4,6 +4,7 @@ import Svg_ShapeLaptopOverlay from './assets/svg/shape_laptop_overlay.svg'
 import Svg_ShapeLaptopCenter from './assets/svg/shape_laptop_Center.svg'
 import Svg_ShapeLaptopReflection from './assets/svg/shape_laptop_Reflection.svg'
 import Svg_Avator from './assets/svg/avator.svg'
+import Svg_ScrollDown from './assets/svg/scrollDown.svg'
 import { useEffectOnce, useWindowSize,useEventListener } from 'usehooks-ts'
 import { useSwipeable } from 'react-swipeable'
 import Svg_ShapeIconPhone from './assets/svg/shape_Icon_Phone.svg'
@@ -53,7 +54,7 @@ Well, mostly random thoughts.
 
 export default memo(function Home(){
   //#region states and refs
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(-1);
   const titleCoding = useRef()
   const titleArt = useRef()
   const titleWriting = useRef()
@@ -76,12 +77,29 @@ export default memo(function Home(){
   const animCtrl_Avator = useRef(false)
   const cursor = useContext(CursorContext)
   //#endregion
+  //#region Animations
+  const PlayGlobalFadeIn = ()=>{
+    anime({
+      targets: [laptop.current,laptopOverlay.current,titleCoding.current,titleArt.current,titleWriting.current],
+      opacity: [-1,1],
+      easing: 'steps(2)',
+      duration: 8000,
+      loop: false,
+    });
+  }
   const PlayAvatorJump = ()=>{
     if(animCtrl_Avator.current){
       return
     }
     animCtrl_Avator.current = true
     anime.timeline({loop:false}).add({
+      targets: "#Avator",
+      translateY:[0,0.05*width],
+      scaleY: [1,0.7],
+      scaleX: [1,1.4],
+      duration: 300,
+      easing:"easeOutExpo"
+    }).add({
       targets: "#Avator",
       translateY:[0,-0.8*width],
       scaleY: [1,1.3],
@@ -110,71 +128,80 @@ export default memo(function Home(){
       }
     })
   }
-  const OnAvatorOver = ()=>{
-    PlayAvatorJump()
+  const PlayAvatorBlinkLoop = ()=>{
+    anime({
+      targets: "#Avator_Eyes",
+      opacity:[
+        {value:1,duration:2000},
+        {value:0,duration:150},
+        {value:1,duration:250},
+        {value:0,duration:150},
+        {value:1,duration:2000},
+      ],
+      easing: "steps(1)",
+      loop:true,
+    })
   }
-  useEffect(()=>{
-    Logger.Warn('Home rerendered')
-    if(index == IntroPage){
-      anime.timeline({loop: false})
-      .add({
-        targets: '.homeIntro .line',
-        opacity: [0.5,1],
-        scaleX: [0, 1],
-        translateY: [0,0],
-        easing: "easeInOutExpo",
-        duration: 700,
-        delay:1500
-      }).add({
-        targets: '.homeIntro .line',
-        duration: 600,
-        easing: "easeOutExpo",
-        translateY: (el, i) => (-0.12*width + 0.12*2*width*i) + "px"
-      }).add({
-        targets: greetIntro.current,
-        opacity: [0,1],
-        scaleY: [0, 1],
-        easing: "easeOutQuad",
-        duration: 600,
-      },'-=600').add({
-        targets: titleIntro.current,
-        duration:2000,
-        easing:"easeInOutQuad",
-        opacity: [0,1],
-      },"-=1200").add({
-        targets: "#Avator",
-        opacity: [0,1],
-        easing: "easeOutExpo",
-        duration: 500,
-      },'-=1100')
-      anime.timeline().add({
-        targets: "#Avator",
-        translateY:[0.4*width,-0.8*width],
-        scaleY: [1,1.3],
-        scaleX: [1,0.7],
-        easing:"easeOutExpo",
-        duration: 400,
-        delay:2500,
-      }).add({
-        targets: "#Avator",
-        translateY:[-0.8*width,0],
-        scaleX: [0.7,1],
-        scaleY: [1.3,1],
-        duration: 400,
-        easing: 'easeOutBounce'
-      }).add({
-        targets: "#Avator_Eyes",
-        opacity:[
-          {value:1,duration:100},
-          {value:0,duration:150},
-          {value:1,duration:250},
-          {value:0,duration:150},
-          {value:1,duration:100},
-        ],
-        easing: "steps(1)",
-      })
-    }
-
+  const PlayIntroFadeIn = ()=>{
+    anime.timeline({loop: false})
+    .add({
+      targets: '.homeIntro .line',
+      opacity: [0.5,1],
+      scaleX: [0, 1],
+      translateY: [0,0],
+      easing: "easeInOutExpo",
+      duration: 700,
+      delay:1500
+    }).add({
+      targets: '.homeIntro .line',
+      duration: 600,
+      easing: "easeOutExpo",
+      translateY: (el, i) => (-0.12*width + 0.12*2*width*i) + "px"
+    }).add({
+      targets: greetIntro.current,
+      opacity: [0,1],
+      scaleY: [0, 1],
+      easing: "easeOutQuad",
+      duration: 600,
+    },'-=600').add({
+      targets: titleIntro.current,
+      duration:2000,
+      easing:"easeInOutQuad",
+      opacity: [0,1],
+    },"-=1200").add({
+      targets: "#Avator",
+      opacity: [0,1],
+      easing: "easeOutExpo",
+      duration: 500,
+    },'-=1100')
+    anime.timeline().add({
+      targets: "#Avator",
+      translateY:[0.4*width,-0.8*width],
+      scaleY: [1,1.3],
+      scaleX: [1,0.7],
+      easing:"easeOutExpo",
+      duration: 400,
+      delay:2500,
+    }).add({
+      targets: "#Avator",
+      translateY:[-0.8*width,0],
+      scaleX: [0.7,1],
+      scaleY: [1.3,1],
+      duration: 400,
+      easing: 'easeOutBounce'
+    }).add({
+      targets: "#Avator_Eyes",
+      opacity:[
+        {value:1,duration:100},
+        {value:0,duration:150},
+        {value:1,duration:250},
+        {value:0,duration:150},
+        {value:1,duration:100},
+      ],
+      easing: "steps(1)",
+    })
+  }
+  const PlayCodingTransition = ()=>{
     anime({
       targets: laptop.current,
       translateY: (3*(-index+codingPage)+0.5)*height-0.35*0.5*width,
@@ -193,14 +220,6 @@ export default memo(function Home(){
       }
     })
     anime({
-      targets: homeIntro.current,
-      translateY: (3*(-index+IntroPage)+0.0)*height,
-      duration:2000,
-      easing: easingFunc,
-      loop: false,
-    })
-    //#region letters transition
-    anime({
       targets: ".codingLetters",
       translateY: (-index+codingPage+0.5)*height-0.2*0.4*width,
       delay: (el, i) => 15* i*i,
@@ -208,6 +227,65 @@ export default memo(function Home(){
       easing: easingFunc,
       loop: false,
     })
+  }
+  const PlayIntroTransition = ()=>{
+    anime({
+      targets: homeIntro.current,
+      translateY: (3*(-index+IntroPage)+0.0)*height,
+      duration:2000,
+      easing: easingFunc,
+      loop: false,
+    })
+    anime({
+      targets: '.introLetters',
+      translateY: (-index+ IntroPage+0.5)*height-0.2*0.4*width,
+      delay: (el, i) => 15* i*i,
+      duration:3500,
+      easing: easingFunc,
+      loop: false,
+    })
+  }
+  const PlayCodingCoffeSteamLoop = ()=>{
+    anime({
+      targets: '#steam  path',
+      strokeDashoffset: [anime.setDashoffset, -28.8],
+      easing: 'easeInOutSine',
+      duration: 1500,
+      delay: function(el, i) { return i * 250 },
+      direction: 'reverse',
+      loop: true,
+      endDelay: 500,
+    });
+  }
+  const PlayScrollDownLoop = ()=>{
+    anime.timeline({targets:".scrollDown",loop:true}).add({
+      opacity:[0,1,0],
+      bottom: ['6vh',0],
+      duration:2000,
+      easing: 'easeInOutQuad'
+    })
+  }
+  let scrollDownTimer = null
+  //#endregion
+  useEffect(()=>{
+    Logger.Warn('Home rerendered')
+    if(index == IntroPage){
+      PlayIntroFadeIn()
+      scrollDownTimer = setTimeout(() => {
+         anime({
+          targets: "#Scroll_Down",
+          duration: 500,
+          easing: 'linear',
+          opacity:1,
+         })
+      }, 4000);
+    }else{
+      clearTimeout(scrollDownTimer)
+    }
+    PlayCodingTransition()
+    PlayIntroTransition()
+    //#region letters transition
+
     anime({
       targets: ".artLetters",
       translateY: (-index+ ArtPage+0.5)*height-0.2*0.4*width,
@@ -224,47 +302,30 @@ export default memo(function Home(){
       easing: easingFunc,
       loop: false,
     })
-    anime({
-      targets: '.introLetters',
-      translateY: (-index+ IntroPage+0.5)*height-0.2*0.4*width,
-      delay: (el, i) => 15* i*i,
-      duration:3500,
-      easing: easingFunc,
-      loop: false,
-    })
+
     //#endregion
 
     animCtrl_Transition.current = true
     
+  })
+  useEffect(()=>{
+    document.querySelector("#Scroll_Down").style.opacity = 0
+  },[index])
+  useEffect(()=>{
     Bg.current.style.fontSize = `${Math.ceil(width*40/1920)}px`
     homeIntro.current.style.top = `${0.5*height-0.10*width}px`
-  })
-  
+    // document.querySelector("#Scroll_Down").style.transform = `scale(${width/1920/3})`
+  },[width,height])
   useEffectOnce(()=>{
     //hack to override the scale before anime
-    anime({
-      targets: "#Laptop_Overlay_Center",
-      scale: 0.488,
-      duration:10,
-    })
+    document.querySelector("#Laptop_Overlay_Center").style.transform = "scale(0.488)"
+    document.querySelector(".scrollDown").style.opacity = 0
 
-    anime({
-      targets: [laptop.current,laptopOverlay.current,titleCoding.current,titleArt.current,titleWriting.current],
-      opacity: [-1,1],
-      easing: 'steps(2)',
-      duration: 8000,
-      loop: false,
-    });
-    anime({
-      targets: '#steam  path',
-      strokeDashoffset: [anime.setDashoffset, -28.8],
-      easing: 'easeInOutSine',
-      duration: 1500,
-      delay: function(el, i) { return i * 250 },
-      direction: 'reverse',
-      loop: true,
-      endDelay: 500,
-    });
+    PlayCodingCoffeSteamLoop()
+    PlayGlobalFadeIn()
+    PlayAvatorBlinkLoop()
+    PlayScrollDownLoop()
+    setIndex(0)
   })
 
 //#region IconEvents
@@ -451,6 +512,10 @@ export default memo(function Home(){
 //#endregion
 
 //#region shapes events
+const OnAvatorOver = ()=>{
+  PlayAvatorJump()
+}
+
 const OnShapesEnter = (page)=>{
   // if(isInTransition.current){
   //   return
@@ -567,7 +632,8 @@ const OnTitlesEnter = (page)=>{
   }
 }
 //#endregion
-  //TODO: SEPERATE LAYOVER INTO TWO SECTIONS
+
+
 return (<div {...handlers}>
 
   <div  className='homeBg' ref = {Bg} >
@@ -583,7 +649,9 @@ return (<div {...handlers}>
   </span>
   <span className="line "></span>
   <span className="line "></span>
+
   </div>
+  <span className='scrollDown' > <Svg_ScrollDown /></span>
   
   <div className='homeTitles' ref = {titleIntro} >
   {cntntIntro}
