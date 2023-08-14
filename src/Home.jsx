@@ -89,6 +89,7 @@ export default memo(function Home(){
   const animCtrl_Transition = useRef(false)
   const animCtrl_Icon = useRef(false)
   const animCtrl_Avator = useRef(false)
+  const animCtrl_FloatingLetters = useRef(false)
   const cursor = useContext(CursorContext)
   //#endregion
   //#region Animations
@@ -321,7 +322,7 @@ export default memo(function Home(){
       scale: 2.2,
       duration :writingBookLettersConvergeDuration,
       easing: "easeInOutSine",
-      complete: ()=>writingBookLettersLoopAnims.current.forEach((elmt,id)=>{console.log(elmt);elmt.restart()})
+      complete: ()=>writingBookLettersLoopAnims.current.forEach((elmt,id)=>{if(animCtrl_FloatingLetters.current){return}console.log(elmt);elmt.restart()})
     })
     anime({
       targets: ".homeShapes #writingBook_1",
@@ -746,6 +747,7 @@ const OnShapesEnter = (page)=>{
     case writingPage:
       PlayWritingBookOverlayTextFadeIn()
       PlayWritingBookLettersConverge()
+      animCtrl_FloatingLetters.current = true
       writingBookLettersLoopAnims.current.forEach((elmt,id)=>{elmt.pause()})
       break;
   }
@@ -766,6 +768,7 @@ const OnShapesLeave = (page)=>{
       })
       break;
     case writingPage:
+      animCtrl_FloatingLetters.current = false
       PlayWritingBookOverlayTextFadeOut()
       PlayWritingBookLettersScatter()
       break;
@@ -861,7 +864,7 @@ return (<div {...handlers}>
   <div  className='homeBg' ref = {Bg} >
 
   <span className='homeStripe' />
-  
+
   <span className='_IntroSection'>
   <div className='homeShapes homeIntro' ref = {homeIntro}>
   <span className='avator' onMouseOver={OnAvatorOver}> <Svg_Avator /></span>
