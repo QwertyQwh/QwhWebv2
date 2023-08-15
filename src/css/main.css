@@ -245,6 +245,23 @@ body,
 }
 
 /*HomePage */
+.homeFan{
+  position: absolute;
+  top:-2vw;
+  width: 15vw;
+}
+.homeSheep{
+  position: absolute;
+  width: 4vw;
+}
+
+.homeStage{
+  position: absolute;
+  width: 40vw;
+  left: 45vw;
+  display: block;
+  text-align: center;
+}
 
 .homeShapes{
   position: absolute;

@@ -1,5 +1,8 @@
 Functions: FuncFoo
 variables: varFoo
 
-txt: javascript String
-cntnt: react component
+txt_: String
+cntnt_: react component
+
+ref_: reference to a dom element
+

@@ -5,10 +5,12 @@ import Svg_ShapeLaptopCenter from './assets/svg/shape_laptop_Center.svg'
 import Svg_ShapeLaptopReflection from './assets/svg/shape_laptop_Reflection.svg'
 import Svg_ShapeWritingBook from './assets/svg/shape_writing_book.svg'
 import Svg_ShapeWritingOverlay from './assets/svg/shape_writing_overlay.svg'
-
+import Svg_ShapeWritingStage from './assets/svg/shape_writing_stage.svg'
+import Svg_ShapeWritingFan from './assets/svg/shape_writing_fan.svg'
+import Svg_ShapeWritingSheep from './assets/svg/shape_writing_sheep.svg'
 import Svg_Avator from './assets/svg/avator.svg'
 import Svg_ScrollDown from './assets/svg/scrollDown.svg'
-import { useEffectOnce, useWindowSize,useEventListener, useInterval } from 'usehooks-ts'
+import { useEffectOnce, useWindowSize,useEventListener} from 'usehooks-ts'
 import { useSwipeable } from 'react-swipeable'
 import Svg_ShapeIconPhone from './assets/svg/shape_Icon_Phone.svg'
 import Svg_ShapeIconEmail from './assets/svg/shape_Icon_Email.svg'
@@ -79,6 +81,11 @@ export default memo(function Home(){
   const writingOverlay = useRef()
   const writingBookText = useRef()
   const writingBookOverlayText = useRef()
+  const writingStage = useRef()
+  const writingFan = useRef()
+  const writingSheep_1 = useRef()
+  const writingSheep_2 = useRef()
+  const writingSheep_3 = useRef()
   const hintCopy = useRef()
   const laptopOverlay = useRef()
   const containerIcons = useRef()
@@ -275,6 +282,14 @@ export default memo(function Home(){
       easing: easingFunc,
       loop: false,
     })
+    anime({
+      targets: writingStage.current,
+      translateY: (3*(-index+writingPage)+0.5)*height-0.05*0.5*width,
+      duration:2000,
+      easing: easingFunc,
+      loop: false,
+    })
+
   }
   const PlayIntroTransition = ()=>{
     anime({
@@ -471,6 +486,71 @@ export default memo(function Home(){
     },"-=300")
     dotdotdotLoop.current.pause()
   }
+  const PlayWritingFanLoop = ()=>{
+    anime({
+      targets: writingFan.current,
+      duration:3000,
+      rotate: 360,
+      easing:'linear',
+      loop: true
+    })
+  }
+  const PlayWritingSheepLoop = ()=>{
+    anime.timeline({loop:true}).add({
+      targets: writingSheep_1.current,
+      duration:200,
+      translateX: ["25vw","24.5vw"],
+      translateY: ["-14vw",'-15vw'],
+      easing: "easeOutQuad",
+    }).add({
+      targets: writingSheep_1.current,
+      duration:200,
+      translateX: ["24.5vw","24vw"],
+      translateY: ["-15vw",'-14vw'],
+      easing: "easeInQuad",
+    }).add({
+      targets: writingSheep_1.current,
+      duration:200,
+      translateX: ["24vw","23.5vw"],
+      translateY: ["-14vw",'-15vw'],
+      easing: "easeOutQuad",
+    }).add({
+      targets: writingSheep_1.current,
+      duration:200,
+      translateX: ["23.5vw","23vw"],
+      translateY: ["-15vw",'-14vw'],
+      easing: "easeInQuad",
+    }).add({
+      targets: writingSheep_1.current,
+      duration:10,
+      scaleX:-1,
+    },"+=1000").add({
+      targets: writingSheep_1.current,
+      duration:200,
+      translateX: ["23vw","23.5vw"],
+      translateY: ["-14vw",'-15vw'],
+      easing: "easeOutQuad",
+    }).add({
+      targets: writingSheep_1.current,
+      duration:200,
+      translateX: ["23.5vw","24vw"],
+      translateY: ["-15vw",'-14vw'],
+      easing: "easeInQuad",
+    }).add({
+      targets: writingSheep_1.current,
+      duration:200,
+      translateX: ["24vw","24.5vw"],
+      translateY: ["-14vw",'-15vw'],
+      easing: "easeOutQuad",
+    }).add({
+      targets: writingSheep_1.current,
+      duration:200,
+      translateX: ["24.5vw","25vw"],
+      translateY: ["-15vw",'-14vw'],
+      easing: "easeInQuad",
+      endDelay:1500
+    })
+  }
   let scrollDownTimer = null
   const PlayScrollDownLoop = ()=>{
     anime.timeline({targets:".scrollDown",loop:true}).add({
@@ -494,6 +574,14 @@ export default memo(function Home(){
       opacity:0,
       duration:1000,
       easing: 'easeOutSine'
+    })
+  }
+  const PlayDotSwell = ()=>{
+    anime({
+      targets: ".homeDot",
+      scale: [0,100],
+      duration:800,
+      easing: 'easeInQuad'
     })
   }
   //#endregion
@@ -575,6 +663,8 @@ export default memo(function Home(){
     PlayScrollDownLoop()
     PlayWritingBookLettersLoop()
     PlayDotDotDotLoop()
+    PlayWritingFanLoop()
+    PlayWritingSheepLoop()
     setIndex(3)
   })
 
@@ -815,16 +905,16 @@ const OnShapesLeave = (page)=>{
 }
 
 const OnShapesClick = (page)=>{
-  dot.current.style.top = '45%'
-  dot.current.style.left = '55%'
   switch(page){
     case codingPage:
-      anime({
-        targets: ".homeDot",
-        scale: [0,80],
-        duration:800,
-        easing: 'easeInQuad'
-      })
+      dot.current.style.top = '45%'
+      dot.current.style.left = '55%'
+      PlayDotSwell()
+      break;
+    case writingPage:
+      dot.current.style.top = '65%'
+      dot.current.style.left = '65%'
+      PlayDotSwell()
       break;
   }
 }
@@ -964,6 +1054,7 @@ return (<div {...handlers}>
   </div>
   </span>
   <span className='_WritingSection'>
+
   <div className='homeOverlays' ref = {writingOverlay}>
   <span >
   <Svg_ShapeWritingOverlay />
@@ -975,9 +1066,25 @@ return (<div {...handlers}>
   <div className='homeShapes'  ref = {writingBookText} >
   {cntntWritingBook}
   </div>
-  <div className='homeShapes' ref={writingBook} onMouseEnter={()=>OnShapesEnter(writingPage)} onMouseLeave = {()=>OnShapesLeave(writingPage)}>
+  <div className='homeShapes' ref={writingBook} onMouseOver={()=>OnShapesEnter(writingPage)} onMouseOut = {()=>OnShapesLeave(writingPage)} onClick={()=>OnShapesClick(writingPage)}>
   <Svg_ShapeWritingBook />
   </div>
+  <div className='homeStage' ref = {writingStage}>
+  <Svg_ShapeWritingStage />
+  <div className='homeFan' ref = {writingFan}>
+  <Svg_ShapeWritingFan />
+  </div>
+  <div className='homeSheep' ref = {writingSheep_1}>
+  <Svg_ShapeWritingSheep />
+  </div>
+  <div className='homeSheep' ref = {writingSheep_2}>
+  <Svg_ShapeWritingSheep />
+  </div>
+  <div className='homeSheep' ref = {writingSheep_3}>
+  <Svg_ShapeWritingSheep />
+  </div>
+  </div>
+
   <div className='homeTitles' ref={titleWriting} onMouseEnter={()=>OnTitlesEnter(writingPage)}>
   {cntntWriting}
   <span >
