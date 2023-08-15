@@ -8,7 +8,7 @@ import Svg_ShapeWritingOverlay from './assets/svg/shape_writing_overlay.svg'
 
 import Svg_Avator from './assets/svg/avator.svg'
 import Svg_ScrollDown from './assets/svg/scrollDown.svg'
-import { useEffectOnce, useWindowSize,useEventListener } from 'usehooks-ts'
+import { useEffectOnce, useWindowSize,useEventListener, useInterval } from 'usehooks-ts'
 import { useSwipeable } from 'react-swipeable'
 import Svg_ShapeIconPhone from './assets/svg/shape_Icon_Phone.svg'
 import Svg_ShapeIconEmail from './assets/svg/shape_Icon_Email.svg'
@@ -27,9 +27,10 @@ const writingPage = 3;
 const MaxPage = 3
 const txtCoding = 'coding_'
 const txtArt = "~Art~"
-const txtWriting = "Writing."
+const txtWriting = "Writing "
+const txtWritingSuffix = ", with a pen."
 const txtIntro = "Weihang Qin"
-const txtWritingBook = "Once-Upon-A-Time" // The - symbol is a hack to prevent the space from disappearing when setting display to inline-block
+const txtWritingBook = "Once-Upon-A-Time..." // The - symbol is a hack to prevent the space from disappearing when setting display to inline-block
 const easingFunc = "cubicBezier(.7,0,.29,.99)"
 const cntntGreet = (<>  
   Hello there! You've hit my site. <br></br>
@@ -89,8 +90,9 @@ export default memo(function Home(){
   const animCtrl_Transition = useRef(false)
   const animCtrl_Icon = useRef(false)
   const animCtrl_Avator = useRef(false)
-  const animCtrl_FloatingLetters = useRef(false)
   const cursor = useContext(CursorContext)
+
+  
   //#endregion
   //#region Animations
   const PlayGlobalFadeIn = ()=>{
@@ -313,16 +315,27 @@ export default memo(function Home(){
       duration :writingBookLettersConvergeDuration,
       easing: "easeOutCubic",
     })
-  }
-  const PlayWritingBookLettersScatter = ()=>{
     anime({
+      targets: ['.homeShapes #writingBook_16','.homeShapes #writingBook_17','.homeShapes #writingBook_18'],
+      opacity:1,
+      duration:writingBookLettersConvergeDuration,
+      easing: "easeOutCubic",
+    })
+  }
+  const writingBookLettersScatterAnim = useRef(anime({
+    targets: ".homeShapes #writingBook_16",
+    opacity:[0,0],
+    duration:1,
+  }))
+  const PlayWritingBookLettersScatter = ()=>{
+    writingBookLettersScatterAnim.current = anime({
       targets: ".homeShapes #writingBook_0",
       translateX: 3,
       translateY: -1.5,
       scale: 2.2,
       duration :writingBookLettersConvergeDuration,
       easing: "easeInOutSine",
-      complete: ()=>writingBookLettersLoopAnims.current.forEach((elmt,id)=>{if(animCtrl_FloatingLetters.current){return}console.log(elmt);elmt.restart()})
+      complete: ()=>writingBookLettersLoopAnims.current.forEach((elmt,id)=>{elmt.restart()})
     })
     anime({
       targets: ".homeShapes #writingBook_1",
@@ -420,6 +433,12 @@ export default memo(function Home(){
       duration :writingBookLettersConvergeDuration,
       easing: "easeInOutSine",
     })
+    anime({
+      targets: ['.homeShapes #writingBook_16','.homeShapes #writingBook_17','.homeShapes #writingBook_18'],
+      opacity:0,
+      duration:writingBookLettersConvergeDuration,
+      easing: "easeInOutSine",
+    })
   }
   const writingBookLettersLoopAnims = useRef([])
   const PlayWritingBookLettersLoop = ()=>{
@@ -434,6 +453,25 @@ export default memo(function Home(){
       }))
     }
   }
+  const dotdotdotLoop = useRef()
+  const PlayDotDotDotLoop = ()=>{
+    dotdotdotLoop.current = anime.timeline({loop:true,duration:600}).add({
+      targets: '.homeShapes #writingBook_16',
+      opacity: [1,0,1],
+      easing: 'steps(1)',
+    }).add({
+      targets: '.homeShapes #writingBook_17',
+      opacity: [1,0,1],
+      easing: 'steps(1)',
+    },"-=300").add({
+      targets: '.homeShapes #writingBook_18',
+      opacity: [1,0,1],
+      easing: 'steps(1)',
+      endDelay: -200
+    },"-=300")
+    dotdotdotLoop.current.pause()
+  }
+  let scrollDownTimer = null
   const PlayScrollDownLoop = ()=>{
     anime.timeline({targets:".scrollDown",loop:true}).add({
       opacity:[0,1,0],
@@ -458,8 +496,6 @@ export default memo(function Home(){
       easing: 'easeOutSine'
     })
   }
-  
-  let scrollDownTimer = null
   //#endregion
   useEffect(()=>{
     Logger.Warn('Home rerendered')
@@ -520,9 +556,9 @@ export default memo(function Home(){
     document.querySelector(".homeShapes #writingBook_13").style.transform = 'translateX(-5.1em) translateY(1em) scale(0.8)'
     document.querySelector(".homeShapes #writingBook_14").style.transform = 'translateX(-1.5em) translateY(-1.1em) scale(1.2)'
     document.querySelector(".homeShapes #writingBook_15").style.transform = 'translateX(-4.8em) translateY(0em) scale(1.2)'
-    // document.querySelector(".homeShapes #writingBook_16").style.opacity = 0
-    // document.querySelector(".homeShapes #writingBook_17").style.opacity = 0
-    // document.querySelector(".homeShapes #writingBook_18").style.opacity = 0
+    document.querySelector(".homeShapes #writingBook_16").style.opacity = 0
+    document.querySelector(".homeShapes #writingBook_17").style.opacity = 0
+    document.querySelector(".homeShapes #writingBook_18").style.opacity = 0
     document.querySelectorAll("#writingBook_4").forEach((elmt)=>{elmt.style.opacity = 0})
     document.querySelectorAll("#writingBook_9").forEach((elmt)=>{elmt.style.opacity = 0})
     document.querySelectorAll("#writingBook_11").forEach((elmt)=>{elmt.style.opacity = 0})
@@ -538,6 +574,7 @@ export default memo(function Home(){
     PlayAvatorBlinkLoop()
     PlayScrollDownLoop()
     PlayWritingBookLettersLoop()
+    PlayDotDotDotLoop()
     setIndex(3)
   })
 
@@ -747,8 +784,9 @@ const OnShapesEnter = (page)=>{
     case writingPage:
       PlayWritingBookOverlayTextFadeIn()
       PlayWritingBookLettersConverge()
-      animCtrl_FloatingLetters.current = true
+      writingBookLettersScatterAnim.current.complete = null
       writingBookLettersLoopAnims.current.forEach((elmt,id)=>{elmt.pause()})
+      dotdotdotLoop.current.play()
       break;
   }
 
@@ -768,13 +806,14 @@ const OnShapesLeave = (page)=>{
       })
       break;
     case writingPage:
-      animCtrl_FloatingLetters.current = false
       PlayWritingBookOverlayTextFadeOut()
+      writingBookLettersScatterAnim.current.complete = null
       PlayWritingBookLettersScatter()
+      dotdotdotLoop.current.pause()
       break;
   }
-
 }
+
 const OnShapesClick = (page)=>{
   dot.current.style.top = '45%'
   dot.current.style.left = '55%'
@@ -788,7 +827,6 @@ const OnShapesClick = (page)=>{
       })
       break;
   }
-
 }
 //#endregion
 
@@ -848,11 +886,34 @@ const OnTitleCodingEnter = ()=>{
     CodingTimer ??= setInterval(CodingInterval,150)
     GlitchingTimer ??= setInterval(GlitchingInterval,20);
 }
+let writingTimer = null
+let writingSuffixCounter = 0
+let writingSuffixDir = 1
+const onTitleWriting = ()=>{
+  console.log(writingTimer)
+  writingTimer ??= setInterval(() => {
+    writingSuffixCounter+=writingSuffixDir
+    if(writingSuffixCounter == -1){
+      writingSuffixDir *= -1
+      writingSuffixCounter++
+      clearInterval(writingTimer)
+      writingTimer = null
+      return;
+    }
+    if(writingSuffixCounter>txtWritingSuffix.length){
+      writingSuffixDir*= -1
+    }
+    document.querySelector("#writingTitleSuffix").textContent = txtWritingSuffix.substring(0, writingSuffixCounter)
+  }, 100);
+}
 
 const OnTitlesEnter = (page)=>{
   switch(page){
     case codingPage:
       OnTitleCodingEnter()
+      break;
+    case writingPage:
+      onTitleWriting();
       break;
   }
 }
@@ -898,7 +959,7 @@ return (<div {...handlers}>
   <div className='homeShapes' onMouseEnter={()=>OnShapesEnter(codingPage)} onMouseLeave = {()=>OnShapesLeave(codingPage)} onClick={()=>OnShapesClick(codingPage)} ref = {laptop} >
   <Svg_ShapeLaptop />
   </div>
-  <div className='homeTitles'ref={titleCoding} onMouseEnter={()=>OnTitlesEnter(1)}>
+  <div className='homeTitles'ref={titleCoding} onMouseEnter={()=>OnTitlesEnter(codingPage)}>
   {cntntCoding}
   </div>
   </span>
@@ -917,8 +978,11 @@ return (<div {...handlers}>
   <div className='homeShapes' ref={writingBook} onMouseEnter={()=>OnShapesEnter(writingPage)} onMouseLeave = {()=>OnShapesLeave(writingPage)}>
   <Svg_ShapeWritingBook />
   </div>
-  <div className='homeTitles'ref={titleWriting}>
+  <div className='homeTitles' ref={titleWriting} onMouseEnter={()=>OnTitlesEnter(writingPage)}>
   {cntntWriting}
+  <span >
+  <a id = "writingTitleSuffix" style ={{fontFamily: "OLDENG"}} className='writingLetters'></a>
+  </span>
   </div>
   </span>
   
