@@ -6,3 +6,5 @@ cntnt_: react component
 
 ref_: reference to a dom element
 
+
+For objects with a looping animation attached, always have a wrapper around to enable other one-time transitions.

@@ -83,6 +83,7 @@ export default memo(function Home(){
   const writingBookOverlayText = useRef()
   const writingStage = useRef()
   const writingFan = useRef()
+  const writingMill = useRef()
   const writingSheep_1 = useRef()
   const writingSheep_2 = useRef()
   const writingSheep_3 = useRef()
@@ -455,6 +456,44 @@ export default memo(function Home(){
       easing: "easeInOutSine",
     })
   }
+  const writingStageFadeInAnim = useRef()
+  const writingStageFadeOutAnim = useRef()
+  const PlayWritingStageFadeIn = ()=>{
+    writingStageFadeOutAnim.current?.pause()
+    writingStageFadeOutAnim.current = null
+    writingStageFadeInAnim.current??=anime.timeline().add({
+      targets: "#Writing_Stage",
+      scaleY:1,
+      duration:1000,
+      delay:500,
+    }).add({
+      targets: "#Writing_Stage_Fan",
+      scale:1,
+      duration:1000,
+    },"-=400").add({
+      targets: "#Writing_Sheep",
+      scale:1,
+      duration:1000,
+    },"+=200")
+  }
+  const PlayWritingStageFadeOut = ()=>{
+    writingStageFadeInAnim.current?.pause()
+    writingStageFadeInAnim.current = null
+    writingStageFadeOutAnim.current??=anime.timeline({easing:'easeInElastic(.9,.7)'}).add({
+      targets: "#Writing_Sheep",
+      scale:0,
+      duration:600,
+    }).add({
+      targets: "#Writing_Stage_Fan",
+      scale:0,
+      duration:600,
+    },"-=300").add({
+      targets: "#Writing_Stage",
+      scaleY:0,
+      duration:600,
+    },"-=300")
+  }
+
   const writingBookLettersLoopAnims = useRef([])
   const PlayWritingBookLettersLoop = ()=>{
     for (let i = 0; i < txtWritingBook.length; i++) {
@@ -771,6 +810,10 @@ export default memo(function Home(){
     document.querySelector("#Laptop_Overlay_Center").style.transform = "scale(0.488)"
     document.querySelector(".scrollDown").style.opacity = 0
     writingBookOverlayText.current.style.opacity = 0
+    document.querySelector("#Writing_Stage").style.transform = 'scaleY(0)'
+    document.querySelector("#Writing_Stage_Fan").style.transform = 'scale(0)'
+    document.querySelectorAll('#Writing_Sheep').forEach((elmt)=>{elmt.style.transform = 'scale(0)'})
+
     PlayCodingCoffeSteamLoop()
     PlayGlobalFadeIn()
     PlayAvatorBlinkLoop()
@@ -969,12 +1012,12 @@ export default memo(function Home(){
 const OnAvatorOver = ()=>{
   PlayAvatorJump()
 }
-
 const OnShapesEnter = (page)=>{
   // if(isInTransition.current){
   //   return
   // }
   cursor.Focus.current()
+  console.log("entering")
 
   switch (page) {
     case codingPage:
@@ -990,6 +1033,7 @@ const OnShapesEnter = (page)=>{
       PlayWritingBookLettersConverge()
       writingBookLettersScatterAnim.current.complete = null
       writingBookLettersLoopAnims.current.forEach((elmt,id)=>{elmt.pause()})
+      PlayWritingStageFadeIn()
       dotdotdotLoop.current.play()
       break;
   }
@@ -999,6 +1043,8 @@ const OnShapesLeave = (page)=>{
   // if(isInTransition.current){
   //   return
   // }
+  console.log("leaving")
+
   cursor.DeFocus.current()
   switch (page) {
     case codingPage:
@@ -1013,6 +1059,7 @@ const OnShapesLeave = (page)=>{
       PlayWritingBookOverlayTextFadeOut()
       writingBookLettersScatterAnim.current.complete = null
       PlayWritingBookLettersScatter()
+      PlayWritingStageFadeOut()
       dotdotdotLoop.current.pause()
       break;
   }
@@ -1180,11 +1227,13 @@ return (<div {...handlers}>
   <div className='homeShapes'  ref = {writingBookText} >
   {cntntWritingBook}
   </div>
-  <div className='homeShapes' ref={writingBook} onMouseOver={()=>OnShapesEnter(writingPage)} onMouseOut = {()=>OnShapesLeave(writingPage)} onClick={()=>OnShapesClick(writingPage)}>
+  <div className='homeShapes' ref={writingBook} >
   <Svg_ShapeWritingBook />
   </div>
-  <div className='homeStage' ref = {writingStage}>
+  <div className='homeStage' ref = {writingStage} onMouseEnter={()=>OnShapesEnter(writingPage)} onMouseLeave = {()=>OnShapesLeave(writingPage)} onClick={()=>OnShapesClick(writingPage)}>
+  <div className='homeStageMill' ref = {writingMill}>
   <Svg_ShapeWritingStage />
+  </div>
   <div className='homeFan' ref = {writingFan}>
   <Svg_ShapeWritingFan />
   </div>
