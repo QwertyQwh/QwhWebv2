@@ -100,7 +100,7 @@ export default memo(function Home(){
   const animCtrl_Avator = useRef(false)
   const cursor = useContext(CursorContext)
 
-  
+  //TODO: add Intro Title flip animation
   //#endregion
   //#region Animations
   const PlayGlobalFadeIn = ()=>{
@@ -256,7 +256,7 @@ export default memo(function Home(){
   const PlayWritingTransition = ()=>{
     anime({
       targets: writingOverlay.current,
-      translateY: (3*(-index+writingPage)+0.5)*height+0.2*0.5*width-0.0*width,
+      translateY: (3*(-index+writingPage)+0.5)*height-1.586*0.5*width,
       duration:4000,
       easing: easingFunc,
       loop: false,
