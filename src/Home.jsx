@@ -550,6 +550,120 @@ export default memo(function Home(){
       easing: "easeInQuad",
       endDelay:1500
     })
+    anime.timeline({loop:true}).add({
+      targets: writingSheep_2.current,
+      duration:1,
+      scaleX:[1,-1],
+      easing: 'steps(1)',
+    }).add({
+      targets: writingSheep_2.current,
+      duration:200,
+      translateX: ["-30vw","-30.5vw"],
+      translateY: ["-11vw",'-12vw'],
+      easing: "easeOutQuad",
+    }).add({
+      targets: writingSheep_2.current,
+      duration:200,
+      translateX: ["-30.5vw","-31vw"],
+      translateY: ["-12vw",'-11vw'],
+      easing: "easeInQuad",
+    }).add({
+      targets: writingSheep_2.current,
+      duration:200,
+      translateX: ["-31vw","-31.5vw"],
+      translateY: ["-11vw",'-12vw'],
+      easing: "easeOutQuad",
+    }).add({
+      targets: writingSheep_2.current,
+      duration:200,
+      translateX: ["-31.5vw","-32vw"],
+      translateY: ["-12vw",'-11vw'],
+      easing: "easeInQuad",
+    }).add({
+      targets: writingSheep_2.current,
+      duration:2,
+      scaleX:[-1,1],
+      easing: 'steps(1)'
+    },"+=600").add({
+      targets: writingSheep_2.current,
+      duration:200,
+      translateX: ["32vw","31.5vw"],
+      translateY: ["-11vw",'-12vw'],
+      easing: "easeOutQuad",
+    }).add({
+      targets: writingSheep_2.current,
+      duration:200,
+      translateX: ["31.5vw","31vw"],
+      translateY: ["-12vw",'-11vw'],
+      easing: "easeInQuad",
+    }).add({
+      targets: writingSheep_2.current,
+      duration:200,
+      translateX: ["31vw","30.5vw"],
+      translateY: ["-11vw",'-12vw'],
+      easing: "easeOutQuad",
+    }).add({
+      targets: writingSheep_2.current,
+      duration:200,
+      translateX: ["30.5vw","30vw"],
+      translateY: ["-12vw",'-11vw'],
+      easing: "easeInQuad",
+      endDelay:1300
+    })
+    anime.timeline({loop:true}).add({
+      targets: writingSheep_3.current,
+      duration:200,
+      translateX: ["27vw","26.5vw"],
+      translateY: ["-9vw",'-10vw'],
+      easing: "easeOutQuad",
+    }).add({
+      targets: writingSheep_3.current,
+      duration:200,
+      translateX: ["26.5vw","26vw"],
+      translateY: ["-10vw",'-9vw'],
+      easing: "easeOutQuad",
+    }).add({
+      targets: writingSheep_3.current,
+      duration:200,
+      translateX: ["26vw","25.5vw"],
+      translateY: ["-9vw",'-10vw'],
+      easing: "easeOutQuad",
+    }).add({
+      targets: writingSheep_3.current,
+      duration:200,
+      translateX: ["25.5vw","25vw"],
+      translateY: ["-10vw",'-9vw'],
+      easing: "easeOutQuad",
+    }).add({
+      targets: writingSheep_3.current,
+      duration:10,
+      scaleX:-1,
+    },"+=800").add({
+      targets: writingSheep_3.current,
+      duration:200,
+      translateX: ["25vw","25.5vw"],
+      translateY: ["-9vw",'-10vw'],
+      easing: "easeOutQuad",
+    }).add({
+      targets: writingSheep_3.current,
+      duration:200,
+      translateX: ["25.5vw","26vw"],
+      translateY: ["-10vw",'-9vw'],
+      easing: "easeOutQuad",
+    }).add({
+      targets: writingSheep_3.current,
+      duration:200,
+      translateX: ["26vw","26.5vw"],
+      translateY: ["-9vw",'-10vw'],
+      easing: "easeOutQuad",
+    }).add({
+      targets: writingSheep_3.current,
+      duration:200,
+      translateX: ["26.5vw","27vw"],
+      translateY: ["-10vw",'-9vw'],
+      easing: "easeOutQuad",
+      endDelay: 2100
+    })
   }
   let scrollDownTimer = null
   const PlayScrollDownLoop = ()=>{
