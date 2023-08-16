@@ -1,6 +1,7 @@
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import { useLoaderData } from "react-router-dom"
-import { useEventListener } from "usehooks-ts"
+import { useEventListener, useEffectOnce } from "usehooks-ts"
+
 export default function Blog(){
     const data =useLoaderData()
     console.log(data)
@@ -8,19 +9,29 @@ export default function Blog(){
     //smooth scrolling
     const ref_post = useRef()
     const ref_Bg = useRef()
+    const postOffset = useRef(0)
     const handlePostScroll = ()=>{
-        console.log(ref_Bg.current.scrollTop)
-        ref_post.current.style.top = "100px"
     }
+
+
     useEventListener("scroll",handlePostScroll,ref_Bg)  
 
     return (
         <div className="blogBg" ref = {ref_Bg}>
+        <div className="header">
+        <button className = 'home'>
+        <span class="button_top"> Home
+        </span>
+        </button>
+        </div>
         <div className="post" ref = {ref_post}>
+        <div className = 'titleBlock'>
         <time dateTime="2015-03-09" className="postDate">August  25, 2023</time>
         <h1 className="title">
         This is the title中文也要考虑
         </h1>
+        </div>
+        <div className = 'CntntBlock'>
         <p>
         好久不更新了。想用react改写一下网站，一直拖拖拉拉没有进展。结果连post也懒得写。兜兜转转今年已经见底。明年？希望结语至少不是“拖拉”。
         </p>
@@ -60,6 +71,8 @@ export default function Blog(){
         var b = "beauty".
         </code>
         </pre>
+        </div>
+
         </div>
         
 

@@ -1,3 +1,16 @@
+
+
+.blogBg{
+  /* Variables */
+--button_radius: 0.75em;
+--button_color: #fefefe;
+--button_outline_color: #1d1d1d;
+overflow-y: scroll;
+overflow-x: hidden;
+scroll-behavior: smooth;
+height: 100vh;
+}
+
 .blogBg .post .postDate{
   max-width: 600px;
   font-weight: 900;
@@ -10,15 +23,26 @@
   font-family: Poiret
 }
 
-.blogBg{
-  overflow-y: scroll;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-  height: 100vh;
+.blogBg .titleBlock{
+  margin: 0 auto;
+  max-width: 700px;
+  margin-bottom: 2em;
+
+  border: 2px solid var(--button_outline_color);
+  border-radius: var(--button_radius);
+  padding: 0.75em 1.5em;
+  background: var(--button_color);
+  color: var(--button_outline_color);
+  transform: translateY(-0.2em);
 }
+
 .blogBg .post{
-  margin-top: 130pt;
+
+  margin-top: 80pt;  
   position: relative;
+  display: block;
+  box-sizing: border-box;
+
 }
 
 .blogBg .post h1, a, p{
@@ -52,7 +76,40 @@
 .blogBg .post .title{
   font-weight: 1000;
   line-height: 1.1em;
+  margin-bottom: 0.5em;
   font-size: 3em;
   font-family: Poiret,GDC_R;;
-  margin-bottom: 1em;
+}
+
+
+/*Button*/
+.blogBg button.home {
+  padding: 0;
+  font-size: 17px;
+  font-weight: bold;
+  border: none;
+  border-radius: var(--button_radius);
+  background: var(--button_outline_color);
+}
+
+.button_top {
+  display: block;
+  box-sizing: border-box;
+  border: 2px solid var(--button_outline_color);
+  border-radius: var(--button_radius);
+  padding: 0.75em 1.5em;
+  background: var(--button_color);
+  color: var(--button_outline_color);
+  transform: translateY(0.2em) translateX(0.1em);
+  transition: transform 0.1s ease;
+}
+
+button.home:hover .button_top {
+  /* Pull the button upwards when hovered */
+  transform: translateY(0.33em) translateX(0.15em);
+}
+
+button.home:active .button_top {
+  /* Push the button downwards when pressed */
+  transform: translateY(0);
 }
