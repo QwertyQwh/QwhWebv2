@@ -474,7 +474,7 @@ export default memo(function Home(){
       targets: "#Writing_Sheep",
       scale:1,
       duration:1000,
-    },"+=200")
+    },"-=200")
   }
   const PlayWritingStageFadeOut = ()=>{
     writingStageFadeInAnim.current?.pause()
