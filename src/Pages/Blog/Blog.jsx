@@ -1,39 +1,63 @@
 import { useEffect, useRef } from "react"
-import { useLoaderData } from "react-router-dom"
+import { useLoaderData, useNavigate } from "react-router-dom"
 import { useEventListener, useEffectOnce } from "usehooks-ts"
+import Svg_Arrow from '../../assets/svg/blog_arrow.svg'
+import Svg_Pin from '../../assets/svg/blog_pin.svg'
+import imgBanner from '../../assets/images/banner.jpg'
+import imgAcadia from '../../assets/images/acadia.jpg'
 
 export default function Blog(){
     const data =useLoaderData()
     console.log(data)
-    
+    const navigate = useNavigate()
     //smooth scrolling
     const ref_post = useRef()
     const ref_Bg = useRef()
-    const postOffset = useRef(0)
-    const handlePostScroll = ()=>{
+    const OnBtnHomeClicked = ()=>{
+        navigate(`../../home`)
+    }
+    const OnBtnSectionClicked = ()=>{
+        navigate('../../section/coding')
     }
 
-
-    useEventListener("scroll",handlePostScroll,ref_Bg)  
 
     return (
         <div className="blogBg" ref = {ref_Bg}>
         <div className="header">
-        <button className = 'home'>
-        <span class="button_top"> Home
+        <div className='homeBtns'>
+        <button className = 'home' onClick={OnBtnHomeClicked}>
+        <span className="button_top"> Home
+        </span>
+        </button>
+        <div style={{display:"inline-block",width:40,margin:"0 0.5em",top: '.6em',position:'relative'}}>
+        <Svg_Arrow /> 
+        </div>
+        <button className = 'home' onClick={OnBtnSectionClicked}>
+        <span className="button_top"> Coding
         </span>
         </button>
         </div>
+        </div>
         <div className="post" ref = {ref_post}>
+        <div className = "titleBlockContainer">
+        <div className = "titleBlockBuffer">
         <div className = 'titleBlockShadow'>
         <div className = 'titleBlock'>
+        <span style={{display:"inline-block",width:30,transform: 'translateY(-2em) translateX(-1.5em)'}}>
+        <Svg_Pin />
+        </span>
         <time dateTime="2015-03-09" className="postDate">August  25, 2023</time>
         <h1 className="title">
         This is the title中文也要考虑
         </h1>
         </div>
         </div>
-        <div className = 'CntntBlock'>
+        </div>
+        </div>
+        <div className = "titleBlockContainer">
+        <div className = "titleBlockBuffer">
+        <div className = 'titleBlockShadow'>
+        <div className = 'titleBlock'>
         <p>
         好久不更新了。想用react改写一下网站，一直拖拖拉拉没有进展。结果连post也懒得写。兜兜转转今年已经见底。明年？希望结语至少不是“拖拉”。
         </p>
@@ -73,6 +97,18 @@ export default function Blog(){
         var b = "beauty".
         </code>
         </pre>
+        <p className="image">
+        <img src={imgBanner}  />
+        </p>
+        <p>
+        接下来是一张竖版图片。
+        </p>
+        <p className="image">
+        <img src={imgAcadia}  />
+        </p>
+        </div>
+        </div>
+        </div>
         </div>
 
         </div>
