@@ -20,14 +20,16 @@ export default function Wrapper(){
   const cursorRef = useRef()
   const cursorFocus = useRef();
   const cursorDeFocus = useRef();
+  const cursorReset = useRef();
   useEffectOnce(()=>{
     cursorFocus.current = cursorRef.current.playFocus
     cursorDeFocus.current = cursorRef.current.playDeFocus
+    cursorReset.current = cursorRef.current.reset
   })
 //#endregion
     return <>
     <StickerContext.Provider value = {stickerFunc}>
-    <CursorContext.Provider value = {{Focus:cursorFocus,DeFocus: cursorDeFocus}}>
+    <CursorContext.Provider value = {{Focus:cursorFocus,DeFocus: cursorDeFocus,Reset:cursorReset}}>
     <DeviceContext.Provider value = {width<height? "mobile":"console"}>
         <Outlet />
     <Sticker  ref = {stickerRef}/>

@@ -21,6 +21,7 @@ import {RandomAscii} from './Utils/MathUtils'
 import { memo } from 'react'
 import Logger from './Debug/Logger'
 import { randInt } from 'three/src/math/MathUtils'
+import { useNavigate} from 'react-router-dom'
 
 const IntroPage = 0;
 const codingPage = 1;
@@ -99,6 +100,7 @@ export default memo(function Home(){
   const animCtrl_Icon = useRef(false)
   const animCtrl_Avator = useRef(false)
   const cursor = useContext(CursorContext)
+  const navigate = useNavigate()
 
   //TODO: add Intro Title flip animation
   //#endregion
@@ -729,12 +731,13 @@ export default memo(function Home(){
       easing: 'easeOutSine'
     })
   }
-  const PlayDotSwell = ()=>{
+  const PlayDotSwell = (pageName)=>{
     anime({
       targets: ".homeDot",
       scale: [0,100],
       duration:800,
-      easing: 'easeInQuad'
+      easing: 'easeInQuad',
+      complete:()=>{navigate(`../section/${pageName}/`);}
     })
   }
   //#endregion
@@ -822,7 +825,7 @@ export default memo(function Home(){
     PlayDotDotDotLoop()
     PlayWritingFanLoop()
     PlayWritingSheepLoop()
-    setIndex(3)
+    setIndex(1)
   })
 
 //#region IconEvents
@@ -1070,7 +1073,7 @@ const OnShapesClick = (page)=>{
     case codingPage:
       dot.current.style.top = '45%'
       dot.current.style.left = '55%'
-      PlayDotSwell()
+      PlayDotSwell("coding")
       break;
     case writingPage:
       dot.current.style.top = '65%'

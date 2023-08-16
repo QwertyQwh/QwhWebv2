@@ -254,6 +254,10 @@ export default forwardRef( function Cursor(props,ref){
           },
           setStyle(index){
             setcursorStyle(index);
+          },
+          Reset(){
+            playAnimationDeFocus()
+            focusing = false
           }
         };
       }, [cursorStyle]);

@@ -5,9 +5,11 @@ import {
     RouterProvider,
   } from "react-router-dom";
 import Wrapper from './Wrapper.jsx';
+import Blog_Legacy from './Pages/Blog_Legacy/Blog_Legacy.jsx';
 import Blog from './Pages/Blog/Blog.jsx';
 import TestScene from './Scene/TestScene.jsx';
-
+import { SectionLoader } from './Router/SectionLoader.js';
+import Section_Router from './Pages/Sections/Section_Router.jsx';
   const router = createBrowserRouter([
     {
       path: "/",
@@ -16,6 +18,11 @@ import TestScene from './Scene/TestScene.jsx';
           {
             path: "Home",
             element: <Home />,
+          },
+          {
+            path: "Section/:section",
+            element: <Section_Router />,
+            loader: SectionLoader,
           },
           {
             path: "Test",
