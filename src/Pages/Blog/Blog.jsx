@@ -25,11 +25,13 @@ export default function Blog(){
         </button>
         </div>
         <div className="post" ref = {ref_post}>
+        <div className = 'titleBlockShadow'>
         <div className = 'titleBlock'>
         <time dateTime="2015-03-09" className="postDate">August  25, 2023</time>
         <h1 className="title">
         This is the title中文也要考虑
         </h1>
+        </div>
         </div>
         <div className = 'CntntBlock'>
         <p>

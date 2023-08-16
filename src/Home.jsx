@@ -69,6 +69,9 @@ Well, mostly random thoughts.
 export default memo(function Home(){
   //#region states and refs
   const [index, setIndex] = useState(-1);
+  const introSection = useRef()
+  const codingSection = useRef()
+  const writingSection = useRef()
   const titleCoding = useRef()
   const titleArt = useRef()
   const titleWriting = useRef()
@@ -107,7 +110,7 @@ export default memo(function Home(){
   //#region Animations
   const PlayGlobalFadeIn = ()=>{
     anime({
-      targets: [laptop.current,laptopOverlay.current,titleCoding.current,titleArt.current,titleWriting.current],
+      targets: [writingSection.current,codingSection.current],
       opacity: [-1,1],
       easing: 'steps(2)',
       duration: 8000,
@@ -825,7 +828,7 @@ export default memo(function Home(){
     PlayDotDotDotLoop()
     PlayWritingFanLoop()
     PlayWritingSheepLoop()
-    setIndex(1)
+    setIndex(0)
   })
 
 //#region IconEvents
@@ -1180,11 +1183,11 @@ return (<div {...handlers}>
 
   <span className='homeStripe' />
 
-  <span className='_IntroSection'>
+  <span className='_IntroSection' ref = {introSection}>
   <div className='homeShapes homeIntro' ref = {homeIntro}>
   <span className='avator' onMouseOver={OnAvatorOver}> <Svg_Avator /></span>
   <span ref = {greetIntro}>
-  <a>
+  <a style={{fontFamily: "Poiret",fontWeight: 500}}>
   {cntntGreet}
   </a>
   </span>
@@ -1198,7 +1201,7 @@ return (<div {...handlers}>
   {cntntIntro}
   </div>
   </span>
-  <span className='_CodingSection'>
+  <span className='_CodingSection' ref = {codingSection}>
   <div className='homeOverlays' ref = {laptopOverlay}>
   <span >
   <Svg_ShapeLaptopOverlay />
@@ -1217,7 +1220,7 @@ return (<div {...handlers}>
   {cntntCoding}
   </div>
   </span>
-  <span className='_WritingSection'>
+  <span className='_WritingSection' ref = {writingSection}>
 
   <div className='homeOverlays' ref = {writingOverlay}>
   <span >
