@@ -9,7 +9,8 @@ export default function Blog(){
     const ref_post = useRef()
     const ref_Bg = useRef()
     const handlePostScroll = ()=>{
-        console.log("hello")
+        console.log(ref_Bg.current.scrollTop)
+        ref_post.current.style.top = "100px"
     }
     useEventListener("scroll",handlePostScroll,ref_Bg)  
 
