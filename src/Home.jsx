@@ -15,9 +15,9 @@ import { useSwipeable } from 'react-swipeable'
 import Svg_ShapeIconPhone from './assets/svg/shape_Icon_Phone.svg'
 import Svg_ShapeIconEmail from './assets/svg/shape_Icon_Email.svg'
 import Svg_ShapeIconWechat from './assets/svg/shape_Icon_Wechat.svg'
-import { CursorContext } from './Contexts/Contexts'
+import { CursorContext,TransitionCircleContext } from './Contexts/Contexts'
 import anime from 'animejs'
-import {RandomAscii} from './Utils/MathUtils'
+import {RandomAscii} from './Utils/Utils'
 import { memo } from 'react'
 import Logger from './Debug/Logger'
 import { randInt } from 'three/src/math/MathUtils'
@@ -94,7 +94,6 @@ export default memo(function Home(){
   const hintCopy = useRef()
   const laptopOverlay = useRef()
   const containerIcons = useRef()
-  const dot = useRef()
   const homeIntro = useRef()
   const greetIntro = useRef()
   const codingCounter = useRef(0)
@@ -103,6 +102,7 @@ export default memo(function Home(){
   const animCtrl_Icon = useRef(false)
   const animCtrl_Avator = useRef(false)
   const cursor = useContext(CursorContext)
+  const transitionCircle = useContext(TransitionCircleContext)
   const navigate = useNavigate()
 
   //TODO: add Intro Title flip animation
@@ -734,14 +734,9 @@ export default memo(function Home(){
       easing: 'easeOutSine'
     })
   }
-  const PlayDotSwell = (pageName)=>{
-    anime({
-      targets: ".homeDot",
-      scale: [0,100],
-      duration:800,
-      easing: 'easeInQuad',
-      complete:()=>{navigate(`../section/${pageName}/`);}
-    })
+  const PlayDotSwell = (x,y,pageName)=>{
+    console.log(transitionCircle)
+    transitionCircle.PlayTransition.current({x:x,y:y},()=>navigate(`../section/${pageName}/`))
   }
   //#endregion
   useEffect(()=>{
@@ -1074,14 +1069,10 @@ const OnShapesLeave = (page)=>{
 const OnShapesClick = (page)=>{
   switch(page){
     case codingPage:
-      dot.current.style.top = '45%'
-      dot.current.style.left = '55%'
-      PlayDotSwell("coding")
+      PlayDotSwell('55%', '45%',"coding")
       break;
     case writingPage:
-      dot.current.style.top = '65%'
-      dot.current.style.left = '65%'
-      PlayDotSwell()
+      PlayDotSwell('65%', '65%',"writing")
       break;
   }
 }
@@ -1284,7 +1275,6 @@ Copied!
 </div>
 </span>
 
-  <span className='homeDot' ref = {dot} />
   
   </div>
 </div>)})

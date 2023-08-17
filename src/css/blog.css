@@ -7,7 +7,7 @@ overflow-y: scroll;
 overflow-x: hidden;
 scroll-behavior: smooth;
 height: 100vh;
-
+background-color: #EADCC2;
 }
 
 .blogBg .homeBtns{
@@ -84,7 +84,6 @@ height: 100vh;
   margin: 0 auto;
   display: block;
   font-family: Code;
-  /* color: #2b91af; */
 }
 
 .blogBg .post p{
@@ -112,6 +111,7 @@ height: 100vh;
 }
 
 .button_top {
+  text-transform: capitalize;
   display: block;
   box-sizing: border-box;
   border: 2px solid var(--button_outline_color);
@@ -138,13 +138,14 @@ button.home:active .button_top {
   text-align: center;
 
 }
+
 .blogBg .post img{
+  display: inline-block;
   margin: 0 auto;
   margin-top: 1em;
   margin-bottom: 1em;
   max-width: 590px;
-  max-height: 590px;
+  max-height: 500px;
   border: 5px solid var(--button_outline_color);
-
   border-radius: var(--button_radius);
 }

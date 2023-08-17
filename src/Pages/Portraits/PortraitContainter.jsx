@@ -7,7 +7,7 @@ import anime from "animejs";
 import * as THREE from 'three'
 import { OrbitControls, View } from "@react-three/drei";
 import { Perf } from "r3f-perf";
-import MathUtils from "../../Utils/MathUtils";
+import MathUtils from "../../Utils/Utils";
 import Logger from "../../Debug/Logger";
 import SmoothScroll from "../../UI/SmoothScroll";
 let animation_cache = []

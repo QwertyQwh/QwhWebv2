@@ -1,10 +1,10 @@
 <svg id="pin" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72.18 88.74">
   <g>
     <ellipse cx="163.52" cy="452.58" rx="7.34" ry="5.08" transform="translate(-331.61 -196.36) rotate(-35.04)" style="fill: #231f20;stroke: #231f20;stroke-linecap: round;stroke-linejoin: round;stroke-width: 5px"/>
-    <path d="M144.71,425.31a50.53,50.53,0,0,0-8.8,7.8l24.43,22.31a6.66,6.66,0,0,0,5.14-.52,6.46,6.46,0,0,0,2.45-4.83l-11.8-30.79A49.82,49.82,0,0,0,144.71,425.31Z" transform="translate(-101.4 -372.26)" style="fill: #f1f2f2;stroke: #231f20;stroke-linecap: round;stroke-linejoin: round;stroke-width: 5px"/>
+    <path d="M144.71,425.31a50.53,50.53,0,0,0-8.8,7.8l24.43,22.31a6.66,6.66,0,0,0,5.14-.52,6.46,6.46,0,0,0,2.45-4.83l-11.8-30.79A49.82,49.82,0,0,0,144.71,425.31Z" transform="translate(-101.4 -372.26)" style="fill: #fff;stroke: #231f20;stroke-linecap: round;stroke-linejoin: round;stroke-width: 5px"/>
   </g>
   <ellipse cx="144.08" cy="422.1" rx="21.21" ry="11.97" transform="translate(-317.63 -213.05) rotate(-35.04)" style="fill: #231f20;stroke: #231f20;stroke-linecap: round;stroke-linejoin: round;stroke-width: 5px"/>
   <ellipse cx="148.12" cy="427.87" rx="26.06" ry="14.71" transform="translate(-320.21 -209.68) rotate(-35.04)" style="fill: #231f20;stroke: #231f20;stroke-linecap: round;stroke-linejoin: round;stroke-width: 5px"/>
-  <path d="M136.92,386.46c-.11-.34.21.3,0,0-2.35-3.35-9.78-2.19-16.6,2.59s-10.44,11.38-8.09,14.73c.17.24-.22-.2,0,0h0L127,424.84h0c2.53,3.07,9.77,1.86,16.43-2.81,6.81-4.78,10.44-11.38,8.08-14.73-.2-.3.29.22,0,0Z" transform="translate(-101.4 -372.26)" style="fill: #f1f2f2;stroke: #231f20;stroke-linecap: round;stroke-linejoin: round;stroke-width: 5px"/>
+  <path d="M136.92,386.46c-.11-.34.21.3,0,0-2.35-3.35-9.78-2.19-16.6,2.59s-10.44,11.38-8.09,14.73c.17.24-.22-.2,0,0h0L127,424.84h0c2.53,3.07,9.77,1.86,16.43-2.81,6.81-4.78,10.44-11.38,8.08-14.73-.2-.3.29.22,0,0Z" transform="translate(-101.4 -372.26)" style="fill: #fff;stroke: #231f20;stroke-linecap: round;stroke-linejoin: round;stroke-width: 5px"/>
   <ellipse cx="122.64" cy="390.44" rx="21.27" ry="12" transform="matrix(0.82, -0.57, 0.57, 0.82, -303.34, -231.1)" style="fill: #231f20;stroke: #231f20;stroke-linecap: round;stroke-linejoin: round;stroke-width: 5px"/>
 </svg>

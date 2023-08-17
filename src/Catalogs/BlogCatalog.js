@@ -1,11 +1,14 @@
+import Blog_Test from "../BlogContents/Blog_Test"
+
 export default {
     test1:{
-        title: 'testVideo',
-        thumbNail: '测试用标题',
-        isFake3D: false,
-        titleImg: 'cake',
-        content: 'Test1',
-        isVideo: true,
-        titleVideo: 'cake',
+        content: <Blog_Test />,
+        title: "This is the title中文也要考虑",
+        date: {
+            month:8,
+            day:25,
+            year:2023,
+        },
+        section: 'coding'
     }
 }
