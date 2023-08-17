@@ -18,7 +18,7 @@
   bottom: calc(var(--paletteRadius)*-1);
   background-color: #ba957b;
   border: 8px solid ;
-  border-color: #694640;
+  border-color: #1e1e1e;
   border-radius: calc(var(--paletteRadius)*2);
 }
 
@@ -31,7 +31,7 @@
   bottom: calc(var(--bubbleRadius)*-1);
   border-radius: calc(var(--bubbleRadius)*2);
   border: 3px solid ;
-  border-color: #cd7384;
+  border-color: #1e1e1e;
   transform: rotate(-60deg) translateX(var(--bubbleSpin)) 
 }
 
@@ -88,29 +88,23 @@
 }
 
 .colorieBg .heading_title {
-  max-width: 50%;
+  max-width: 60%;
 }
 
 .colorieBg .heading_title h1{
   font-size: 60px;
   font-weight: 400;
   font-family: Poiret,GDC_R;;
-  display: contents ;
+  text-indent: -1.5em;
+  padding-left: 1.5em;
 }
 
 
+
 .colorieBg .desc{
-  max-width: 40%;
+  max-width: 30%;
   margin-top: 0;
   margin-bottom: 0;
   
 }
 
-.colorieBg .titlePlaceholder{
-  background-color: #694640;
-  width: 10%;
-  height: 10px;
-  top: 20%;
-  position: relative;
-  display: inline-block;
-}

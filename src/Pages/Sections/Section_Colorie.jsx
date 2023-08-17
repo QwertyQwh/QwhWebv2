@@ -9,9 +9,7 @@ export default function Section_Colorie(props){
         <div className='layout_1'>
         <div className='heading_1'>
         <div className='heading_title'>
-        <div className='titlePlaceholder'>
-        </div>
-        <h1>This is a title 别忘了中文</h1>
+        <h1>假设字太多会怎么样试试看This is a title a title a title</h1>
         </div>
         <div className='desc'>
         The article has a description here, which is described by those texts.
