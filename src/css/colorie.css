@@ -1,0 +1,116 @@
+.colorieBg {
+  --paletteRadius: 25vh;
+  --bubbleRadius: 5vh;
+  --bubbleSpin: 35vh;
+  height: 100vh;
+  background-color: #fed7d7;
+}
+.colorieBg *{
+  
+  box-sizing: border-box;
+}
+
+.colorieBg .cornerPalette{
+  width: calc(var(--paletteRadius)*2);
+  height: calc(var(--paletteRadius)*2);
+  position: absolute;
+  left: calc(var(--paletteRadius)*-1);
+  bottom: calc(var(--paletteRadius)*-1);
+  background-color: #ba957b;
+  border: 8px solid ;
+  border-color: #694640;
+  border-radius: calc(var(--paletteRadius)*2);
+}
+
+.colorieBg .cornerBubble{
+  position: absolute;
+  background-color: #f1b2bd;
+  width: calc(var(--bubbleRadius)*2);
+  height: calc(var(--bubbleRadius)*2);
+  left: calc(var(--bubbleRadius)*-1);
+  bottom: calc(var(--bubbleRadius)*-1);
+  border-radius: calc(var(--bubbleRadius)*2);
+  border: 3px solid ;
+  border-color: #cd7384;
+  transform: rotate(-60deg) translateX(var(--bubbleSpin)) 
+}
+
+.colorieBg .poster{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 100vh;
+}
+
+.colorieBg .poster{
+  width: 100%;
+  align-items: center;
+  padding-left: 40px;
+  padding-right: 40px;
+  top:0px;
+  position: sticky;
+}
+
+.colorieBg .blog{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+}
+
+.colorieBg .layout_1{
+  width: 100%;
+  height: auto;
+  position: absolute;
+  display: flex;
+  padding-top: 100px;
+  padding-bottom: 80px;
+  top: 0%;
+  bottom: 0%;
+  right: 0%;
+  left: 0%;
+  flex-direction: column;
+  flex: 0 auto;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.colorieBg .heading_1{
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 0;
+  display: flex;
+}
+
+.colorieBg .heading_title {
+  max-width: 50%;
+}
+
+.colorieBg .heading_title h1{
+  font-size: 60px;
+  font-weight: 400;
+  font-family: Poiret,GDC_R;;
+  display: contents ;
+}
+
+
+.colorieBg .desc{
+  max-width: 40%;
+  margin-top: 0;
+  margin-bottom: 0;
+  
+}
+
+.colorieBg .titlePlaceholder{
+  background-color: #694640;
+  width: 10%;
+  height: 10px;
+  top: 20%;
+  position: relative;
+  display: inline-block;
+}

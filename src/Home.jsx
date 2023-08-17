@@ -736,7 +736,7 @@ export default memo(function Home(){
   }
   const PlayDotSwell = (x,y,pageName)=>{
     console.log(transitionCircle)
-    transitionCircle.PlayTransition.current({x:x,y:y},()=>navigate(`../section/${pageName}/`))
+    transitionCircle.PlayTransition.current({x:x,y:y},"#cd522f",()=>navigate(`../section/${pageName}/`))
   }
   //#endregion
   useEffect(()=>{

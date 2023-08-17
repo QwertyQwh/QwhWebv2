@@ -6,12 +6,13 @@ export default memo(forwardRef(function Sticker(props,ref){
     const dot = useRef()
     useImperativeHandle(ref, () => {
         return {
-          playSwell({x,y},callback) {
+          playSwell({x,y},color,callback) {
               dot.current.style.top = y
               dot.current.style.left = x
+              dot.current.style.backgroundColor = color
               anime.timeline().add({
                 targets: dot.current,
-                scale: [0,100],
+                scale: [0,150],
                 duration:800,
                 easing: 'easeInQuad',
                 complete: ()=>{callback()},

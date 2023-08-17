@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react"
+import { useContext, useEffect, useRef } from "react"
 import { useLoaderData, useNavigate } from "react-router-dom"
 import { useEventListener, useEffectOnce, useWindowSize } from "usehooks-ts"
 import Svg_Arrow from '../../assets/svg/blog_arrow.svg'
 import Svg_Pin from '../../assets/svg/blog_pin.svg'
 import { Number2Month } from "../../Utils/Utils"
+import { TransitionCircleContext } from "../../Contexts/Contexts"
 
 
 export default function Blog(){
@@ -14,7 +15,10 @@ export default function Blog(){
     const ref_post = useRef()
     const ref_cntntPost = useRef()
     const ref_Bg = useRef()
+    const ref_BtnHome = useRef()
+    const ref_BtnSection = useRef()
     const {width,height} = useWindowSize()
+    const transitionCircle = useContext(TransitionCircleContext)
     useEffect(()=>{
         document.querySelectorAll('.blogBg .titleBlock img').forEach((elmt,id)=>{
             console.log(elmt)
@@ -23,10 +27,13 @@ export default function Blog(){
     },[width,height])
     
     const OnBtnHomeClicked = ()=>{
-        navigate(`../../home`)
+        const rect = ref_BtnHome.current.getBoundingClientRect()
+        transitionCircle.PlayTransition.current({y:`${(rect.top+rect.bottom)/2}px`,x:`${(rect.left+rect.right)/2}px`},"#fefefe",()=> navigate(`../../home`))
     }
     const OnBtnSectionClicked = ()=>{
-        navigate('../../section/coding')
+        const rect = ref_BtnSection.current.getBoundingClientRect()
+        transitionCircle.PlayTransition.current({y:`${(rect.top+rect.bottom)/2}px`,x:`${(rect.left+rect.right)/2}px`},"#fefefe",()=> navigate(`../../section/${data.section}`))
+        navigate()
     }
 
 
@@ -35,14 +42,14 @@ export default function Blog(){
         <div className="header">
         <div className='homeBtns'>
         <button className = 'home' onClick={OnBtnHomeClicked}>
-        <span className="button_top"> Home
+        <span className="button_top" ref = {ref_BtnHome}> Home
         </span>
         </button>
         <div style={{display:"inline-block",width:40,margin:"0 0.5em",top: '.6em',position:'relative'}}>
         <Svg_Arrow /> 
         </div>
         <button className = 'home' onClick={OnBtnSectionClicked}>
-        <span className="button_top"> {data.section}
+        <span className="button_top" ref = {ref_BtnSection}> {data.section}
         </span>
         </button>
         </div>
