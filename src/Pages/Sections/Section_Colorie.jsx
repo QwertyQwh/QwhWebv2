@@ -9,11 +9,14 @@ export default function Section_Colorie(props){
         <div className='layout_1'>
         <div className='heading_1'>
         <div className='heading_title'>
-        <h1>假设字太多会怎么样试试看This is a title a title a title</h1>
+        <h1>中文and English混杂在一起</h1>
         </div>
         <div className='desc'>
         The article has a description here, which is described by those texts.
         </div>
+        </div>
+        <div className='heading_date'>
+        Aug 25,  2023
         </div>
         </div>
         </div>
