@@ -23,18 +23,20 @@ import Logger from './Debug/Logger'
 import { randInt } from 'three/src/math/MathUtils'
 import { useNavigate} from 'react-router-dom'
 
-const IntroPage = 0;
+const introPage = 0;
 const codingPage = 1;
 const artPage = 2;
 const writingPage = 3;
-const MaxPage = 3
+const maxPage = 3
 const txtCoding = 'coding_'
 const txtArt = "~Art~"
 const txtWriting = "Writing "
 const txtWritingSuffix = ", with a pen."
 const txtIntro = "Weihang Qin"
+const txtIntroZh = "秦伟航"
 const txtWritingBook = "Once-Upon-A-Time..." // The - symbol is a hack to prevent the space from disappearing when setting display to inline-block
 const easingFunc = "cubicBezier(.7,0,.29,.99)"
+
 const cntntGreet = (<>  
   Hello there! You've hit my site. <br></br>
 A game programmer with artsy inclinations, I post my work here, as well as random thoughts. <br></br> 
@@ -47,6 +49,7 @@ Well, mostly random thoughts.
   const cntntArt = []
   const cntntWriting = []
   const cntntIntro = []
+  const cntntIntroZh = []
   const cntntWritingBook = []
   txtCoding.split("").forEach((val,ind)=> {cntntCoding.push( <span key = {`coding_${ind}`}>
     <a  style ={{fontFamily: "OCRA"}} className='codingLetters'>{val}</a>
@@ -60,10 +63,12 @@ Well, mostly random thoughts.
   txtIntro.split("").forEach((val,ind)=> {cntntIntro.push( <span key = {`intro_${ind}`}>
   <a  style ={{fontFamily: "Allison"}} className='introLetters'>{val}</a>
   </span>)})
+  txtIntroZh.split("").forEach((val,ind)=> {cntntIntroZh.push( <span key = {`introZh_${ind}`}>
+  <a  style ={{fontFamily: "ZSZK"}} className='introZhLetters'>{val}</a>
+  </span>)})
   txtWritingBook.split("").forEach((val,ind)=> {cntntWritingBook.push( <span key = {`writingBook_${ind}`} className='writingBookLetters' id = {`writingBook_${ind}`} style = {{display:"inline-block"}}>
   <a  style ={{fontFamily: "Joker"}} className='writingBookLettersText'>{val}</a>
   </span>)})
-
   //#endregion
 
 export default memo(function Home(){
@@ -76,6 +81,7 @@ export default memo(function Home(){
   const titleArt = useRef()
   const titleWriting = useRef()
   const titleIntro = useRef()
+  const titleIntroZh = useRef()
   const iconEmail = useRef()
   const iconPhone = useRef()
   const iconWechat = useRef()
@@ -245,9 +251,7 @@ export default memo(function Home(){
       duration:4000,
       easing: easingFunc,
       loop: false,
-      complete: function(anim) {
-        animCtrl_Transition.current = false;
-      }
+
     })
     anime({
       targets: ".codingLetters",
@@ -300,15 +304,27 @@ export default memo(function Home(){
   const PlayIntroTransition = ()=>{
     anime({
       targets: homeIntro.current,
-      translateY: (3*(-index+IntroPage)+0.0)*height,
+      translateY: (3*(-index+introPage)+0.0)*height,
       duration:2000,
       easing: easingFunc,
       loop: false,
     })
     anime({
       targets: '.introLetters',
-      translateY: (-index+ IntroPage+0.5)*height-0.2*0.4*width,
+      translateY: (-index+ introPage+0.5)*height-0.2*0.4*width,
       delay: (el, i) => 15* i*i,
+      duration:3500,
+      easing: easingFunc,
+      loop: false,
+      complete: function(anim) {
+        animCtrl_Transition.current = false;
+        document.querySelectorAll('.introLetters').forEach((elmt,id)=>elmt.style.transform += 'translateX(0)')
+      }
+    })
+    anime({
+      targets: '.introZhLetters',
+      translateY: (-index+ introPage+0.5)*height-0.2*0.4*width,
+      delay: (el, i) => 150* i*i,
       duration:3500,
       easing: easingFunc,
       loop: false,
@@ -741,7 +757,7 @@ export default memo(function Home(){
   //#endregion
   useEffect(()=>{
     Logger.Warn('Home rerendered')
-    if(index == IntroPage){
+    if(index == introPage){
       PlayIntroFadeIn()
       scrollDownTimer = setTimeout(() => {
          anime({
@@ -814,6 +830,7 @@ export default memo(function Home(){
     document.querySelector("#Writing_Stage").style.transform = 'scaleY(0)'
     document.querySelector("#Writing_Stage_Fan").style.transform = 'scale(0)'
     document.querySelectorAll('#Writing_Sheep').forEach((elmt)=>{elmt.style.transform = 'scale(0)'})
+    document.querySelectorAll('.introZhLetters').forEach((elmt)=>{elmt.style.opacity = 0})
 
     PlayCodingCoffeSteamLoop()
     PlayGlobalFadeIn()
@@ -1093,7 +1110,7 @@ const OnShapesClick = (page)=>{
     else if (event.deltaY > 0)
     {
       if(!animCtrl_Transition.current){
-        if(index+1<=MaxPage){
+        if(index+1<=maxPage){
           OnShapesLeave(index)
           setIndex(index+1)
         }
@@ -1154,6 +1171,44 @@ const onTitleWriting = ()=>{
     document.querySelector("#writingTitleSuffix").textContent = txtWritingSuffix.substring(0, writingSuffixCounter)
   }, 100);
 }
+const animCtrl_IntroTitle = useRef()
+const OnTitleIntro = ()=>{
+  if(animCtrl_Transition.current){
+    return
+  }
+animCtrl_IntroTitle.current ??= anime.timeline()
+.add({
+  targets: '.introLetters',
+  translateX: [0,-40],
+  translateZ: 0,
+  opacity: [1,0],
+  easing: "easeOutExpo",
+  duration: 1200,
+  delay: (el, i) =>  30 * i
+}).add({
+  targets: '.introZhLetters',
+  translateX: [40,0],
+  opacity: [0,1],
+  easing: "easeOutExpo",
+  duration: 1200,
+  delay: (el, i) =>  70 * i
+},'-=1300').add({
+  targets: '.introZhLetters',
+  translateX: [0,-40],
+  opacity: [1,0],
+  easing: "easeInExpo",
+  duration: 1200,
+  delay: (el, i) =>  70 * i
+},'-=600').add({
+  targets: '.introLetters',
+  translateX: [40,0],
+  opacity: [0,1],
+  easing: "easeInExpo",
+  duration: 1200,
+  delay: (el, i) => 30 * i,
+  complete: ()=>{animCtrl_IntroTitle.current = null}
+},'-=1400')
+}
 
 const OnTitlesEnter = (page)=>{
   switch(page){
@@ -1163,6 +1218,9 @@ const OnTitlesEnter = (page)=>{
     case writingPage:
       onTitleWriting();
       break;
+    case introPage:
+      OnTitleIntro();
+      break
   }
 }
 //#endregion
@@ -1178,7 +1236,7 @@ return (<div {...handlers}>
   <div className='homeShapes homeIntro' ref = {homeIntro}>
   <span className='avator' onMouseOver={OnAvatorOver}> <Svg_Avator /></span>
   <span ref = {greetIntro}>
-  <a style={{fontFamily: "Poiret",fontWeight: 500}}>
+  <a style={{fontFamily: "Poiret"}}>
   {cntntGreet}
   </a>
   </span>
@@ -1187,10 +1245,14 @@ return (<div {...handlers}>
 
   </div>
   <span className='scrollDown' > <Svg_ScrollDown /></span>
-  
-  <div className='homeTitles' ref = {titleIntro} >
+  <div className='homeTitles' ref = {titleIntroZh} >
+  {cntntIntroZh}
+  </div>
+  <div className='homeTitles' ref = {titleIntro} onMouseEnter={()=>OnTitlesEnter(introPage)} >
   {cntntIntro}
   </div>
+
+
   </span>
   <span className='_CodingSection' ref = {codingSection}>
   <div className='homeOverlays' ref = {laptopOverlay}>

@@ -8,9 +8,11 @@
 @font-face { font-family: "Joker"; src: url('../assets/fonts/JOKERMAN.TTF'); } 
 @font-face { font-family: "GDC_R"; src: url('../assets/fonts/FZGDCTJW-R.TTF');} 
 @font-face { font-family: "GDC_L"; src: url('../assets/fonts/FZGDCTJW-L.TTF');} 
-
 @font-face { font-family: "Comfortaa"; src: url('../assets/fonts/Comfortaa-Regular.ttf'); } 
 @font-face { font-family: "Code"; src: url('../assets/fonts/SourceCodePro-Regular.ttf'); } 
+@font-face {
+  font-family: 'ZSZK';
+  src: url('../assets/fonts/FZZJ-ZSZKJW.TTF');}
 
 
 
