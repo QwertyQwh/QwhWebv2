@@ -64,7 +64,7 @@ Well, mostly random thoughts.
   <a  style ={{fontFamily: "Allison"}} className='introLetters'>{val}</a>
   </span>)})
   txtIntroZh.split("").forEach((val,ind)=> {cntntIntroZh.push( <span key = {`introZh_${ind}`}>
-  <a  style ={{fontFamily: "ZSZK"}} className='introZhLetters'>{val}</a>
+  <a  style ={{fontFamily: "MQSX"}} className='introZhLetters'>{val}</a>
   </span>)})
   txtWritingBook.split("").forEach((val,ind)=> {cntntWritingBook.push( <span key = {`writingBook_${ind}`} className='writingBookLetters' id = {`writingBook_${ind}`} style = {{display:"inline-block"}}>
   <a  style ={{fontFamily: "Joker"}} className='writingBookLettersText'>{val}</a>
